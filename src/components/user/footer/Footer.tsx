@@ -13,8 +13,8 @@ const Footer = () => {
 
   return (
     <div className="bg-transparent w-full">
-      <div className="bg-primary h-auto min-h-[25rem] p-6 sm:p-[4rem]">
-        <div className="max-w-[85%] mx-auto">
+      <div className="bg-gray-800 h-auto min-h-[25rem] p-6 sm:p-[4rem]">
+        <div className="lg:max-w-[85%] max-w-full mx-auto">
           {/* Main content row */}
           <div className="flex flex-col md:flex-row justify-between items-start gap-10">
             {/* Brand Info - Left aligned */}

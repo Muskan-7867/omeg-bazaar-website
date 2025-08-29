@@ -2,7 +2,6 @@
 import { IoMenu } from "react-icons/io5";
 import { BsCartPlus, BsSearch } from "react-icons/bs";
 import { FaUserPlus } from "react-icons/fa";
-
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
@@ -22,7 +21,7 @@ const Navbar = () => {
   const [cartCount, setCartCount] = useState(0);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [showSearchBar, setShowSearchBar] = useState(false);
+  // const [showSearchBar, setShowSearchBar] = useState(false);
   const location = usePathname();
   const isHomePage = location === "/";
   const { cartCountValue } = useCartStore();
@@ -112,7 +111,7 @@ const Navbar = () => {
               className="font-serif text-xl sm:text-2xl lg:text-3xl flex items-center"
             >
               <Image
-                width={40}
+                width={35}
                 height={40}
                 src="/logos/blacklogo.png"
                 className="h-8 mr-2"
@@ -143,7 +142,7 @@ const Navbar = () => {
           </div>
 
           {/* Right side section */}
-          <div className="flex items-center gap-12">
+          <div className="flex items-center lg:gap-8 gap-4">
             {/* Navigation links (only show on large screens) */}
             <div className="hidden lg:flex items-center gap-6 text-sm font-medium text-gray-700">
               <Link href="/" className="hover:text-primary">
@@ -188,11 +187,11 @@ const Navbar = () => {
               </div>
             ) : (
               <Link
-                href="/auth/login"
+                href="/auth/register"
                 className="flex items-center hover:text-gray-600"
                 aria-label="Login"
               >
-                <span className="hidden sm:inline mr-1 text-sm">Sign In</span>
+                <span className="hidden sm:inline mr-1 text-sm">Sign Up</span>
                 <FaUserPlus className="w-6 h-6" />
               </Link>
             )}
@@ -215,7 +214,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Search Bar - Toggleable on mobile */}
-        {showSearchBar && (
+        {/* {showSearchBar && (
           <div className="md:hidden px-4 py-2 bg-white border-t border-gray-200">
             <div className="flex w-full">
               <input
@@ -234,17 +233,17 @@ const Navbar = () => {
               </button>
             </div>
           </div>
-        )}
+        )} */}
       </motion.div>
 
       {/* Mobile search button */}
-      <button
+      {/* <button
         className="md:hidden fixed bottom-4 right-4 bg-primary text-white p-3 rounded-full shadow-lg z-50"
         onClick={() => setShowSearchBar(!showSearchBar)}
         aria-label="Toggle search"
       >
         <BsSearch className="w-6 h-6" />
-      </button>
+      </button> */}
 
       {/* Mobile Menu */}
       <MobileMenu

@@ -15,8 +15,11 @@ import graph2 from "../../public/images/graph2.png";
 import graph3 from "../../public/images/graph3.png";
 import graphone from "../../public/images/graphone.png";
 import Group from "../../public/images/Group.png";
-
-
+import banner1 from "../../public/images/banner1.jpg";
+import banner2 from "../../public/images/banner2.jpg";
+import hero from "../../public/images/hero.avif";
+import mobile1 from "../../public/images/mobile1.png";
+import googleplay from "../../public/images/googleplay.png";
 export {
   Bag,
   laptop,
@@ -35,4 +38,9 @@ export {
   graph3,
   graphone,
   Group,
+  banner1,
+  banner2,
+  hero,
+  mobile1,
+  googleplay
 };
