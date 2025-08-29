@@ -34,7 +34,7 @@ const LoginForm = ({
 
   return (
     <div className="w-full md:w-1/2 p-8 flex flex-col items-center">
-      <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center mb-4">
+      <div className="w-20 h-20 rounded-full flex items-center justify-center mb-4">
         <FaUserAlt className="text-gray-500 text-3xl" />
       </div>
       <h3 className="text-primary text-2xl font-semibold mb-8">WELCOME</h3>
@@ -56,7 +56,7 @@ const LoginForm = ({
             name="email"
             type="email"
             placeholder="Email"
-            className="w-full pl-10 pr-4 py-2 border-b-2 border-primary focus:outline-none focus:border-primary"
+            className="w-full pl-10 text-xs pr-4 py-2 border-b-2 border-primary focus:outline-none focus:border-primary"
             required
           />
         </div>
@@ -71,7 +71,7 @@ const LoginForm = ({
             type="password"
             placeholder="Password"
             value={password}
-            className={`w-full pl-10 pr-4 py-2 border-b-2 ${
+            className={`w-full pl-10 text-xs pr-4 py-2 border-b-2 ${
               errorMessage ? "border-red-500" : "border-primary"
             } focus:outline-none focus:border-primary`}
             required
@@ -107,9 +107,9 @@ const LoginForm = ({
       </form>
 
       <div className="mt-8 text-center">
-        <p className="text-gray-600">
+        <p className="text-gray-600 text-sm">
           Don&apos;t have an account?{" "}
-          <Link href="/register" className="text-primary hover:underline">
+          <Link href="/auth/register" className="text-primary hover:underline">
             Sign up
           </Link>
         </p>

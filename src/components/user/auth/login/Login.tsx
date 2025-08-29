@@ -2,13 +2,9 @@
 import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import LoginAnimation from "../../../../../public/animations/animation.json"
-
-
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import LoginForm from "./LoginForm";
-
 import ForgotPassword from "./ForgotPassword";
 import useCurrentUserStore from "@/store/User/user.store";
 import { forgotPassword, loginUser } from "@/services/authServices";
@@ -131,7 +127,7 @@ const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
           {/* Left panel with Lottie animation */}
           <div className="hidden md:block md:w-1/2 bg-red-50 p-8 lg:flex items-center justify-center">
             <div className="text-black text-center">
-              <h2 className="text-3xl font-bold mb-4">Welcome Back</h2>
+              <h2 className="text-3xl font-semibold mb-4 tracking-wide text-primary drop-shadow-xs">Welcome Back</h2>
               <p className="mb-6">
                 Login to access your account and continue your journey with us.
               </p>
