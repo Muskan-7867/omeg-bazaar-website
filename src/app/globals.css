@@ -1,5 +1,57 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #ca8888;
+}
+
+/* Color and background utilities */
+@layer utilities {
+  .omeg-color {
+    background-color: #da48be;
+  }
+
+  .body {
+    background-color: #da48be;
+  }
+
+  .text-color {
+    color: #ca8888;
+  }
+
+  /* Hide scrollbar */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+.hide-scrollbar {
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+  /* Range slider customization */
+  .custom-range {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    accent-color: #ca8888;
+  }
+
+  /* Force checkbox checkmark to white */
+  .custom-checkbox:checked {
+    filter: brightness(1) invert(0);
+  }
+
+}
+
+/* Light/Dark theme variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -14,11 +66,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ededed;
+    --foreground: #0a0a0a;
   }
 }
 
+/* Base body styles */
 body {
   background: var(--background);
   color: var(--foreground);
