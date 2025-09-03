@@ -37,7 +37,7 @@ const LoginForm = ({
       <div className="w-20 h-20 rounded-full flex items-center justify-center mb-4">
         <FaUserAlt className="text-gray-500 text-3xl" />
       </div>
-      <h3 className="text-primary text-2xl font-semibold mb-8">WELCOME</h3>
+      <h3 className="text-gray-800 text-2xl font-semibold mb-8">WELCOME</h3>
 
       {/* Error messages */}
       {errorMessage && (
@@ -56,7 +56,7 @@ const LoginForm = ({
             name="email"
             type="email"
             placeholder="Email"
-            className="w-full pl-10 text-xs pr-4 py-2 border-b-2 border-primary focus:outline-none focus:border-primary"
+            className="w-full pl-10 text-xs pr-4 py-2 border-b-2 border-gray-500 focus:outline-none focus:border-primary"
             required
           />
         </div>
@@ -72,7 +72,7 @@ const LoginForm = ({
             placeholder="Password"
             value={password}
             className={`w-full pl-10 text-xs pr-4 py-2 border-b-2 ${
-              errorMessage ? "border-red-500" : "border-primary"
+              errorMessage ? "border-red-500" : "border-gray-500"
             } focus:outline-none focus:border-primary`}
             required
             onChange={handlePasswordChange}
@@ -91,7 +91,7 @@ const LoginForm = ({
           <button
             type="button"
             onClick={onForgotPassword}
-            className="text-primary hover:underline focus:outline-none"
+            className="text-gray-800 hover:underline focus:outline-none"
           >
             Forgot password?
           </button>
@@ -99,7 +99,7 @@ const LoginForm = ({
         {/* Submit button */}
         <button
           type="submit"
-          className="w-full bg-primary hover:bg-primary-dark text-white font-medium py-2 px-4 rounded-md transition duration-300 flex justify-center items-center disabled:opacity-70"
+          className="w-full bg-gray-800 hover:bg-primary-dark text-white font-medium py-2 px-4 rounded-md transition duration-300 flex justify-center items-center disabled:opacity-70"
           disabled={isLoading}
         >
           {isLoading ? "Processing..." : "Login"}
@@ -109,7 +109,7 @@ const LoginForm = ({
       <div className="mt-8 text-center">
         <p className="text-gray-600 text-sm">
           Don&apos;t have an account?{" "}
-          <Link href="/auth/register" className="text-primary hover:underline">
+          <Link href="/auth/register" className="text-gray-700 hover:underline">
             Sign up
           </Link>
         </p>

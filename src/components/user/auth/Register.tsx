@@ -82,15 +82,15 @@ const Register = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex justify-center items-center">
-      <div className="w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] bg-white flex flex-col md:flex-row rounded-lg overflow-hidden">
+    <div className="min-h-screen flex justify-center items-center bg-white">
+      <div className="w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] border border-gray-300 flex flex-col md:flex-row rounded-lg overflow-hidden">
         {/* Left side - Animation */}
-        <div className="hidden md:block md:w-1/2 bg-red-50 p-8 lg:flex items-center justify-center">
+        <div className="hidden md:block md:w-1/2 bg-gray-800 p-8 lg:flex items-center justify-center">
           <div className="text-black text-center">
-            <h2 className="text-3xl font-extrabold mb-4 tracking-wide text-primary drop-shadow-xs">
-              Welcome to <span className="text-primary">Omeg Bazaar!</span>
+            <h2 className="text-3xl font-extrabold mb-4 tracking-wide text-white drop-shadow-xs">
+              Welcome to <span className="text-white">Omeg Bazaar!</span>
             </h2>
-            <p className="mb-6 text-lg text-gray-600 leading-relaxed max-w-md mx-auto">
+            <p className="mb-6 text-lg text-white leading-relaxed max-w-md mx-auto">
               Create your account and continue your journey with us.
             </p>
             <div className="w-62 h-54 rounded-md flex justify-center items-center mx-auto">
@@ -104,7 +104,7 @@ const Register = () => {
           <div className="w-20 h-20 rounded-full  flex items-center justify-center mb-4">
             <FaUserAlt className="text-gray-500 text-3xl" />
           </div>
-          <h3 className="text-primary text-2xl font-semibold mb-8">WELCOME</h3>
+          <h3 className="text-gray-800  text-2xl font-semibold mb-8">WELCOME</h3>
 
           {error && (
             <div className="w-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -122,7 +122,7 @@ const Register = () => {
                 name="username"
                 type="text"
                 placeholder="Username"
-                className="w-full pl-10 pr-4 py-2 text-xs border-b-2 border-primary focus:outline-none focus:border-primary"
+                className="w-full pl-10 pr-4 py-2 text-xs border-b-2 border-gray-500 focus:outline-none focus:border-primary"
                 required
                 minLength={3}
               />
@@ -137,7 +137,7 @@ const Register = () => {
                 name="email"
                 type="email"
                 placeholder="Email"
-                className="w-full pl-10  text-xs pr-4 py-2 border-b-2 border-primary focus:outline-none focus:border-primary"
+                className="w-full pl-10  text-xs pr-4 py-2 border-b-2 border-gray-500 focus:outline-none focus:border-primary"
                 required
               />
             </div>
@@ -153,7 +153,7 @@ const Register = () => {
                 placeholder="Password"
                 value={password}
                 className={`w-full pl-10 pr-4 text-xs py-2 border-b-2 ${
-                  passwordError ? "border-red-500" : "border-primary"
+                  passwordError ? "border-red-500" : "border-gray-500"
                 } focus:outline-none focus:border-primary`}
                 required
                 onChange={handlePasswordChange}
@@ -180,7 +180,7 @@ const Register = () => {
                 type="password"
                 placeholder="Confirm Password"
                 className={`w-full pl-10 pr-4 text-xs py-2 border-b-2 ${
-                  passwordError ? "border-red-500" : "border-primary"
+                  passwordError ? "border-red-500" : "border-gray-500"
                 } focus:outline-none focus:border-primary`}
                 required
                 onChange={() => {
@@ -197,7 +197,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-primary hover:bg-primary-dark text-white font-medium py-2 px-4 rounded-md transition duration-300 disabled:opacity-70"
+              className="w-full bg-gray-800 hover:bg-primary-dark text-white font-medium py-2 px-4 rounded-md transition duration-300 disabled:opacity-70"
             >
               {isLoading ? "Processing..." : "Register"}
             </button>
@@ -206,7 +206,7 @@ const Register = () => {
           <div className="mt-8 text-center">
             <p className="text-gray-600 text-sm">
               Already have an account?{" "}
-              <Link href="/auth/login" className="text-primary hover:underline">
+              <Link href="/auth/login" className="text-gray-700 hover:underline">
                 Sign in
               </Link>
             </p>

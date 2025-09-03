@@ -11,15 +11,15 @@ import purse from "/public/images/purse.png";
 import foundation from "/public/images/foundation.png";
 import shoe from "/public/images/shoe.png";
 import All from "../../public/assets/all.jpeg";
-import graph2 from "../../public/images/graph2.png";
-import graph3 from "../../public/images/graph3.png";
-import graphone from "../../public/images/graphone.png";
-import Group from "../../public/images/Group.png";
+
 import banner1 from "../../public/images/banner1.jpg";
 import banner2 from "../../public/images/banner2.jpg";
 import hero from "../../public/images/hero.avif";
 import mobile1 from "../../public/images/mobile1.png";
 import googleplay from "../../public/images/googleplay.png";
+
+import model from "../../public/images/model.png"
+import bg from "../../public/images/bg2.png"
 export {
   Bag,
   laptop,
@@ -34,13 +34,14 @@ export {
   purse,
   foundation,
   All,
-  graph2,
-  graph3,
-  graphone,
-  Group,
+
   banner1,
   banner2,
   hero,
   mobile1,
-  googleplay
+  googleplay,
+
+
+  bg,
+  model
 };
