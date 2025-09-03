@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Image, { StaticImageData } from "next/image";
 import { FaInstagram } from "react-icons/fa";
 import { All, cosmetic } from "@/constants/imagePath";
+import Link from "next/link";
 
 type VideoPost = {
   type: "video";
@@ -121,15 +122,15 @@ const InstaSection = () => {
 
       {/* Mobile call to action */}
       <div className="mt-8 text-center md:hidden">
-        <a
+        <Link
           href="https://www.instagram.com/banarsi_lehnga_house.in?igsh=M2RqODB6eG43bGl0"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 bg-pink-500 text-white px-6 py-3 rounded-full hover:bg-pink-600 transition-colors"
+          className="inline-flex items-center gap-2 bg-gray-800 text-white px-6 py-3 rounded-full hover:bg-pink-600 transition-colors"
         >
           <FaInstagram className="text-xl" />
           Follow Us on Instagram
-        </a>
+        </Link>
       </div>
     </div>
   );

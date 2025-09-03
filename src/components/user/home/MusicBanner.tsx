@@ -16,7 +16,7 @@ export default function MusicBanner() {
   });
 
   // Horizontal parallax effect
-  const x = useTransform(scrollYProgress, [0, 1], ["-60px", "60px"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["-100px", "100px"]);
   const scale = useTransform(scrollYProgress, [0, 1], [1.1, 1]);
 
   return (
