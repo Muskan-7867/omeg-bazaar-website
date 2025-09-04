@@ -24,15 +24,15 @@ const Sidebar: React.FC = () => {
     { title: "Dashboard", href: "/admin/dashboard", Icon: <MdDashboard size={20} /> },
     { title: "Products", href: "/admin/products", Icon: <Package size={20} /> },
 
-    { title: "Category", href: "category", Icon: <TbCategoryPlus size={20} /> },
-    { title: "Orders", href: "order", Icon: <TiShoppingCart size={20} /> },
+    { title: "Category", href: "/admin/category", Icon: <TbCategoryPlus size={20} /> },
+    { title: "Orders", href: "/admin/order", Icon: <TiShoppingCart size={20} /> },
 
     {
       title: "Customers",
-      href: "customers",
+      href: "/admin/customers",
       Icon: <LiaUserFriendsSolid size={22} />
     },
-    { title: "Profile", href: "adminprofile", Icon: <FaUser size={22} /> }
+    { title: "Profile", href: "/admin/adminprofile", Icon: <FaUser size={22} /> }
   ];
 
   return (
