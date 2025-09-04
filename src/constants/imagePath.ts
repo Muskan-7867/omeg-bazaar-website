@@ -20,6 +20,10 @@ import googleplay from "../../public/images/googleplay.png";
 
 import model from "../../public/images/model.png"
 import bg from "../../public/images/bg2.png"
+import graphone from "../../public/images/graphone.png";
+import graph2 from "../../public/images/graph2.png";
+import graph3 from "../../public/images/graph3.png";
+
 export {
   Bag,
   laptop,
@@ -40,7 +44,9 @@ export {
   hero,
   mobile1,
   googleplay,
-
+  graphone,
+  graph2,
+  graph3,
 
   bg,
   model
