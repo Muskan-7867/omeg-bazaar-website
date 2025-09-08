@@ -1,6 +1,5 @@
 "use client";
-
-import { Product } from "@/types/Product";
+import { Product } from "../../types/Product";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -10,126 +9,131 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const [imgIndex, setImgIndex] = useState(0);
+  console.log(imgIndex);
 
   const isOnSale =
-    product.originalPrice !== undefined &&
-    product.originalPrice > product.price;
+    product.originalPrice && product.originalPrice > product.price;
+
+  const discountPercentage =
+    isOnSale && product.originalPrice
+      ? Math.round(
+          ((product.originalPrice - product.price) / product.originalPrice) *
+            100
+        )
+      : 0;
+
+  // ✅ Fix: check if product has videos properly
+  const hasVideo = Array.isArray(product.videos) && product.videos.length > 0;
+
+  // Image hover swap (if no video)
+  const images = product.images || [];
+  const displayImage =
+    !hasVideo && images.length > 1 && isHovering
+      ? images[1]?.url
+      : images[0]?.url;
 
   return (
     <article
-      className="relative group flex flex-col"
+      className="w-80 bg-white shadow-sm hover:shadow-md transition p-3 flex flex-col"
       itemScope
       itemType="https://schema.org/Product"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Sale Badge */}
-      {isOnSale && (
-        <span className="absolute top-2 left-2 bg-white text-xs font-medium text-red-600 px-3 py-1 rounded-full shadow z-10">
-          Sale!
-        </span>
-      )}
-
-      {/* Image / Video */}
+      {/* Product Media */}
       <Link
-        href={`/product/${product._id}`}
-        className="relative w-full aspect-[3/4] overflow-hidden bg-white "
+        href={`/products/${product._id}`}
+        className="relative w-full aspect-square flex items-center justify-center bg-white overflow-hidden"
+        onMouseEnter={() => {
+          setIsHovering(true);
+          if (!hasVideo && images.length > 1) {
+            setImgIndex(1);
+          }
+        }}
+        onMouseLeave={() => {
+          setIsHovering(false);
+          setImgIndex(0);
+        }}
       >
-        {!isHovered ? (
-          <Image
-            src={product.images?.[0]?.url || "https://via.placeholder.com/300"}
-            alt={product.name}
-            fill
-            sizes="(max-width: 768px) 50vw, 25vw"
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        ) : (
+        {hasVideo && isHovering ? (
           <video
-            src={product.videoUrl || ""}
-            className="w-full h-full object-cover"
+            src={product.videos?.[0]?.url}
             autoPlay
             loop
             muted
-            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : (
+          <Image
+            src={displayImage || "https://via.placeholder.com/300"}
+            alt={product.name}
+            fill
+            className={`object-contain p-4 transition-transform duration-300 ${
+              isHovering ? "scale-110" : "scale-100"
+            }`}
+            sizes="240px"
           />
         )}
       </Link>
 
-      {/* Product Info */}
-      <div className="mt-4">
+      {/* Info */}
+      <div className="mt-2 flex flex-col flex-1">
+        {/* Name */}
         <h3
-          className="text-lg font-serif tracking-wide group-hover:text-primary transition-colors line-clamp-2"
+          className="text-sm font-medium line-clamp-1  hover:text-primary"
           itemProp="name"
         >
           {product.name}
         </h3>
 
-        {/* Rating and Reviews */}
-        <div className="flex items-center mt-1">
-          <div className="flex text-yellow-400">
-            {[...Array(5)].map((_, i) => (
-              <svg
-                key={i}
-                className={`w-4 h-4 fill-current ${
-                  i < Math.floor(product.rating)
-                    ? "text-yellow-400"
-                    : "text-gray-300"
-                }`}
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-              </svg>
-            ))}
-          </div>
-          <span className="text-sm text-gray-600 ml-1">
-            ({product.reviews.toLocaleString()})
-          </span>
+        {/* Rating (optional) */}
+        <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
+          ⭐⭐⭐⭐☆ <span>({product.ratingCount || 100})</span>
         </div>
 
         {/* Price */}
-        <div className="mt-2 flex items-center">
+        <div className="mt-1">
           {isOnSale ? (
-            <div className="flex items-center gap-2">
-              <span className="text-gray-400 line-through text-sm">
-                ₹{product.originalPrice?.toLocaleString()}
-              </span>
-              <span className="text-black font-semibold text-lg">
+            <div className="flex items-baseline gap-2">
+              <span className="text-lg font-bold text-black">
                 ₹{product.price.toLocaleString()}
               </span>
-              <span className="text-red-600 text-sm font-medium ml-1">
-                {Math.round(
-                  ((product?.originalPrice - product.price) /
-                    product?.originalPrice) *
-                    100
-                )}
-                % off
+              <span className="text-xs text-gray-400 line-through">
+                ₹{product.originalPrice?.toLocaleString()}
+              </span>
+              <span className="text-xs text-red-600 font-medium">
+                {discountPercentage}% off
               </span>
             </div>
           ) : (
-            <span className="text-black font-semibold text-lg">
+            <span className="text-lg font-bold text-black">
               ₹{product.price.toLocaleString()}
             </span>
           )}
         </div>
 
-        {/* Delivery Info */}
-        <div className="mt-2 text-sm text-gray-600">
+        {/* Delivery */}
+        <p className="text-xs text-gray-600 mt-1">
           {product.deliveryCharges === 0 ? (
             <span className="text-green-600">Free Delivery</span>
           ) : (
-            <span>Delivery: ₹{product.deliveryCharges}</span>
+            <>Delivery ₹{product.deliveryCharges}</>
           )}
-        </div>
+        </p>
 
-        {/* Stock Status */}
-        <div className="mt-1 text-sm">
+        {/* Stock */}
+        <p className="text-xs mt-1">
           {product.inStock ? (
             <span className="text-green-600">In Stock</span>
           ) : (
             <span className="text-red-600">Out of Stock</span>
           )}
-        </div>
+        </p>
+
+        {/* Add to Cart */}
+        <button className="mt-2 bg-gray-700 hover:bg-gray-800 text-white text-sm font-medium rounded px-3 py-2">
+          Add to Cart
+        </button>
       </div>
     </article>
   );
