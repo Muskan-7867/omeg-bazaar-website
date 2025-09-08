@@ -2,7 +2,8 @@
 import Link  from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-import { getAdminQuery } from "@/services/queries";
+import { getAdminQuery } from "@/lib/services/api/queries";
+
 
 const Header: React.FC = () => {
   const token = Cookies.get("admintoken");

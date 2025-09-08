@@ -9,11 +9,12 @@ import {
 } from "../../../constants/imagePath";
 import Footer from "./Footer";
 import { useQuery } from "@tanstack/react-query";
-import { getCategoriesQuery } from "../../../services/queries";
-import { CategoryType } from "../../../pages/user/Home/components/CategorySection";
+
 import { useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { CategoryType } from "@/lib/types/Product";
+import { getCategoriesQuery } from "@/lib/services/api/queries";
 
 const NewFooter = () => {
   const route = useRouter();
@@ -41,7 +42,7 @@ const NewFooter = () => {
 
   return (
     <div className="w-full h-screen flex flex-col">
-      <div className="h-[30rem] flex items-end justify-center bg-gradient-to-b from-transparent to-red-100 ">
+      <div className="h-[30rem] flex items-end justify-center bg-white ">
         <Image
           width={500}
           height={500}

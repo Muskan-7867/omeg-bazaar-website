@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 
 import { CiMenuKebab } from "react-icons/ci"; 
-import { useSingleOrderStore } from "../../../../store/product/Table.store";
 import DialogBox from "../../common/ActionDialogbox";
+import { useSingleOrderStore } from "@/lib/store/product/Table.store";
 
 
 export interface ITableItem {

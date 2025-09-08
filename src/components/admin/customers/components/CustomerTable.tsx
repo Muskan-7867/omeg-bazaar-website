@@ -1,12 +1,10 @@
 "use client"
 import { useQuery } from "@tanstack/react-query";
-
-import { fetchUsersQuery } from "../../../../services/queries";
-
-import { CurrentUser } from "../../../../types/auth";
 import { useEffect } from "react";
 import Pagination from "@/components/common/Pagination";
 import TableData, { Column } from "./TableData";
+import { fetchUsersQuery } from "@/lib/services/api/queries";
+import { CurrentUser } from "@/lib/types/auth";
 
 const OrderTable = () => {
   const itemsPerPage = 10;
