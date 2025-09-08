@@ -1,15 +1,16 @@
 "use client"
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useQueryState } from "nuqs";
-import { getAdminCategoriesQuery } from "../../../services/queries";
 import { motion } from "framer-motion";
 import PaddingWrapper from "../../wrappers/PaddingWrapper";
 import AddCategoryForm from "./components/AddCategoryForm";
 import { useEffect, useState } from "react";
-import { deleteCategory, fetchCategory } from "../../../services/fetchers";
 import { FaTrash } from "react-icons/fa";
 import ConfirmModal from "./components/ConfirmModal";
-import { CategoryType } from "@/types/Product";
+import { getAdminCategoriesQuery } from "@/lib/services/api/queries";
+import { CategoryType } from "@/lib/types/Product";
+import { deleteCategory, fetchCategory } from "@/lib/services/api/fetchers";
+
 
 const Categories = () => {
   const queryClient = useQueryClient();

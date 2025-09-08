@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { CategoryFormData } from "../../../../types/Product";
-import { createCategory } from "../../../../services/fetchers";
+
 import { useQueryClient } from "@tanstack/react-query";
+import { CategoryFormData } from "@/lib/types/Product";
+import { createCategory } from "@/lib/services/api/fetchers";
 
 const AddCategoryForm = () => {
   const [formData, setFormData] = useState<CategoryFormData>({
