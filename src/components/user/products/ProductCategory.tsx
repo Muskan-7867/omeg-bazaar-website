@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 
 type ProductCategoryProps = {
   category: string;
-  setCategory: (category: string) => void;
+  setCategory: (categoryId: string) => void;
 };
 
 const ProductCategory: React.FC<ProductCategoryProps> = ({

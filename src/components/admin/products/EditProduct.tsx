@@ -32,7 +32,10 @@ const EditProduct = () => {
         description: selectedProduct.description || "",
         price: selectedProduct.price?.toString() || "",
         features: selectedProduct.features || "",
-        category: selectedProduct.category || "",
+        category:
+          typeof selectedProduct.category === "object"
+            ? selectedProduct.category._id // ✅ use only ID
+            : selectedProduct.category || "",
         deliveryCharges: selectedProduct.deliveryCharges || 0,
         inStock: selectedProduct.inStock || false
       });
@@ -124,12 +127,13 @@ const EditProduct = () => {
             onChange={handleChange}
           />
 
-          <ProductCategory
-            category={formData.category}
-            setCategory={(cat: string) =>
-              setFormData((prev) => ({ ...prev, category: cat }))
-            }
-          />
+      <ProductCategory
+  category={formData.category}
+  setCategory={(catId: string) =>
+    setFormData((prev) => ({ ...prev, category: catId }))
+  }
+/>
+
 
           <InputField
             label="Delivery Charges"

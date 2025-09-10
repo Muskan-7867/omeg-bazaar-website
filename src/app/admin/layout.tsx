@@ -12,7 +12,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   useEffect(() => {
     // Redirect if the user is exactly at /admin
     if (pathname === "/admin") {
-      router.push("/admin");
+      router.push("/admin/dashboard");
     }
   }, [pathname, router]);
 

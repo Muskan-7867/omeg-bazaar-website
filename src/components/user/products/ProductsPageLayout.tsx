@@ -4,6 +4,7 @@ import ProductCard from "@/components/common/ProductCard";
 import { Product } from "@/lib/types/Product";
 import FilterBar from "@/components/common/FilterBar";
 import axios from "axios";
+import { useSearchParams } from "next/navigation";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -23,7 +24,7 @@ type Props = {
 export default function ProductsPageLayout({
   initialProducts,
   initialTotal,
-  initialFilters,
+  initialFilters
 }: Props) {
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [totalProducts, setTotalProducts] = useState(initialTotal);
@@ -31,17 +32,71 @@ export default function ProductsPageLayout({
   const [limit] = useState(initialFilters.limit);
   const [minPrice, setMinPrice] = useState(initialFilters.minPrice);
   const [maxPrice, setMaxPrice] = useState(initialFilters.maxPrice);
-  const [category, setCategory] = useState(initialFilters.category);
-  const [search, setSearch] = useState<string | null>(initialFilters.search);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isFilterLoading, setIsFilterLoading] = useState(false);
-  
-  // Track if it's the initial render
+
+  const searchParams = useSearchParams();
+  const categoryFromUrl = searchParams.get("category") || "";
+  const subcategoryFromUrl = searchParams.get("subcategory") || "";
+
+  // Use URL params as priority, fall back to initialFilters
+  const [category, setCategory] = useState(
+    categoryFromUrl || initialFilters.category
+  );
+  const [search, setSearch] = useState<string | null>(
+    subcategoryFromUrl || initialFilters.search
+  );
+
   const isInitialMount = useRef(true);
 
-  // Handle filter changes (excluding page changes)
+  // Fetch products when URL params change (including initial load)
   useEffect(() => {
-    // Skip the initial mount to prevent double fetching
+    const fetchProductsBasedOnUrl = async () => {
+      // If we have URL params, use them instead of initial filters
+      const effectiveCategory = categoryFromUrl || initialFilters.category;
+      const effectiveSearch = subcategoryFromUrl || initialFilters.search;
+
+      // Only fetch if URL params differ from current state
+      if (effectiveCategory !== category || effectiveSearch !== search) {
+        setIsFilterLoading(true);
+        try {
+          const res = await axios.get(`${BASE_URL}/api/v1/product/get`, {
+            params: {
+              page: 1,
+              limit,
+              minPrice: initialFilters.minPrice,
+              maxPrice: initialFilters.maxPrice,
+              category: effectiveCategory,
+              search: effectiveSearch || ""
+            }
+          });
+
+          setProducts(res.data.products);
+          setTotalProducts(res.data.totalProduct);
+          setPage(1);
+          setCategory(effectiveCategory);
+          setSearch(effectiveSearch);
+
+          // Notify parent component of the filter change
+          onFilterChange({
+            minPrice: initialFilters.minPrice,
+            maxPrice: initialFilters.maxPrice,
+            category: effectiveCategory,
+            search: effectiveSearch
+          });
+        } catch (error) {
+          console.error("URL-based fetch error:", error);
+        } finally {
+          setIsFilterLoading(false);
+        }
+      }
+    };
+
+    fetchProductsBasedOnUrl();
+  }, [categoryFromUrl, subcategoryFromUrl]);
+
+  // Handle filter changes from FilterBar (excluding page changes)
+  useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
       return;
@@ -52,7 +107,7 @@ export default function ProductsPageLayout({
       try {
         const res = await axios.get(`${BASE_URL}/api/v1/product/get`, {
           params: {
-            page: 1, // Always reset to page 1 when filters change
+            page: 1,
             limit,
             minPrice,
             maxPrice,
@@ -62,7 +117,7 @@ export default function ProductsPageLayout({
         });
         setProducts(res.data.products);
         setTotalProducts(res.data.totalProduct);
-        setPage(1); // Reset page to 1
+        setPage(1);
       } catch (error) {
         console.error("Filter fetch error:", error);
       } finally {
@@ -71,7 +126,7 @@ export default function ProductsPageLayout({
     };
 
     fetchFilteredProducts();
-  }, [minPrice, maxPrice, category, search, limit]); // Removed page dependency
+  }, [minPrice, maxPrice, category, search, limit]);
 
   // Load more products
   const handleLoadMore = useCallback(async () => {
@@ -104,10 +159,12 @@ export default function ProductsPageLayout({
       <div className="w-full bg-gradient-to-r from-[#131921] to-[#232F3E] py-8 px-4 mb-8">
         <div className="w-full text-center">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
-            Summer Sale: Up to 50% Off!
+            {categoryFromUrl ? ` Collection` : "Summer Sale: Up to 50% Off!"}
           </h1>
           <p className="text-base sm:text-lg text-white opacity-90 mb-6 max-w-2xl mx-auto">
-            Discover amazing deals on thousands of products
+            {subcategoryFromUrl
+              ? `Discover our ${subcategoryFromUrl} selection`
+              : "Discover amazing deals on thousands of products"}
           </p>
           <button className="bg-white text-gray-900 font-semibold py-2 px-6 sm:py-3 sm:px-8 rounded-lg shadow-lg hover:bg-gray-100">
             Shop Now
@@ -124,6 +181,8 @@ export default function ProductsPageLayout({
             setCategory(filters.category);
             setSearch(filters.search);
           }}
+          initialCategory={categoryFromUrl || initialFilters.category}
+          initialSearch={subcategoryFromUrl || initialFilters.search || ""}
         />
       </div>
 

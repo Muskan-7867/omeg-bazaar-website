@@ -3,19 +3,28 @@ import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { FaShoppingCart, FaBolt } from "react-icons/fa";
 import { Product } from "@/lib/types/Product";
+import { useRouter } from "next/navigation";
+import useCart from "@/hooks/useCart";
 
 interface Props {
   product: Product;
+  quantities: { [id: string]: number };
+  setQuantities: React.Dispatch<React.SetStateAction<{ [id: string]: number }>>;
 }
 
 export default function SingleProductPage({ product }: Props) {
-  const [selectedImg, setSelectedImg] = useState(
-    product.images?.[0]?.url || ""
+  // ✅ fallback to placeholder if no product image
+  const placeholderImg = "/images/placeholder.png"; // put an image in /public/images
+  const [selectedImg, setSelectedImg] = useState<string>(
+    product.images?.[0]?.url || placeholderImg
   );
+  const { addProductToCart, RemoveProductFromCart } = useCart();
+  const [isPresentInCart, setIsPresentInCart] = useState<boolean>(false);
   const [isHovering, setIsHovering] = useState(false);
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const imgRef = useRef<HTMLImageElement | null>(null);
   const zoomRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!imgRef.current) return;
@@ -30,6 +39,21 @@ export default function SingleProductPage({ product }: Props) {
     }
   };
 
+  const handleBuy = () => {
+    router.push(`/checkout/${product._id}`);
+  };
+
+  const handleCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isPresentInCart) {
+      RemoveProductFromCart(product._id);
+      setIsPresentInCart(false);
+    } else {
+      addProductToCart(product._id);
+      setIsPresentInCart(true);
+    }
+  };
+
   return (
     <div className="w-full bg-white p-6 lg:p-10">
       <div className="max-w-7xl mx-auto">
@@ -38,23 +62,29 @@ export default function SingleProductPage({ product }: Props) {
           <div className="lg:col-span-7 flex gap-4">
             {/* Thumbnails */}
             <div className="flex flex-col gap-3 w-20">
-              {product.images?.map((img, i) => (
-                <button
-                  key={i}
-                  onClick={() => setSelectedImg(img.url)}
-                  className={`overflow-hidden border-2 h-26 ${
-                    selectedImg === img.url ? "border-black" : "border-gray-200"
-                  }`}
-                >
-                  <Image
-                    src={img.url}
-                    alt={`Thumbnail ${i}`}
-                    width={80}
-                    height={40}
-                    className="object-cover"
-                  />
-                </button>
-              ))}
+              {product.images?.length ? (
+                product.images.map((img, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setSelectedImg(img.url)}
+                    className={`overflow-hidden border-2 h-26 ${
+                      selectedImg === img.url
+                        ? "border-black"
+                        : "border-gray-200"
+                    }`}
+                  >
+                    <Image
+                      src={img.url || placeholderImg}
+                      alt={`Thumbnail ${i}`}
+                      width={80}
+                      height={40}
+                      className="object-cover"
+                    />
+                  </button>
+                ))
+              ) : (
+                <div className="text-gray-400 text-sm">No Images</div>
+              )}
             </div>
 
             {/* Main Image with Zoom */}
@@ -65,15 +95,17 @@ export default function SingleProductPage({ product }: Props) {
               onMouseMove={handleMouseMove}
             >
               <div className="w-full h-[40rem] relative overflow-hidden">
-                <Image
-                  ref={imgRef}
-                  src={selectedImg}
-                  alt={product.name}
-                  width={700}
-                  height={400}
-                  className="object-contain cursor-zoom-in"
-                />
-                {isHovering && (
+                {selectedImg && (
+                  <Image
+                    ref={imgRef}
+                    src={selectedImg}
+                    alt={product.name || "Product Image"}
+                    width={700}
+                    height={400}
+                    className="object-contain cursor-zoom-in"
+                  />
+                )}
+                {isHovering && selectedImg && (
                   <div
                     className="absolute inset-0 bg-no-repeat bg-cover"
                     style={{
@@ -114,7 +146,7 @@ export default function SingleProductPage({ product }: Props) {
 
             <div>
               <p className="text-2xl font-bold text-gray-900">
-                ₹{product.price.toLocaleString()}
+                ₹{product.price?.toLocaleString()}
               </p>
               <p className="text-sm text-gray-500">Inclusive of all taxes</p>
             </div>
@@ -125,10 +157,18 @@ export default function SingleProductPage({ product }: Props) {
             </div>
 
             <div className="flex gap-4">
-              <button className="flex-1 flex items-center justify-center gap-2 border border-gray-800 py-3 rounded-lg text-gray-800 hover:bg-gray-100">
+              <button
+                onClick={handleCart}
+                className={`flex-1 flex items-center justify-center border border-gray-400 gap-2  py-3 rounded-lg text-gray-800 cursor-pointer ${
+                  isPresentInCart ? "bg-gray-400 text-white" : "bg-white "
+                }`}
+              >
                 <FaShoppingCart /> Add to Cart ₹{product.price}
               </button>
-              <button className="flex-1 flex items-center justify-center gap-2 bg-black text-white py-3 rounded-lg hover:bg-gray-800">
+              <button
+                onClick={handleBuy}
+                className={`flex-1 flex items-center justify-center gap-2 bg-black text-white py-3 rounded-lg hover:bg-gray-800 cursor-pointer `}
+              >
                 <FaBolt /> Buy It Now
               </button>
             </div>
