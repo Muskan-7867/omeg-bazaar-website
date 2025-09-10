@@ -1,13 +1,10 @@
-import CartLayout from "@/components/user/cart/components/CartLayout"
+import CartLayout from '@/components/user/cart/components/CartLayout'
+import React from 'react'
 
-
-
-const Cart = () => {
+export default function page() {
   return (
-    <div>
+    <>
       <CartLayout />
-    </div>
+    </>
   )
 }
-
-export default Cart
