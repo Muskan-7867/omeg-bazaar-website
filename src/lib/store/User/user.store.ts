@@ -12,21 +12,20 @@ export type userStore = {
   reFetch: () => void;
 };
 
-const useCurrentUserStore = create<userStore>()((set, get) => ({
-  currentUserFromStore: {
-    email: "",
-    username: "",
-    _id: "",
-    contact: "",
-    role: "user",
-    address: "",
-    order: []
+const useCurrentUserStore = create<userStore>()((set) => ({
+  currentUserFromStore: null,
+  setCurrentUserForStore: (user) => {
+    console.log('Setting user:', user);
+    set({ currentUserFromStore: user });
   },
-  setCurrentUserForStore: (user) => set({ currentUserFromStore: user }),
   isLoggined: false,
-  setIsLoggined: (state) => set({ isLoggined: state }),
+setIsLoggined: (loggedIn) => {
+    console.log('Setting isLoggined:', loggedIn);
+    set({ isLoggined: loggedIn });
+  },
   fetch: false,
-  reFetch: () => set({ fetch: !get().fetch })
+  
+  reFetch: () => set((state) => ({ fetch: !state.fetch })),
 }));
 
 export default useCurrentUserStore;

@@ -6,9 +6,9 @@ import { useEffect, useState } from "react";
 
 import Link from "next/link";
 
-import { registerUser } from "@/services/authServices";
 import PasswordHint from "./login/PasswordHint";
 import { useRouter } from "next/navigation";
+import { registerUser } from "@/lib/services/api/authServices";
 
 const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -85,12 +85,12 @@ const Register = () => {
     <div className="min-h-screen flex justify-center items-center bg-white">
       <div className="w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] border border-gray-300 flex flex-col md:flex-row rounded-lg overflow-hidden">
         {/* Left side - Animation */}
-        <div className="hidden md:block md:w-1/2 bg-gray-800 p-8 lg:flex items-center justify-center">
+        <div className="hidden md:block md:w-1/2  p-8 lg:flex items-center justify-center">
           <div className="text-black text-center">
-            <h2 className="text-3xl font-extrabold mb-4 tracking-wide text-white drop-shadow-xs">
-              Welcome to <span className="text-white">Omeg Bazaar!</span>
+            <h2 className="text-3xl font-light mb-4 tracking-wide  drop-shadow-xs">
+              Welcome to <span >Omeg Bazaar!</span>
             </h2>
-            <p className="mb-6 text-lg text-white leading-relaxed max-w-md mx-auto">
+            <p className="mb-6 text-sm  leading-relaxed max-w-md mx-auto">
               Create your account and continue your journey with us.
             </p>
             <div className="w-62 h-54 rounded-md flex justify-center items-center mx-auto">

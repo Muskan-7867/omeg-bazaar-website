@@ -1,5 +1,4 @@
 import { FaLock, FaUserAlt } from "react-icons/fa";
-import PasswordHint from "./PasswordHint";
 import { Dispatch, SetStateAction } from "react";
 import  Link  from "next/link";
 
@@ -20,7 +19,7 @@ const LoginForm = ({
   setPassword,
   errorMessage,
   setErrorMessage,
-  showPasswordHint,
+
   setShowPasswordHint,
   isLoading,
   onForgotPassword
@@ -84,9 +83,9 @@ const LoginForm = ({
         </div>
 
         {/* Password requirements hint - shows when relevant */}
-        {(showPasswordHint || errorMessage) && (
+        {/* {(showPasswordHint || errorMessage) && (
           <PasswordHint password={password} errorMessage={errorMessage} />
-        )}
+        )} */}
         <p className="text-sm text-right mt-2">
           <button
             type="button"

@@ -6,11 +6,11 @@ import Cookies from "js-cookie";
 import { useQueryClient } from "@tanstack/react-query";
 import LoginForm from "./LoginForm";
 import ForgotPassword from "./ForgotPassword";
-import useCurrentUserStore from "@/store/User/user.store";
-import { forgotPassword, loginUser } from "@/services/authServices";
 import ScreenHandler from "@/components/wrappers/ScreenHandler";
 import SuccessMessage from "@/components/common/SuccessMessage";
 import { useRouter } from "next/navigation";
+import useCurrentUserStore from "@/lib/store/User/user.store";
+import { forgotPassword, loginUser } from "@/lib/services/api/authServices";
 
 const Login = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -125,10 +125,10 @@ const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
           {successMessage && <SuccessMessage successMessage={successMessage} />}
 
           {/* Left panel with Lottie animation */}
-          <div className="hidden md:block md:w-1/2 bg-gray-800 p-8 lg:flex items-center justify-center">
+          <div className="hidden md:block md:w-1/2  p-8 lg:flex items-center justify-center">
             <div className="text-black text-center">
-              <h2 className="text-3xl font-semibold mb-4 tracking-wide text-white drop-shadow-xs">Welcome Back</h2>
-              <p className="mb-6 text-white">
+              <h2 className="text-3xl font-light mb-4 tracking-wide  drop-shadow-xs">Welcome Back</h2>
+              <p className="mb-6 text-sm ">
                 Login to access your account and continue your journey with us.
               </p>
               <div className="w-62 h-54 rounded-md flex justify-center items-center mx-auto">
