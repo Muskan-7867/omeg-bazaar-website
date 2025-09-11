@@ -1,4 +1,3 @@
-
 import SingleProductPage from "@/components/user/products/SingleProductPage";
 import { Product } from "@/lib/types/Product";
 
@@ -7,7 +6,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 async function getProduct(id: string): Promise<Product | null> {
   try {
     const res = await fetch(`${BASE_URL}/api/v1/product/single/${id}`, {
-      cache: "no-store", // ensures SSR fresh fetch
+      cache: "no-store",
     });
 
     if (!res.ok) return null;
