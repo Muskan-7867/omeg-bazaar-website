@@ -2,13 +2,11 @@
 import React, { useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { CircleChevronLeft, CircleChevronRight } from "lucide-react";
-
 import InsightCard from "../common/InsightCard";
 import Insightgraph from "../common/Insightgraph";
 import { getMonthlySummary } from "@/lib/utills/InsightData";
 import { fetchOrdersQuery, fetchUsersQuery } from "@/lib/services/api/queries";
 import { Order } from "@/lib/types/order";
-
 
 const Dashboard: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -71,7 +69,7 @@ const Dashboard: React.FC = () => {
   const monthlySummary = getMonthlySummary(validOrders, users || []);
   
   return (
-    <div className="min-h-screen mt-16 bg-white border border-gray-100 py-2 pl-8">
+    <div className=" mt-8 bg-white border border-gray-100 py-2 pl-8">
       {/* Insights Section */}
       <div className="relative">
         <div

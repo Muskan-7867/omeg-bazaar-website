@@ -17,7 +17,7 @@ const Header: React.FC = () => {
       <div className="m-4 flex justify-end lg:gap-4 items-center">
         {!token && (
           <Link
-            href="/adminregister"
+            href="/admin/auth/register"
             className="bg-primary text-white px-4 py-2 rounded-md"
           >
             Sign Up
