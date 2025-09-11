@@ -144,22 +144,22 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             <div className="p-4">
               <h3 className="font-bold text-lg mb-3">Connect With Us</h3>
               <div className="flex gap-4">
-                <a
+                <Link
                   href="https://facebook.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-gray-100 text-amazon_blue w-10 h-10 rounded-full flex justify-center items-center hover:bg-amazon_blue hover:text-white transition-colors"
                 >
                   <FaFacebook size={18} />
-                </a>
-                <a
+                </Link>
+                <Link
                   href="https://instagram.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-gray-100 text-amazon_blue w-10 h-10 rounded-full flex justify-center items-center hover:bg-amazon_blue hover:text-white transition-colors"
                 >
                   <FaInstagram size={18} />
-                </a>
+                </Link>
               </div>
               <div className="mt-4 text-sm text-gray-600">
                 <p>omegbazaarofficial@gmail.com</p>

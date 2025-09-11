@@ -7,7 +7,7 @@ export default function CartButton({ cartCount }: { cartCount: number }) {
 
   return (
     <button
-      className="hover:text-gray-600 transition-opacity relative flex items-center"
+      className="hover:text-gray-600 transition-opacity relative flex items-center cursor-pointer"
       onClick={() => router.push("/cart")}
     >
       <div className="relative">

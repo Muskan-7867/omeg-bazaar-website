@@ -5,16 +5,16 @@ import { FaShoppingCart, FaBolt } from "react-icons/fa";
 import { Product } from "@/lib/types/Product";
 import { useRouter } from "next/navigation";
 import useCart from "@/hooks/useCart";
+import RelatedProducts from "./RelatedProducts";
 
 interface Props {
   product: Product;
-  quantities: { [id: string]: number };
-  setQuantities: React.Dispatch<React.SetStateAction<{ [id: string]: number }>>;
+  quantities?: { [id: string]: number };
+  setQuantities?: React.Dispatch<React.SetStateAction<{ [id: string]: number }>>;
 }
 
 export default function SingleProductPage({ product }: Props) {
-  // ✅ fallback to placeholder if no product image
-  const placeholderImg = "/images/placeholder.png"; // put an image in /public/images
+  const placeholderImg = "/images/placeholder.png";
   const [selectedImg, setSelectedImg] = useState<string>(
     product.images?.[0]?.url || placeholderImg
   );
@@ -55,13 +55,13 @@ export default function SingleProductPage({ product }: Props) {
   };
 
   return (
-    <div className="w-full bg-white p-6 lg:p-10">
+    <div className="w-full bg-white p-6 lg:mt-4 mt-14 lg:p-10">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
           {/* Image Section */}
-          <div className="lg:col-span-7 flex gap-4">
+          <div className="lg:col-span-7 flex gap-2">
             {/* Thumbnails */}
-            <div className="flex flex-col gap-3 w-20">
+            <div className="flex flex-col gap-2 w-20">
               {product.images?.length ? (
                 product.images.map((img, i) => (
                   <button
@@ -181,6 +181,10 @@ export default function SingleProductPage({ product }: Props) {
           </div>
         </div>
       </div>
+      <RelatedProducts
+        categoryId={product.category}
+        currentProductId={product._id}
+      />
     </div>
   );
 }

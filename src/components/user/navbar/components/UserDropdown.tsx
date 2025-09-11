@@ -18,7 +18,7 @@ export default function UserDropdown({
     Cookies.remove("authToken");
     localStorage.removeItem("user");
     setOpen(false);
-    router.push("/login");
+    router.push("/auth/login");
   };
 
   if (!user) {

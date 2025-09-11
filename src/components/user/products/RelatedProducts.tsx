@@ -1,0 +1,71 @@
+"use client";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import ProductCard from "@/components/common/ProductCard";
+import { Product } from "@/lib/types/Product";
+import { BASE_URL } from "@/lib/services/api/fetchers";
+
+interface RelatedProductsProps {
+  categoryId: string;
+  currentProductId: string;
+}
+
+export default function RelatedProducts({ categoryId, currentProductId }: RelatedProductsProps) {
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchRelatedProducts = async () => {
+      if (!categoryId) return;
+      setLoading(true);
+      try {
+        const res = await axios.get<{ success: boolean; products: Product[] }>(
+          `${BASE_URL}/api/v1/product/categoryid/${categoryId}`
+        );
+
+        if (res.data.success && res.data.products.length) {
+          // Remove current product
+          const filtered = res.data.products.filter(p => p._id !== currentProductId);
+          // Limit to 8
+          setRelatedProducts(filtered.slice(0, 8));
+        } else {
+          setRelatedProducts([]);
+        }
+      } catch (err) {
+        console.error("Failed to fetch related products:", err);
+        setRelatedProducts([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRelatedProducts();
+  }, [categoryId, currentProductId]);
+
+  if (loading) return <p className="py-4 text-center">Loading related products...</p>;
+  if (!relatedProducts.length) return <p className="py-4 text-center">No related products found.</p>;
+
+  return (
+   <div className="mt-12">
+      <h2 className="text-2xl font-semibold mb-6">Related Products</h2>
+
+      {/* Mobile: horizontal scroll, Desktop: grid */}
+      <div className="sm:hidden overflow-x-auto">
+        <div className="flex gap-4 px-2">
+          {relatedProducts.map((p) => (
+            <div key={p._id} className="flex-shrink-0 w-[340px]">
+              <ProductCard product={p} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop Grid */}
+      <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-2 sm:gap-6">
+        {relatedProducts.map((p) => (
+          <ProductCard key={p._id} product={p} />
+        ))}
+      </div>
+    </div>
+  );
+}

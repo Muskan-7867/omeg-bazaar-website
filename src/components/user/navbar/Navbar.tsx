@@ -1,24 +1,33 @@
 import Link from "next/link";
 import Image from "next/image";
-import Cookies from "js-cookie";
 import MobileMenuButton from "./components/MobileMenuButton";
 import UserDropdown from "./components/UserDropdown";
-import CartButton from "./components/CartButton";
+import CartCount from "./components/CartCount";
+import { cookies } from "next/headers";
+import { fetchCurrentUser } from "@/lib/services/api/fetchers";
 
 export default async function Navbar() {
-  const authToken = Cookies.get("authToken");
+  // ✅ Await cookies()
+  const cookieStore = await cookies();
+  const token = cookieStore.get("authToken")?.value || null;
 
-  let user: { email: string; username?: string } | null = null;
+  let user: { email: string; username?: string; firstLetter?: string } | null =
+    null;
 
-  if (authToken) {
-  
-    user = {
-      email: "demo@example.com",
-      username: "John Doe"
-    };
+  if (token) {
+    try {
+      const currentUser = await fetchCurrentUser(token);
+      if (currentUser) {
+        user = {
+          email: currentUser.email,
+          username: currentUser.username,
+          firstLetter: currentUser.email.charAt(0).toUpperCase()
+        };
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+    }
   }
-
-  const cartCount = 0;
 
   return (
     <div className="w-full flex flex-col fixed top-0 left-0 right-0 z-[100] bg-white border-b text-gray-800">
@@ -60,7 +69,7 @@ export default async function Navbar() {
         {/* Right - User & Cart */}
         <div className="flex items-center lg:gap-8 gap-4">
           <UserDropdown user={user} />
-          <CartButton cartCount={cartCount} />
+          <CartCount />
         </div>
       </div>
     </div>
