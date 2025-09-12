@@ -1,8 +1,11 @@
 "use client";
-import { Product } from "../../types/Product";
+
+import useCart from "@/hooks/useCart";
+import { Product } from "@/lib/types/Product";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { FaStar } from "react-icons/fa";
 
 interface ProductCardProps {
   product: Product;
@@ -10,6 +13,10 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const [isHovering, setIsHovering] = useState(false);
+  const { addProductToCart, RemoveProductFromCart, getCartProductIds } =
+    useCart();
+  const [isPresentInCart, setIsPresentInCart] = useState<boolean>(false);
+
   const [imgIndex, setImgIndex] = useState(0);
   console.log(imgIndex);
 
@@ -24,15 +31,30 @@ export default function ProductCard({ product }: ProductCardProps) {
         )
       : 0;
 
-  // ✅ Fix: check if product has videos properly
+  // ✅ Hydrate cart state when component mounts
+  useEffect(() => {
+    const ids = getCartProductIds();
+    setIsPresentInCart(ids.includes(product._id));
+  }, [product._id, getCartProductIds]);
+
   const hasVideo = Array.isArray(product.videos) && product.videos.length > 0;
 
-  // Image hover swap (if no video)
   const images = product.images || [];
   const displayImage =
     !hasVideo && images.length > 1 && isHovering
       ? images[1]?.url
       : images[0]?.url;
+
+  const handleCartClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isPresentInCart) {
+      RemoveProductFromCart(product._id);
+      setIsPresentInCart(false);
+    } else {
+      addProductToCart(product._id);
+      setIsPresentInCart(true);
+    }
+  };
 
   return (
     <article
@@ -42,7 +64,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     >
       {/* Product Media */}
       <Link
-        href={`/products/${product._id}`}
+        href={`/products/${product.slug}`}
         className="relative w-full aspect-square flex items-center justify-center bg-white overflow-hidden"
         onMouseEnter={() => {
           setIsHovering(true);
@@ -80,7 +102,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="mt-2 flex flex-col flex-1">
         {/* Name */}
         <h3
-          className="text-sm font-medium line-clamp-1  hover:text-primary"
+          className="text-sm font-medium line-clamp-1 hover:text-primary"
           itemProp="name"
         >
           {product.name}
@@ -88,7 +110,12 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         {/* Rating (optional) */}
         <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
-          ⭐⭐⭐⭐☆ <span>({product.ratingCount || 100})</span>
+          <FaStar className="text-yellow-500" />
+          <FaStar className="text-yellow-500" />
+          <FaStar className="text-yellow-500" />
+          <FaStar className="text-yellow-500" />
+          <FaStar className="text-gray-300" /> {/* empty star */}
+          <span>({product.ratingCount || 100})</span>
         </div>
 
         {/* Price */}
@@ -131,8 +158,13 @@ export default function ProductCard({ product }: ProductCardProps) {
         </p>
 
         {/* Add to Cart */}
-        <button className="mt-2 bg-gray-700 hover:bg-gray-800 text-white text-sm font-medium rounded px-3 py-2">
-          Add to Cart
+        <button
+          onClick={handleCartClick}
+          className={`mt-2 text-white text-sm font-medium rounded px-3 py-2 cursor-pointer ${
+            isPresentInCart ? "bg-gray-500" : "bg-gray-800"
+          }`}
+        >
+          {isPresentInCart ? "Remove from cart" : "Add to cart"}
         </button>
       </div>
     </article>

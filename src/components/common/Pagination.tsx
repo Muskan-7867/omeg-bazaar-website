@@ -7,49 +7,31 @@ interface PaginationProps {
 
 const Pagination: React.FC<PaginationProps> = ({
   totalProducts,
-  productPerPage
+  productPerPage,
 }) => {
+  // nuqs stores everything as string → parse to number
   const [page, setPage] = useQueryState("page", { defaultValue: "1" });
   const currentPage = Number(page);
-  const totalPages = Math.ceil(totalProducts / productPerPage);
+  const totalPages = Math.max(1, Math.ceil(totalProducts / productPerPage));
 
   const getVisiblePages = () => {
-    const visiblePages = [];
+    const visiblePages: (number | "...")[] = [];
 
+    visiblePages.push(1); // always show first
 
-    // Always show first page
-    visiblePages.push(1);
-
-    // Calculate range around current page
     let start = Math.max(2, currentPage - 1);
     let end = Math.min(totalPages - 1, currentPage + 1);
 
-    // Adjust if we're at the beginning or end
     if (currentPage <= 3) {
       end = Math.min(4, totalPages - 1);
     } else if (currentPage >= totalPages - 2) {
       start = Math.max(totalPages - 3, 2);
     }
 
-    // Add ellipsis after first page if needed
-    if (start > 2) {
-      visiblePages.push("...");
-    }
-
-    // Add middle pages
-    for (let i = start; i <= end; i++) {
-      visiblePages.push(i);
-    }
-
-    // Add ellipsis before last page if needed
-    if (end < totalPages - 1) {
-      visiblePages.push("...");
-    }
-
-    // Always show last page if there's more than one page
-    if (totalPages > 1) {
-      visiblePages.push(totalPages);
-    }
+    if (start > 2) visiblePages.push("...");
+    for (let i = start; i <= end; i++) visiblePages.push(i);
+    if (end < totalPages - 1) visiblePages.push("...");
+    if (totalPages > 1) visiblePages.push(totalPages);
 
     return visiblePages;
   };
@@ -71,6 +53,7 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <div className="w-full flex justify-center mt-10 scrollbar-hide">
       <div className="flex gap-2 px-4 py-2 rounded-md items-center overflow-x-auto scrollbar-hide">
+        {/* Prev Button */}
         <button
           onClick={handlePrevious}
           disabled={currentPage === 1}
@@ -83,6 +66,7 @@ const Pagination: React.FC<PaginationProps> = ({
           Prev
         </button>
 
+        {/* Page Numbers */}
         {visiblePages.map((pageItem, index) => {
           if (pageItem === "...") {
             return (
@@ -109,6 +93,7 @@ const Pagination: React.FC<PaginationProps> = ({
           );
         })}
 
+        {/* Next Button */}
         <button
           onClick={handleNext}
           disabled={currentPage === totalPages}

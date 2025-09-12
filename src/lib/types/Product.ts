@@ -19,6 +19,7 @@ export interface Product {
   name: string;
   description: string;
   price: number;
+  slug:string;
   features?: string;
   rating?: number;
   originalPrice?: number;
@@ -72,6 +73,7 @@ export interface EditProductData {
   name: string;
   description: string;
   features: string;
+  slug: string;
   price: number | string;
   inStock: boolean;
   category: string;
