@@ -26,7 +26,7 @@ const Header: React.FC = () => {
 
         {token && data?.admin && (
           <Link
-            href="adminprofile"
+            href="/admin/profile"
             className="flex flex-col items-center ml-4 cursor-pointer"
           >
             <div className="w-8 h-8 rounded-full border-4 border-primary flex items-center justify-center text-primary font-bold">

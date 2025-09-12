@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { useQueryClient } from "@tanstack/react-query";
 import { CategoryFormData } from "@/lib/types/Product";
 import { createCategory } from "@/lib/services/api/fetchers";
+import Image from "next/image";
 
 const AddCategoryForm = () => {
   const [formData, setFormData] = useState<CategoryFormData>({
@@ -115,7 +116,7 @@ const AddCategoryForm = () => {
         />
         <div className="flex gap-2 mt-2 flex-wrap">
           {productImages.map((img, index) => (
-            <img
+            <Image
               key={index}
               src={URL.createObjectURL(img)}
               className="h-32 w-32 object-cover bg-gray-100 rounded"

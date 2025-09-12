@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NuqsAdapter } from "nuqs/adapters/next";
 import QueryProvider from "@/lib/providers/QueryProvider";
+import Script from "next/script";
 
 
 const geistSans = Geist({
@@ -27,13 +28,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QueryProvider>
           <NuqsAdapter> {children}</NuqsAdapter>
         </QueryProvider>
+                  <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="afterInteractive" ></Script>
       </body>
+
     </html>
   );
 }
