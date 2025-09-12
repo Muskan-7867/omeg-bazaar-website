@@ -1,8 +1,7 @@
 import { AnimatePresence } from "motion/react";
 import { motion } from "motion/react";
-import { FaFacebook, FaInstagram, FaUser, FaShoppingCart, FaHeart, FaBox, FaStore } from "react-icons/fa";
+import { FaFacebook, FaInstagram,  FaShoppingCart, FaBox, FaStore } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
-import {  IoNotificationsOutline } from "react-icons/io5";
 import Link from "next/link";
 
 interface MobileMenuProps {
@@ -10,17 +9,27 @@ interface MobileMenuProps {
   setIsCardVisible: (value: boolean) => void;
   isLoggedIn?: boolean;
   userName?: string;
+  categories?: Array<{_id: string; name: string}>; 
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({
   isCardVisible,
   setIsCardVisible,
-  isLoggedIn = false,
-  userName = "User"
+
+   categories = []
 }) => {
   const handleClick = () => {
     setIsCardVisible(false);
   };
+
+    const defaultCategories = [
+    { _id: "electronics", name: "Electronics" },
+    { _id: "fashion", name: "Fashion" },
+    { _id: "kitchen", name: "Kitchen" },
+    { _id: "beauty", name: "Health & Care" }
+  ];
+
+  const displayCategories = categories.length > 0 ? categories : defaultCategories;
 
   return (
     <AnimatePresence>
@@ -45,18 +54,18 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           >
             {/* Header */}
             <div className="bg-amazon_blue text-gray-700 p-4 flex justify-between items-center">
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 {isLoggedIn ? (
                   <>
                     <FaUser className="mr-2" />
-                    <span>Hello, {userName}</span>
+                    <span className="text-black">Hello, {userName}</span>
                   </>
                 ) : (
                   <Link href="/login" onClick={handleClick} className="font-medium">
                     Login / Sign Up
                   </Link>
                 )}
-              </div>
+              </div> */}
               <button
                 onClick={() => setIsCardVisible(false)}
                 className="text-gray-700 p-1 rounded-full  hover:bg-opacity-20 transition-colors"
@@ -66,33 +75,21 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             </div>
 
             {/* Main Navigation */}
-            <div className="p-4 border-b border-gray-200">
+           <div className="p-4 border-b border-gray-200">
               <h3 className="font-bold text-lg mb-3">Shop by Category</h3>
               <ul className="space-y-2">
-                <li>
-                  <Link href="/electronics" onClick={handleClick} className="flex items-center py-2 hover:text-amazon_orange transition-colors">
-                    <FaStore className="mr-3 text-gray-600" />
-                    Electronics
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/fashion" onClick={handleClick} className="flex items-center py-2 hover:text-amazon_orange transition-colors">
-                    <FaUser className="mr-3 text-gray-600" />
-                    Fashion
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/home" onClick={handleClick} className="flex items-center py-2 hover:text-amazon_orange transition-colors">
-                    <FaStore className="mr-3 text-gray-600" />
-                    Home & Kitchen
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/beauty" onClick={handleClick} className="flex items-center py-2 hover:text-amazon_orange transition-colors">
-                    <FaHeart className="mr-3 text-gray-600" />
-                    Beauty & Health
-                  </Link>
-                </li>
+                {displayCategories.map((category) => (
+                  <li key={category._id}>
+                    <Link 
+                      href={`/products?category=${encodeURIComponent(category._id)}`} 
+                      onClick={handleClick} 
+                      className="flex items-center py-2 hover:text-amazon_orange transition-colors"
+                    >
+                      <FaStore className="mr-3 text-gray-600" />
+                      {category.name}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -114,10 +111,10 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
                 </li>
         
                 <li>
-                  <Link href="/notifications" onClick={handleClick} className="flex items-center py-2 hover:text-amazon_orange transition-colors">
+                  {/* <Link href="/notifications" onClick={handleClick} className="flex items-center py-2 hover:text-amazon_orange transition-colors">
                     <IoNotificationsOutline className="mr-3 text-gray-600" />
                     Notifications
-                  </Link>
+                  </Link> */}
                 </li>
               </ul>
             </div>
@@ -126,7 +123,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             <div className="p-4 border-b border-gray-200">
               <h3 className="font-bold text-lg mb-3">Help & Settings</h3>
               <ul className="space-y-2">
-            
+                        <li>
+                  <Link href="/products" onClick={handleClick} className="py-2 block hover:text-amazon_orange transition-colors">
+                    Products
+                  </Link>
+                </li>
                 <li>
                   <Link href="/about" onClick={handleClick} className="py-2 block hover:text-amazon_orange transition-colors">
                     About Us
