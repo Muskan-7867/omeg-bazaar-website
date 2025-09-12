@@ -1,11 +1,13 @@
-import { DialogPosition, getDialogPosition } from "@/lib/utills/getDialogPosition";
+import {
+  DialogPosition,
+  getDialogPosition
+} from "@/lib/utills/getDialogPosition";
 import React, { useState, useRef } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import TableImageRender from "../admin/common/TableImageRednder";
 import DialogBoxWrapper from "../admin/common/DialogBoxWrapper";
 import { useSingleProductStore } from "@/lib/store/product/Table.store";
 import { ProductImage } from "@/lib/types/Product";
-
 
 interface Column<T> {
   label: string | React.ReactNode;
@@ -15,9 +17,22 @@ interface Column<T> {
   renderData?: (row: T) => React.ReactNode;
 }
 
-interface BaseRowData {
+export interface BaseRowData {
   _id: string;
   [key: string]: unknown;
+  name: string;
+  images: ProductImage[];
+  price: number;
+  category: string;
+  description: string;
+  quantity: number;
+  createdAt: string;
+  updatedAt: string;
+  slug: string;
+  reviews: number;
+  inStock: boolean;
+  totalProduct: number;
+  deliveryCharges: number;
 }
 
 interface TableProps<T extends BaseRowData> {
@@ -25,10 +40,7 @@ interface TableProps<T extends BaseRowData> {
   data: T[];
 }
 
-const Table = <T extends BaseRowData>({
-  columns,
-  data
-}: TableProps<T>) => {
+const Table = <T extends BaseRowData>({ columns, data }: TableProps<T>) => {
   const [openDialog, setOpenDialog] = useState<number | null>(null);
   const [dialogPosition, setDialogPosition] =
     useState<DialogPosition>("bottom");
@@ -53,12 +65,11 @@ const Table = <T extends BaseRowData>({
     if (container && trigger) {
       const containerRect = container.getBoundingClientRect();
       const triggerRect = trigger.getBoundingClientRect();
-    
-    
+
       const position = getDialogPosition(
         containerRect,
         triggerRect,
-    
+
         200
       );
       setDialogPosition(position);

@@ -115,7 +115,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           <FaStar className="text-yellow-500" />
           <FaStar className="text-yellow-500" />
           <FaStar className="text-gray-300" /> {/* empty star */}
-          <span>({product.ratingCount || 100})</span>
+          <span>(product.ratingCount || 100)</span>
         </div>
 
         {/* Price */}
