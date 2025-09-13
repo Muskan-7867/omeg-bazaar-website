@@ -38,3 +38,4 @@ export default async function ProductDetailsPage({
 
   return <SingleProductPage product={product} />;
 }
+  

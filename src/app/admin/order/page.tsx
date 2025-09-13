@@ -1,10 +1,12 @@
-import Order from '@/components/admin/order/order'
-import React from 'react'
+import Order from "@/components/admin/order/order";
+import React, { Suspense } from "react";
 
 export default function OrderPage() {
   return (
     <>
-      <Order />
+      <Suspense fallback={<p>Loading...</p>}>
+        <Order />
+      </Suspense>
     </>
-  )
+  );
 }

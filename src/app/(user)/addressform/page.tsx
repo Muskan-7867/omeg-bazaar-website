@@ -1,10 +1,11 @@
-import AddressForm from '@/components/user/address/AddressForm'
-import React from 'react'
+import AddressForm from "@/components/user/address/AddressForm";
+import React from "react";
 
-export default function AddressPage() {
-  return (
-    <>
-      <AddressForm />
-    </>
-  )
+interface AddressPageProps {
+  params: Promise<{ userId: string }>;
+}
+
+export default async function AddressPage({ params }: AddressPageProps) {
+  const { userId } = await params;
+  return <AddressForm params={userId} />;
 }

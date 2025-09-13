@@ -1,10 +1,12 @@
-import Product from '@/components/admin/products/Product'
-import React from 'react'
+import Product from "@/components/admin/products/Product";
+import React, { Suspense } from "react";
 
 export default function AdminProducts() {
   return (
     <>
-      <Product />
+      <Suspense fallback={<p>Loading...</p>}>
+        <Product />
+      </Suspense>
     </>
-  )
+  );
 }

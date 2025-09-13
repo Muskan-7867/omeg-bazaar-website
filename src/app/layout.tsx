@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { NuqsAdapter } from "nuqs/adapters/next";
 import QueryProvider from "@/lib/providers/QueryProvider";
 import Script from "next/script";
 
@@ -33,7 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QueryProvider>
-          <NuqsAdapter> {children}</NuqsAdapter>
+          {children}
         </QueryProvider>
                   <Script
           src="https://checkout.razorpay.com/v1/checkout.js"
