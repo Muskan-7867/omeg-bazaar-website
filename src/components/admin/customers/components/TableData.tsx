@@ -1,13 +1,10 @@
 import React, { useRef, useState } from "react";
 
-import { CiMenuKebab } from "react-icons/ci"; 
+import { CiMenuKebab } from "react-icons/ci";
 import DialogBox from "../../common/ActionDialogbox";
 import { useSingleOrderStore } from "@/lib/store/product/Table.store";
+import { Order } from "@/lib/types/order";
 
-
-export interface ITableItem {
-  _id: string;
-}
 export interface Column<T> {
   label: string | React.ReactNode;
   key?: keyof T | "action";
@@ -23,13 +20,17 @@ export interface Column<T> {
   ) => React.ReactNode;
 }
 
-interface TableProps<T extends ITableItem> {
+interface TableProps<T extends Order> {
   columns: Column<T>[];
   data: T[];
   className?: string;
 }
 
-function TableData<T extends ITableItem>({ columns, data, className = "" }: TableProps<T>) {
+function TableData<T extends Order>({
+  columns,
+  data,
+  className = ""
+}: TableProps<T>) {
   const tableRef = useRef<HTMLDivElement>(null);
   const [dialogPosition, setDialogPosition] = useState<"top" | "bottom">(
     "bottom"
@@ -104,7 +105,9 @@ function TableData<T extends ITableItem>({ columns, data, className = "" }: Tabl
                         <div className="relative">
                           <button
                             className="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
-                            onClick={(event) => handleActionClick(idx, event, item)}
+                            onClick={(event) =>
+                              handleActionClick(idx, event, item)
+                            }
                           >
                             <CiMenuKebab />
                           </button>
@@ -116,7 +119,10 @@ function TableData<T extends ITableItem>({ columns, data, className = "" }: Tabl
                                   : "top-full mt-2"
                               }`}
                             >
-                              <DialogBox setOpenDialog={setOpenDialog} row={item} />
+                              <DialogBox
+                                setOpenDialog={setOpenDialog}
+                                row={item}
+                              />
                             </div>
                           )}
                         </div>

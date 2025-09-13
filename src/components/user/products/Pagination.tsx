@@ -1,4 +1,7 @@
-import { useQueryState } from "nuqs";
+"use client";
+
+import { useSearchParams, useRouter } from "next/navigation";
+import React from "react";
 
 interface PaginationProps {
   totalProducts: number;
@@ -7,15 +10,25 @@ interface PaginationProps {
 
 const Pagination: React.FC<PaginationProps> = ({
   totalProducts,
-  productPerPage
+  productPerPage,
 }) => {
-  const [page, setPage] = useQueryState("page", { defaultValue: "1" });
-  const currentPage = Number(page);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // Get current page from query params (default to 1)
+  const pageParam = searchParams.get("page");
+  const currentPage = pageParam ? Number(pageParam) : 1;
+
   const totalPages = Math.ceil(totalProducts / productPerPage);
 
-  const getVisiblePages = () => {
-    const visiblePages = [];
+  const updatePage = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    router.push(`?${params.toString()}`);
+  };
 
+  const getVisiblePages = () => {
+    const visiblePages: (number | string)[] = [];
 
     // Always show first page
     visiblePages.push(1);
@@ -58,13 +71,13 @@ const Pagination: React.FC<PaginationProps> = ({
 
   const handleNext = () => {
     if (currentPage < totalPages) {
-      setPage((currentPage + 1).toString());
+      updatePage(currentPage + 1);
     }
   };
 
   const handlePrevious = () => {
     if (currentPage > 1) {
-      setPage((currentPage - 1).toString());
+      updatePage(currentPage - 1);
     }
   };
 
@@ -97,7 +110,7 @@ const Pagination: React.FC<PaginationProps> = ({
           return (
             <button
               key={pageItem}
-              onClick={() => setPage(pageItem.toString())}
+              onClick={() => updatePage(Number(pageItem))}
               className={`px-4 py-2 rounded-md shrink-0 ${
                 isCurrent
                   ? "bg-white text-primary shadow-xl font-bold"

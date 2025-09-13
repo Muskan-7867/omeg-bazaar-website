@@ -16,7 +16,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
           whileHover={{ x: -20, y: -10, scale: 1.1 }}
-         transition={{ duration: 0.3, ease: "easeOut" }} 
+          transition={{ duration: 0.3, ease: "easeOut" }}
           className="relative h-full w-full"
         >
           <Image
@@ -46,13 +46,13 @@ export default function HeroSection() {
 
         {/* Right - Text Section */}
         <div className="w-full lg:w-1/2 lg:text-left">
-          <h4 className="text-sm font-semibold text-white">
+          <h4 className="text-sm lg:text-base font-semibold text-white">
             Save Time & Money
           </h4>
-          <h1 className="text-4xl lg:text-5xl font-bold text-white leading-snug mt-2">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-snug mt-2">
             Shop With Us <br /> on the Go
           </h1>
-          <p className="text-gray-200 mt-4 text-lg">
+          <p className="text-gray-200 mt-4 text-base sm:text-lg lg:text-xl">
             Your weekly shopping routine, at your door in just a click
           </p>
 

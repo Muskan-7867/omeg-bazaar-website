@@ -1,4 +1,4 @@
-"use client";
+
 import { Truck, ShoppingBasket, Headphones, Smartphone } from "lucide-react";
 import Link from "next/link";
 

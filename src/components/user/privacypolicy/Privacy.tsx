@@ -1,108 +1,60 @@
 "use client"
-import React, { useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import TermsContent from "./TermsContent";
 import { PrivacyContent } from "./PrivacyContent";
 import { ContactUs } from "./ContactUs";
 import { Cancelation } from "./Cancelation";
-import { useQueryState } from "nuqs";
 
-type AccordionProps = {
+type Section = {
   title: string;
   content: React.ReactNode;
-  isOpen: boolean;
-  onClick: () => void;
+  param: string;
 };
 
-const sections = [
+interface PrivacyPolicyPageProps {
+  searchParams?: { sections?: string };
+}
+
+const sections: Section[] = [
   {
     title: "Privacy Policy",
     content: <PrivacyContent />,
-    param: "privacyandpolicy",
+    param: "privacyandpolicy"
   },
   {
     title: "Terms & Conditions",
     content: <TermsContent />,
-    param: "termsandconditions",
+    param: "termsandconditions"
   },
-  {
-    title: "Contact Us",
-    content: <ContactUs />,
-    param: "contactus",
-  },
+  { title: "Contact Us", content: <ContactUs />, param: "contactus" },
   {
     title: "Cancel & Return Policy",
     content: <Cancelation />,
-    param: "cancelationandreturnpolicy",
-  },
+    param: "cancelationandreturnpolicy"
+  }
 ];
 
-const AccordionItem: React.FC<AccordionProps> = ({
-  title,
-  content,
-  isOpen,
-  onClick,
-}) => (
-  <div className="border-b border-primary">
-    <button
-      onClick={onClick}
-      className="w-full flex justify-between items-center py-4 text-left focus:outline-none"
-    >
-      <span className="text-lg font-light text-gray-700">{title}</span>
-      <motion.div
-        animate={{ rotate: isOpen ? 180 : 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <ChevronDown  />
-      </motion.div>
-    </button>
-
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.3 }}
-          className="pb-4 text-gray-600"
-        >
-          {content}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  </div>
-);
-
-const PrivacyPolicyPage = () => {
-  const [activeSections, setActiveSections] = useQueryState<string[]>(
-    "sections",
-    {
-      defaultValue: [],
-      parse: (value) => value.split(",").filter(Boolean),
-      serialize: (value) => value.join(","),
-    }
-  );
-
-  const handleToggle = (param: string) => {
-    setActiveSections((prev = []) =>
-      prev.includes(param)
-        ? prev.filter((p) => p !== param)
-        : [...prev, param]
-    );
-  };
-
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+export default function PrivacyPolicyPage({
+  searchParams
+}: PrivacyPolicyPageProps) {
+  const [activeSections, setActiveSections] = useState<string[]>([]);
 
   useEffect(() => {
-    // Scroll to the first active section
-    if (activeSections && activeSections.length > 0) {
-      const index = sections.findIndex((s) => s.param === activeSections[0]);
-      if (index !== -1 && sectionRefs.current[index]) {
-        sectionRefs.current[index]?.scrollIntoView({ behavior: "smooth" });
+    // Initialize active sections from URL params on component mount
+    const initialSections = searchParams?.sections?.split(",").filter(Boolean) || [];
+    setActiveSections(initialSections);
+  }, [searchParams]);
+
+  // Toggle section visibility
+  const toggleSection = (param: string) => {
+    setActiveSections(prev => {
+      if (prev.includes(param)) {
+        return prev.filter(s => s !== param);
+      } else {
+        return [...prev, param];
       }
-    }
-  }, [activeSections]);
+    });
+  };
 
   return (
     <div className="max-w-full mx-auto p-6 mt-20 lg:mt-4 bg-white">
@@ -110,26 +62,34 @@ const PrivacyPolicyPage = () => {
         Policy & Information
       </h1>
       <div className="space-y-4 text-black">
-        {sections.map((section, index) => (
-          <div 
-            key={index}
-            ref={(el) => {
-              if (el) {
-                sectionRefs.current[index] = el;
-              }
-            }}
-          >
-            <AccordionItem
-              title={section.title}
-              content={section.content}
-              isOpen={activeSections?.includes(section.param) ?? false}
-              onClick={() => handleToggle(section.param)}
-            />
-          </div>
-        ))}
+        {sections.map((section) => {
+          const isOpen = activeSections.includes(section.param);
+          return (
+            <div key={section.param} className="border-b border-primary">
+              <button
+                onClick={() => toggleSection(section.param)}
+                className="w-full flex justify-between items-center py-4 text-left focus:outline-none"
+              >
+                <span className="text-lg font-light text-gray-700">
+                  {section.title}
+                </span>
+                <span
+                  className="transition-transform duration-300"
+                  style={{
+                    transform: isOpen ? "rotate(180deg)" : "rotate(0deg)"
+                  }}
+                >
+                  ▼
+                </span>
+              </button>
+
+              {isOpen && (
+                <div className="pb-4 text-gray-600">{section.content}</div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
-};
-
-export default PrivacyPolicyPage;
+}

@@ -1,11 +1,10 @@
 "use client";
-import { useQueryState } from "nuqs";
 import {
   foundation,
   JuicerJag,
   purse,
   shoe,
-  toy
+  toy,
 } from "../../../constants/imagePath";
 import Footer from "./Footer";
 import { useQuery } from "@tanstack/react-query";
@@ -17,9 +16,7 @@ import { CategoryType } from "@/lib/types/Product";
 import { getCategoriesQuery } from "@/lib/services/api/queries";
 
 const NewFooter = () => {
-  const route = useRouter();
-  const [, setCategory] = useQueryState("category");
-
+  const router = useRouter();
   const { data: categories } = useQuery(getCategoriesQuery());
 
   const handleCategoryClick = (categoryName: string) => {
@@ -29,8 +26,8 @@ const NewFooter = () => {
     );
 
     if (selectedCategory) {
-      setCategory(selectedCategory._id);
-      route.push("/products");
+      // Add category ID to search params
+      router.push(`/products?category=${selectedCategory._id}`);
     } else {
       console.warn("Category not found:", categoryName);
     }
@@ -38,7 +35,7 @@ const NewFooter = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  });
+  }, []);
 
   return (
     <div className="w-full h-screen flex flex-col">

@@ -15,6 +15,7 @@ const EditProduct = () => {
     price: "",
     features: "",
     category: "",
+    slug: "",
     inStock: false,
     deliveryCharges: 0
   });
@@ -25,22 +26,30 @@ const EditProduct = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
-  useEffect(() => {
-    if (selectedProduct) {
-      setFormData({
-        name: selectedProduct.name || "",
-        description: selectedProduct.description || "",
-        price: selectedProduct.price?.toString() || "",
-        features: selectedProduct.features || "",
-        category:
-          typeof selectedProduct.category === "object"
-            ? selectedProduct.category._id // ✅ use only ID
-            : selectedProduct.category || "",
-        deliveryCharges: selectedProduct.deliveryCharges || 0,
-        inStock: selectedProduct.inStock || false
-      });
-    }
-  }, [selectedProduct]);
+type CategoryObj = { _id: string; name: string };
+
+function isCategoryObject(cat: unknown): cat is CategoryObj {
+  return typeof cat === "object" && cat !== null && "_id" in cat;
+}
+
+useEffect(() => {
+  if (!selectedProduct) return;
+
+  const categoryId = isCategoryObject(selectedProduct.category)
+    ? selectedProduct.category._id
+    : selectedProduct.category;
+
+  setFormData({
+    name: selectedProduct.name || "",
+    description: selectedProduct.description || "",
+    price: selectedProduct.price?.toString() || "",
+    features: selectedProduct.features || "",
+    category: categoryId || "",
+    deliveryCharges: selectedProduct.deliveryCharges || 0,
+    inStock: selectedProduct.inStock || false,
+    slug: selectedProduct.slug || ""
+  });
+}, [selectedProduct]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -73,6 +82,7 @@ const EditProduct = () => {
     setIsSubmitting(true);
 
     try {
+      if (!selectedProduct) return;
       const response = await updateProduct(
         selectedProduct._id,
         formData,
@@ -126,14 +136,23 @@ const EditProduct = () => {
             value={formData.features}
             onChange={handleChange}
           />
+          <InputField
+            label="Slug"
+            name="slug"
+            value={formData.slug || ""}
+            onChange={handleChange}
+          />
 
-      <ProductCategory
-  category={formData.category}
-  setCategory={(catId: string) =>
-    setFormData((prev) => ({ ...prev, category: catId }))
-  }
-/>
-
+          <ProductCategory
+            category={
+              typeof formData.category === "string"
+                ? formData.category
+                : formData.category._id
+            }
+            setCategory={(catId: string) =>
+              setFormData((prev) => ({ ...prev, category: catId }))
+            }
+          />
 
           <InputField
             label="Delivery Charges"

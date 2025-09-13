@@ -1,4 +1,6 @@
-import { OrderData } from "./Product";
+import { PaymentType } from "@/components/user/cart/components/CartSummary";
+import { Payment } from "./order";
+import { OrderData, OrderItem } from "./Product";
 
 
 
@@ -54,6 +56,18 @@ export interface CurrentUser {
   role: "admin" | "user";
   address?: AddressFormData | ""; 
   order?: OrderData[];  
-  createdAt?: string;
-  updatedAt?: string;
+  createdAt: string;
+  updatedAt: string;
+  quantity: number;
+  totalPrice: number;
+  status: string;
+  isPaid: boolean;
+  deliveryCharges: number;
+  payment: Payment;
+  orderItems: OrderItem[];
+
+  deliveredAt: string;
+  paymentMethod: PaymentType;
+  totalQuantity: number;
+  
 }

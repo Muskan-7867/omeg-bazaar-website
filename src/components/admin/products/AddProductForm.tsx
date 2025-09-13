@@ -1,39 +1,47 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
-import { useQueryState } from "nuqs";
-
-import { useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { fields } from "@/components/user/products/data";
 import ProductCategory from "@/components/user/products/ProductCategory";
 import UploadProdImage from "@/components/user/products/UploadProdImage";
 import { createProduct } from "@/lib/services/api/fetchers";
 
 const AddProductForm = () => {
-  const [category, setCategory] = useQueryState("category", {
-    defaultValue: ""
-  });
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // Read category from URL
+  const categoryFromUrl = searchParams.get("category") || "";
+
+  const [category, setCategory] = useState(categoryFromUrl);
   const [disabled, setDisabled] = useState(false);
   const [productImages, setProductImages] = useState<File[]>([]);
   const [productVideos, setProductVideos] = useState<File[]>([]);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const router = useRouter();
-
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     features: "",
     price: "",
+    slug: "",
     originalPrice: "",
-    category: "",
+    category: categoryFromUrl,
     deliveryCharges: ""
   });
 
-  // Keep category in sync with query state
+  // Keep category in sync with formData & URL
   useEffect(() => {
     setFormData((prev) => ({ ...prev, category }));
+    const params = new URLSearchParams(searchParams);
+    if (category) {
+      params.set("category", category);
+    } else {
+      params.delete("category");
+    }
+    router.replace(`?${params.toString()}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category]);
 
   const getInputType = (label: string): string => {
@@ -45,7 +53,7 @@ const AddProductForm = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { name, value, type } = e.target;
+    const { name, value } = e.target;
 
     const parsedValue =
       name.toLowerCase().includes("price") || name === "deliveryCharges"
@@ -56,11 +64,7 @@ const AddProductForm = () => {
   };
 
   useEffect(() => {
-    if (productImages.length >= 10) {
-      setDisabled(true);
-    } else {
-      setDisabled(false);
-    }
+    setDisabled(productImages.length >= 10);
   }, [productImages]);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -74,7 +78,7 @@ const AddProductForm = () => {
       data.append("features", formData.features);
       data.append("originalPrice", formData.originalPrice.toString());
       data.append("price", formData.price.toString());
-
+      data.append("slug", formData.slug);
       if (formData.category && formData.category !== "all") {
         data.append("category", formData.category);
       }
@@ -97,6 +101,7 @@ const AddProductForm = () => {
         price: "",
         originalPrice: "",
         category: "",
+        slug: "",
         deliveryCharges: ""
       });
       setProductImages([]);
@@ -127,10 +132,8 @@ const AddProductForm = () => {
           )}
 
           {/* Dynamic Input Fields */}
-          {/* Dynamic Input Fields */}
           {fields.map((field, index) => {
             if (field.name === "price") {
-              // Render Price + Original Price in one row
               const priceField = field;
               const originalPriceField = fields.find(
                 (f) => f.name === "originalPrice"
@@ -182,10 +185,7 @@ const AddProductForm = () => {
               );
             }
 
-            if (field.name === "originalPrice") {
-              // Skip originalPrice since it's already rendered
-              return null;
-            }
+            if (field.name === "originalPrice") return null;
 
             return (
               <div key={index} className="flex flex-col gap-1">
@@ -194,10 +194,7 @@ const AddProductForm = () => {
                 </label>
 
                 {field.label === "Category" ? (
-                  <ProductCategory
-                    category={category}
-                    setCategory={setCategory}
-                  />
+                  <ProductCategory category={category} setCategory={setCategory} />
                 ) : (
                   <input
                     type={getInputType(field.label)}

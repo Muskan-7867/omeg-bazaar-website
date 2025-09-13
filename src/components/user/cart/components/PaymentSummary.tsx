@@ -14,7 +14,7 @@ const PaymentSummary: React.FC<PaymentSummaryProps> = ({
       <h1 className="text-lg font-bold font-serif text-primary mt-4">
         Payment
       </h1>
-      <div className="border border-gray-200 rounded-lg mt-2">
+      <div className=" rounded-lg mt-2">
         <div className="flex flex-col px-4 py-2 gap-2">
           <div className="flex flex-col gap-4">
             {[

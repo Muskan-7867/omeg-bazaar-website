@@ -5,7 +5,8 @@ const nextConfig: NextConfig = {
     domains: [
       "static.vecteezy.com",
       "ecommercephotographyindia.com",
-      "res.cloudinary.com"
+      "res.cloudinary.com",
+      "via.placeholder.com"
      
     ]
   }

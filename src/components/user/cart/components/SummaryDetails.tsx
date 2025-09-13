@@ -8,7 +8,7 @@ interface SummaryDetailsProps {
 const SummaryDetails = ({subtotal, deliveryCharge, total} : SummaryDetailsProps) => {
 
   return (
-      <div className="flex flex-col border border-gray-200 rounded-lg mb-6">
+      <div className="flex flex-col  rounded-lg mb-6">
           <div className="flex flex-col rounded-md p-4 gap-2">
             <div className="flex justify-between items-center">
               <p className="text-md font-normal font-serif">Subtotal:</p>

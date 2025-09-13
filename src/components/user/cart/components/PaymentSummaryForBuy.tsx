@@ -1,14 +1,14 @@
+"use client"
 import { useEffect, useState } from "react";
 import PaymentSummary from "./PaymentSummary";
 import SummaryDetails from "./SummaryDetails";
 import { PaymentType } from "./CartSummary";
-
 import PaymentLoader from "./PaymentLoader";
 import PaymentPopUp from "./PaymentPopUp";
 import { usePaymentHandlerForBuy } from "@/hooks/buynoworder/usePaymentHandlerForBuy";
-import useCurrentUserStore from "@/lib/store/User/user.store";
-import { AddressFormData, CurrentUser } from "@/lib/types/auth";
+import { AddressFormData } from "@/lib/types/auth";
 import { Product } from "@/lib/types/Product";
+import useCurrentUser from "@/hooks/useCurrentUser";
 
 interface CartSummaryProps {
   products: Product[];
@@ -19,27 +19,37 @@ const PaymentSummaryForBuy: React.FC<CartSummaryProps> = ({
   products,
   quantities
 }) => {
-  const { isLoggined } = useCurrentUserStore();
-  const { currentUserFromStore } = useCurrentUserStore() as {
-    currentUserFromStore: CurrentUser;
-  };
+  const { isLoggined, currentUserFromStore, loading: userLoading } = useCurrentUser();
+  const [isLoading, setIsLoading] = useState(true);
 
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentType>("online_payment");
 
   const { loading, loginMsg, handleOrder, popup, setLoginMsg } =
     usePaymentHandlerForBuy();
+useEffect(() => {
+    console.log("Auth status:", { isLoggined, userLoading, currentUserFromStore }); // Debug log
+    
+    // Wait for user authentication to be determined
+    if (!userLoading) {
+      setIsLoading(false);
+    }
+  }, [userLoading, isLoggined, currentUserFromStore]);
+  useEffect(() => {
+    // Wait a moment to ensure user state is loaded
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
-    // This will run when the component mounts and when isLoggined changes
-  }, [isLoggined, currentUserFromStore]);
-  // In PaymentSummaryForBuy component
-  useEffect(() => {
     if (isLoggined) {
-      // Reset login message when user logs in
       setLoginMsg(false);
     }
-  }, [isLoggined]);
+  }, [isLoggined, setLoginMsg]);
+
   // Calculate order summary
   const subtotal = products.reduce((acc, product) => {
     const qty = quantities[product._id] || 1;
@@ -64,11 +74,9 @@ const PaymentSummaryForBuy: React.FC<CartSummaryProps> = ({
     quantity: quantities[product._id] || 1
   }));
 
-  // Get address with proper type checking
   const getAddress = (): AddressFormData => {
     const address = currentUserFromStore?.address;
     if (!address || typeof address !== "object") {
-      // Return a default address object when none exists
       return {
         phone: "",
         street: "",
@@ -78,15 +86,15 @@ const PaymentSummaryForBuy: React.FC<CartSummaryProps> = ({
         pincode: ""
       };
     }
-    return address;
+    return address as AddressFormData;
   };
 
   const orderData = {
     quantity: totalQuantity,
     totalQuantity,
     totalPrice: total,
-     expectedDeliveryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    address: getAddress(), // Now guaranteed to return AddressFormData
+    expectedDeliveryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    address: getAddress(),
     orderItems,
     status: "pending",
     deliveryCharges: deliveryCharge,
@@ -94,6 +102,17 @@ const PaymentSummaryForBuy: React.FC<CartSummaryProps> = ({
     isPaid: paymentMethod === "online_payment",
     paymentMethod: paymentMethod
   };
+
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="w-full mx-auto relative">
+        <div className="flex justify-center items-center py-8">
+          <PaymentLoader />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full mx-auto relative">
@@ -122,14 +141,13 @@ const PaymentSummaryForBuy: React.FC<CartSummaryProps> = ({
             orderData,
             products,
             quantities,
-
             paymentMethod,
             isLoggined,
             currentUserFromStore
           )
         }
         className="bg-primary text-white py-2 px-4 rounded-full mt-6 w-full hover:bg-primary-dark transition-colors disabled:opacity-50"
-        disabled={loading}
+        disabled={loading || !isLoggined}
       >
         {loading ? (
           <PaymentLoader />

@@ -2,23 +2,26 @@
 import { useEffect, useState } from "react";
 import ProductFilterBar from "./ProductFilterbar";
 import Pagination from "@/components/common/Pagination";
-import Table from "@/components/common/Table";
-import { Product } from "@/lib/types/Product";
+import Table, { BaseRowData } from "@/components/common/Table";
 import axios from "axios";
-import { useQueryState } from "nuqs";
+import {  useSearchParams } from "next/navigation";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 const ProdTable = () => {
+ 
+  const searchParams = useSearchParams();
+
+  // page comes from query string, default 1
+  const page = Number(searchParams.get("page") || "1");
+
   const [search, setSearch] = useState<string>("");
   const [category, setCategory] = useState<string>("all");
   const [limit] = useState<number>(9);
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(100000);
 
-  const [page, setPage] = useQueryState("page", { defaultValue: "1" });
-
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<BaseRowData[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -31,7 +34,7 @@ const ProdTable = () => {
 
         const res = await axios.get(`${BASE_URL}/api/v1/product/get`, {
           params: {
-            page: Number(page),
+            page,
             limit,
             minPrice,
             maxPrice,
@@ -70,6 +73,8 @@ const ProdTable = () => {
     },
   ];
 
+ 
+
   return (
     <>
       <ProductFilterBar
@@ -88,7 +93,11 @@ const ProdTable = () => {
 
       <Table columns={columns} data={products} />
 
-      <Pagination totalProducts={totalCount} productPerPage={limit} />
+      <Pagination
+        totalProducts={totalCount}
+        productPerPage={limit}
+
+      />
     </>
   );
 };

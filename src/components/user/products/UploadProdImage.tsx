@@ -1,3 +1,4 @@
+import Image from "next/image";
 
 
 const UploadProdImage = ({ disabled, productImages, setProductImages }: { disabled: boolean, productImages: File[], setProductImages: React.Dispatch<React.SetStateAction<File[]>> }) => {
@@ -34,9 +35,12 @@ const UploadProdImage = ({ disabled, productImages, setProductImages }: { disabl
       {productImages &&
         productImages.map((image, index) => (
           <div key={`${index}-image`}>
-            <img
+            <Image
+              alt=""
               src={URL.createObjectURL(image)}
               className="h-32 w-32 object-cover bg-gray-100"
+              width={100}
+              height={100}
             />
           </div>
         ))}

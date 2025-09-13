@@ -1,16 +1,9 @@
-"use client"
-import { useState } from "react";
-import Cookies from "js-cookie";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { AddressFormData } from "@/lib/types/auth";
 import { CreateUserAddress } from "@/lib/services/api/fetchers";
-import { useParams, useRouter } from "next/navigation";
-import Form from "./Form";
+import FormWrapper from "./FormWrapper";
 import { addressSchema } from "./addressSchema";
-import { ZodIssue } from "zod";
-
-type FormErrors = {
-  [key in keyof FormData]?: string;
-};
 
 const FORM_DATA: AddressFormData = {
   street: "",
@@ -23,75 +16,58 @@ const FORM_DATA: AddressFormData = {
   address1: ""
 };
 
-const AddressForm = () => {
-  const { userId } = useParams<{ userId: string }>();
-  const token = Cookies.get("authToken");
+interface AddressFormProps {
+  params: string;
+}
 
-  // Remove usePathname usage
+const AddressForm = async ({ params }: AddressFormProps) => {
+  
+  const cookieStore = await cookies();
+  const token = cookieStore.get("authToken")?.value;
+
+  // Redirect if no token (unauthorized)
+  if (!token) {
+    redirect("/login");
+  }
+
+  // Check if we're editing an existing address
   const existingAddress: Partial<AddressFormData> | undefined = undefined;
 
-  const [formData, setFormData] = useState<AddressFormData>({
-    ...FORM_DATA,
-    ...(existingAddress || {})
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
-  const [gotoAddressForm, setGoToAddressForm] = useState(true);
+  // Server action for form submission
+ const handleSubmit = async (formData: AddressFormData) => {
+  "use server";
 
-  const navigate = useRouter();
+  const result = addressSchema.safeParse(formData);
+  if (!result.success) {
+    return { success: false, errors: result.error.issues };
+  }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitSuccess(false);
+  try {
+    const Data = { ...formData, params };
+    await CreateUserAddress(Data, token);
 
-    const result = addressSchema.safeParse(formData);
-    if (!result.success) {
-      const newErrors: FormErrors = {};
-      result.error.issues.forEach((err: ZodIssue) => {
-        const path = err.path[0] as keyof FormData;
-        newErrors[path] = err.message;
-      });
+    // Instead of redirecting immediately, return success
+    return { success: true, message: "Address added successfully" };
+  } catch (error) {
+    console.error("Error adding address", error);
+    return { success: false, error: "Failed to add address" };
+  }
+};
 
-      setIsSubmitting(false);
-      return;
-    }
-
-    const Data = { ...formData, userId };
-
-    try {
-      const response = await CreateUserAddress(Data, token || "");
-      console.log("Address added successfully", response);
-      setSubmitSuccess(true);
-      setFormData(FORM_DATA);
-      navigate.back(); // Fixed navigation
-      setGoToAddressForm(false);
-    } catch (error) {
-      console.error("Error adding address", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   return (
-    <div className="flex justify-center items-center mt-6  px-4">
-      <div className="w-full max-w-2xl bg-white  rounded-md">
+    <div className="flex justify-center items-center mt-6 px-4">
+      <div className="w-full max-w-2xl bg-white rounded-md p-6">
         <h1 className="text-2xl font-semibold text-black mb-4 text-center font-serif">
           {existingAddress ? "Update Shipping Address" : "Add a Shipping Address"}
         </h1>
 
-        {submitSuccess && (
-          <div className="mb-4 p-4 bg-green-100 text-green-700 rounded">
-            {existingAddress
-              ? "Address updated successfully"
-              : "Address added successfully"}
-          </div>
-        )}
-        <Form
+        <FormWrapper 
           handleSubmit={handleSubmit}
-          formData={formData}
-          setFormData={setFormData}
-          isSubmitting={isSubmitting}
+          initialData={{
+            ...FORM_DATA,
+            ...(existingAddress || {})
+          }}
           isEditing={!existingAddress}
         />
       </div>

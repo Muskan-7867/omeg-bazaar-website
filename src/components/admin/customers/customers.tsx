@@ -1,3 +1,4 @@
+"use client"
 import CustomerTable from "./components/CustomerTable";
 
 const Customers = () => {

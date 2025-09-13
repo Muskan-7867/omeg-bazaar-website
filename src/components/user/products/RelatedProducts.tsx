@@ -50,7 +50,7 @@ export default function RelatedProducts({ categoryId, currentProductId }: Relate
       <h2 className="text-2xl font-semibold mb-6">Related Products</h2>
 
       {/* Mobile: horizontal scroll, Desktop: grid */}
-      <div className="sm:hidden overflow-x-auto">
+      <div className="sm:hidden overflow-x-auto scrollbar-hide">
         <div className="flex gap-4 px-2">
           {relatedProducts.map((p) => (
             <div key={p._id} className="flex-shrink-0 w-[340px]">
@@ -61,7 +61,7 @@ export default function RelatedProducts({ categoryId, currentProductId }: Relate
       </div>
 
       {/* Desktop Grid */}
-      <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-2 sm:gap-6">
+      <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 lg:gap-2 sm:gap-4">
         {relatedProducts.map((p) => (
           <ProductCard key={p._id} product={p} />
         ))}

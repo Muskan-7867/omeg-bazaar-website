@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { fetchCurrentUser } from "../services/fetchers";
-import { CurrentUser } from "../types/auth";
-import useCurrentUserStore from "../store/User/user.store";
+
 import Cookies from "js-cookie";
+import useCurrentUserStore from "@/lib/store/User/user.store";
+import { CurrentUser } from "@/lib/types/auth";
+import { fetchCurrentUser } from "@/lib/services/api/fetchers";
 
 const useCurrentUser = () => {
   const { 
@@ -10,7 +11,8 @@ const useCurrentUser = () => {
     currentUserFromStore, 
     setIsLoggined, 
     reFetch, 
-    fetch 
+    fetch ,
+    isLoggined
   } = useCurrentUserStore();
    const [loading, setLoading] = useState(true);
 
@@ -60,7 +62,7 @@ const useCurrentUser = () => {
     if (fetch) {
       fetchUser();
     }
-  }, [fetch]);
+  },[] )
 
   return {
     currentUserFromStore,
@@ -69,6 +71,7 @@ const useCurrentUser = () => {
     reFetch,
     loading,
     refetchCurrentUser,
+    isLoggined
   };
 };
 

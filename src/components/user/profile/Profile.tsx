@@ -38,7 +38,7 @@ const Profile = () => {
 
     // Navigate to login after a short delay
     setTimeout(() => {
-      router.push("/auth/login", { replace: true });
+      router.push("/auth/login");
     }, 1000);
   };
   if (!currentUserFromStore) return null;

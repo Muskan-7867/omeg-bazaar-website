@@ -41,7 +41,7 @@ export default function Banner({
     if (!autoPlay) return;
     const timer = setInterval(goToNext, interval);
     return () => clearInterval(timer);
-  }, [autoPlay, interval, currentIndex]);
+  }, );
 
   if (image.length === 0) return null;
 

@@ -40,6 +40,7 @@ export interface Order {
   updatedAt: string;
   deliveredAt: string;
   paymentMethod: PaymentType;
+  totalQuantity: number;
 
 }
 

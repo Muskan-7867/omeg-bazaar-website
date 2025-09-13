@@ -1,3 +1,5 @@
+import { Order } from "@/lib/types/order";
+import { Product } from "@/lib/types/Product";
 import { create } from "zustand";
 
 interface OrderTableType<T> {
@@ -6,6 +8,8 @@ interface OrderTableType<T> {
   showSingleOrder: boolean;
   setShowSingleOrder: (show: boolean) => void;
 }
+
+
 interface TableType<T> {
   selectedProduct: T | null;
   setSelectedProduct: (row: T) => void;
@@ -15,7 +19,7 @@ interface TableType<T> {
   setEditProduct: (edit: boolean) => void;
 }
 
-export const useSingleProductStore = create<TableType<any>>((set) => ({
+export const useSingleProductStore = create<TableType<Product>>((set) => ({
   selectedProduct: null,
   setSelectedProduct: (row) => set({ selectedProduct: row }),
 
@@ -25,7 +29,7 @@ export const useSingleProductStore = create<TableType<any>>((set) => ({
   setEditProduct: (edit) => set({ editProduct: edit })
 }));
 
-export const useSingleOrderStore = create<OrderTableType<any>>((set) => ({
+export const useSingleOrderStore = create<OrderTableType<Order>>((set) => ({
   selectedRow: null,
   setSelectedRow: (row) => set({ selectedRow: row }),
   showSingleOrder: false,

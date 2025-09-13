@@ -1,135 +1,158 @@
-"use client"
-import { useEffect, useState } from "react";
-import CartDetails from "./CartDetails";
-import { useQuery } from "@tanstack/react-query";
-import cartloader from "../../../../../public/animations/cartLoader.json";
-import emptyCart from "../../../../../public/animations/emptycart.json";
+import { cookies } from "next/headers";
 import { ShoppingBag } from "lucide-react";
-import Lottie from "lottie-react";
+import CartDetails from "./CartDetails";
 import CartSummary from "./CartSummary";
 import { Product } from "@/lib/types/Product";
-import useCartStore from "@/lib/store/Cart/Cart.store";
-import { getCartProductIdQuery } from "@/lib/services/api/queries";
+import Link from "next/link";
+import { getCartProducts } from "@/lib/services/api/cartprods";
 
+const CartLayout = async () => {
+  // Get cookies on the server
+  const cookieStore = await cookies();
+  const productIdsCookie = cookieStore.get("productIds");
+  const productIds = productIdsCookie ? JSON.parse(productIdsCookie.value) : [];
+  const quantitiesCookie = cookieStore.get("quantities");
+  const initialQuantities = quantitiesCookie
+    ? JSON.parse(quantitiesCookie.value)
+    : {};
 
-const CartLayout = () => {
-  const [quantities, setQuantities] = useState<{ [id: string]: number }>({});
-  const [products, setProducts] = useState<Product[]>([]);
-  const productIds = JSON.parse(localStorage.getItem("productIds") || "[]");
-  const decreaseCartCount = useCartStore((state) => state.decreaseCartCount);
-  const {
-    data: cartproducts,
-    isLoading,
-    isError
-  } = useQuery(getCartProductIdQuery(productIds));
+  // Fetch cart products on the server
+  let cartproducts: Product[] = [];
+  const isLoading = false;
+  let isError = false;
 
-  useEffect(() => {
-    if (cartproducts) {
-      setProducts(cartproducts);
-      const initialQuantities = cartproducts.reduce((acc, product) => {
-        acc[product._id] = 1;
-        return acc;
-      }, {} as { [id: string]: number });
-      setQuantities(initialQuantities);
-    }
-  }, [cartproducts]);
-
-  const handleDelete = (id: string) => {
+  if (productIds.length > 0) {
     try {
-      const existing: string[] = JSON.parse(
-        localStorage.getItem("productIds") || "[]"
-      );
-      if (!existing.includes(id)) {
-        console.warn(`⚠️ Product ID "${id}" not found in localStorage.`);
-        return;
-      }
-      const updated = existing.filter((prodId) => prodId !== id);
-      localStorage.setItem("productIds", JSON.stringify(updated));
-      setProducts((prev) => prev.filter((product) => product._id !== id));
-      decreaseCartCount();
+      cartproducts = await getCartProducts(productIds);
     } catch (error) {
-      console.error("❌ Failed to delete product:", error);
+      console.error("Failed to fetch cart products:", error);
+      isError = true;
     }
+  }
+
+  // Handle delete action
+  const handleDelete = async (id: string) => {
+    "use server";
+
+    const cookieStore = await cookies();
+    const productIdsCookie = cookieStore.get("productIds");
+    const existing = productIdsCookie ? JSON.parse(productIdsCookie.value) : [];
+    const updated = existing.filter((prodId: string) => prodId !== id);
+
+    // Update the cookie
+    cookieStore.set("productIds", JSON.stringify(updated));
+
+    // Revalidate the page to show updated cart
+    // This would typically be done with revalidatePath or revalidateTag
   };
 
-  const handleChangeQuantity = (id: string, quantity: number) => {
+  // Handle quantity change
+  const handleChangeQuantity = async (id: string, quantity: number) => {
+    "use server";
+
     if (quantity < 1) return;
-    setQuantities((prev) => ({
-      ...prev,
-      [id]: quantity
-    }));
+
+    // Update quantities in cookie
+    const cookieStore = await cookies();
+    const quantitiesCookie = cookieStore.get("quantities");
+    const quantities = quantitiesCookie
+      ? JSON.parse(quantitiesCookie.value)
+      : {};
+
+    quantities[id] = quantity;
+
+    // Update the cookie
+    cookieStore.set("quantities", JSON.stringify(quantities));
+
+    return quantity;
   };
 
   return (
-    <div className="grid grid-cols-12 gap-4 mt-18 min-h-screen bg-white">
-      <div className="lg:col-span-8 col-span-12 p-6">
-        <h1 className="text-2xl font-bold font-serif mb-6 flex items-center gap-2">
-          <ShoppingBag className="w-6 h-6" />
-          Your Shopping Cart
-        </h1>
+    <div className="bg-gray-50 min-h-screen py-8 px-4 lg:px-12 mt-12 lg:mt-2">
+      <div className="max-w-full lg:px-18 mx-auto">
+        <div className="flex items-center mb-6">
+          <h1 className="lg:text-3xl text-sm font-light text-gray-800 flex items-center ">
+            <ShoppingBag className="w-8 h-8 mr-4  text-green-600" />
+            Your Shopping Cart
+          </h1>
+          {cartproducts.length > 0 && (
+            <span className="ml-4 bg-green-100 text-green-800 text-sm font-medium px-3 py-1 rounded-full hidden lg:block">
+              {cartproducts.length}{" "}
+              {cartproducts.length === 1 ? "Item" : "Items"}
+            </span>
+          )}
+        </div>
 
-        {isLoading ? (
-          <div className="w-full flex flex-col items-center justify-center py-12">
-            <Lottie
-              animationData={cartloader}
-              className="w-[12rem] h-[12rem] lg:w-[25rem] lg:h-[25rem]"
-            />
-            <p className="text-xl font-bold mt-4">Loading Cart Products...</p>
-          </div>
-        ) : products.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-12 border-r h-[45rem]">
-            <Lottie animationData={emptyCart} className="w-64 h-64" />
-            <h3 className="text-xl font-semibold text-gray-700 mt-4">
-              Your cart is empty
-            </h3>
-            <p className="text-gray-500 mt-2 max-w-md text-center">
-              Looks like you haven&apos;t added any items to your cart yet.
-            </p>
-          </div>
-        ) : (
-          <ul className="space-y-4">
-            {products.map((product) => (
-              <li key={product._id} className="p-4 rounded-lg shadow-sm ">
-                <CartDetails
-                  product={product}
-                  onDelete={handleDelete}
-                  quantity={quantities[product._id] || 1}
-                  handleChangeQuantity={handleChangeQuantity}
-                />
-              </li>
-            ))}
-          </ul>
-        )}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {/* Cart Items */}
+          <div className="lg:col-span-2">
+            <div className=" p-2 rounded-2xl ">
+              {isLoading ? (
+                <div className="w-full flex flex-col items-center justify-center py-12">
+                  <div className="w-[18rem] h-[12rem] lg:w-[18rem] lg:h-[18rem] animate-pulse bg-gray-200 rounded-full" />
+                  <p className="text-lg font-medium mt-4 text-gray-600">
+                    Loading your cart...
+                  </p>
+                </div>
+              ) : cartproducts.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-12">
+                  <div className="w-64 h-64 bg-gray-100 rounded-full flex items-center justify-center">
+                    <ShoppingBag className="w-32 h-32 text-gray-300" />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-gray-700 mt-6">
+                    Your cart feels lonely
+                  </h3>
+                  <p className="text-gray-500 mt-2 text-center max-w-md">
+                    Add some products to make it happy! Start shopping to find
+                    amazing items.
+                  </p>
+                  <Link
+                    href="/products"
+                    className="mt-6 bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 px-6 rounded-full transition-colors"
+                  >
+                    Explore Products
+                  </Link>
+                </div>
+              ) : (
+                <ul className="space-y-4">
+                  {cartproducts.map((product) => (
+                    <li key={product._id}>
+                      <CartDetails
+                        product={product}
+                        quantity={initialQuantities[product._id] || 1}
+                        onDelete={handleDelete}
+                        handleChangeQuantity={handleChangeQuantity}
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
 
-        {isError && (
-          <div className="flex flex-col items-center justify-center py-12 bg-red-50 rounded-lg">
-            <h3 className="text-xl font-semibold text-red-600">
-              Failed to load cart products
-            </h3>
-            <p className="text-gray-600 mt-2">
-              Please try refreshing the page or contact support if the problem
-              persists.
-            </p>
-          </div>
-        )}
-      </div>
-
-      <div className="lg:col-span-4 col-span-12 p-6 mt-14">
-        {products.length > 0 ? (
-          <CartSummary products={products} quantities={quantities} />
-        ) : (
-          <div className=" p-6 ">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              Order Summary
-            </h3>
-            <div className="flex flex-col items-center justify-center py-8">
-              <ShoppingBag className="w-12 h-12 text-gray-400 mb-4" />
-              <p className="text-gray-500 text-center">
-                Add items to your cart to see order summary
-              </p>
+              {isError && (
+                <div className="bg-red-50 p-4 mt-4 rounded-lg border border-red-100">
+                  <h3 className="text-red-700 font-medium flex items-center">
+                    <span className="mr-2">✕</span>
+                    Failed to load cart products
+                  </h3>
+                  <p className="text-sm text-red-600 mt-1">
+                    There was an issue loading your cart items. Please try
+                    refreshing the page.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-        )}
+
+          {/* Order Summary */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-6">
+              <CartSummary
+                products={cartproducts}
+                quantities={initialQuantities}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

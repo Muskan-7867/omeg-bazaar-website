@@ -1,123 +1,60 @@
-"use client";
-import React, { useState } from "react";
-import Image, { StaticImageData } from "next/image";
+
+import React from "react";
 import { FaInstagram } from "react-icons/fa";
-import { All, cosmetic } from "@/constants/imagePath";
 import Link from "next/link";
 
 type VideoPost = {
-  type: "video";
   videoSrc: string;
-  thumbnail: string | StaticImageData;
-};
-
-type ImagePost = {
-  type: "image";
-  src: string | StaticImageData;
 };
 
 const InstaSection = () => {
   const videosLeft: VideoPost[] = [
-    {
-      type: "video",
-      videoSrc:
-        "https://cdn.shopify.com/videos/c/o/v/4915dab224064cd492e7ed98ef925c35.webm",
-      thumbnail: cosmetic,
-    },
-    {
-      type: "video",
-      videoSrc:
-        "https://cdn.shopify.com/videos/c/o/v/4915dab224064cd492e7ed98ef925c35.webm",
-      thumbnail: All,
-    },
+    { videoSrc: "https://res.cloudinary.com/debzdd4wk/video/upload/v1757587381/omeg_wkftne.mp4" },
+    { videoSrc: "https://res.cloudinary.com/debzdd4wk/video/upload/v1757587387/omeg1_xmhp3m.mp4" },
   ];
 
   const videosRight: VideoPost[] = [
-    {
-      type: "video",
-      videoSrc:
-        "https://cdn.shopify.com/videos/c/o/v/4915dab224064cd492e7ed98ef925c35.webm",
-      thumbnail: cosmetic,
-    },
-    {
-      type: "video",
-      videoSrc:
-        "https://cdn.shopify.com/videos/c/o/v/4915dab224064cd492e7ed98ef925c35.webm",
-      thumbnail: All,
-    },
-     {
-      type: "video",
-      videoSrc:
-        "https://cdn.shopify.com/videos/c/o/v/4915dab224064cd492e7ed98ef925c35.webm",
-      thumbnail: cosmetic,
-    },
+    { videoSrc: "https://res.cloudinary.com/debzdd4wk/video/upload/v1757587468/omeg2_wvma4c.mp4" },
+    { videoSrc: "https://res.cloudinary.com/debzdd4wk/video/upload/v1757579184/uploads/tfrpewpvyxlfrixn0zea.mp4" },
   ];
 
-  const centerImage: ImagePost = {
-    type: "image",
-    src: cosmetic,
-  };
-
-  const [hoverIndex, setHoverIndex] = useState<string | null>(null);
+  const allVideos = [...videosLeft, ...videosRight];
 
   const renderVideo = (post: VideoPost, id: string) => (
-    <div
-      key={id}
-      className="relative w-[300px] aspect-square flex-shrink-0 overflow-hidden group cursor-pointer"
-      onMouseEnter={() => setHoverIndex(id)}
-      onMouseLeave={() => setHoverIndex(null)}
-    >
-      {hoverIndex === id ? (
-        <video
-          src={post.videoSrc}
-          autoPlay
-          muted
-          loop
-          className="w-full h-full object-cover"
-        />
-      ) : (
-        <Image
-          src={post.thumbnail}
-          alt="Video thumbnail"
-          fill
-          className="object-cover group-hover:scale-105 transition-transform duration-300"
-        />
-      )}
+    <div key={id} className="relative w-full aspect-square overflow-hidden rounded-lg">
+      <video
+        src={post.videoSrc}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="w-full h-full object-cover"
+      />
     </div>
   );
 
   return (
-    <div className="py-4 md:px-8 px-8 min-h-screen md:min-h-0 md:h-auto">
+    <div className="py-14 px-4 md:px-8  md:min-h-0 md:h-auto">
       <div className="text-center mb-8 md:mb-12">
-        <h2 className="text-2xl text-black md:text-3xl font-bold uppercase mb-4">
+        <h2 className="text-xl md:text-3xl font-light uppercase mb-4">
           VISIT OUR INSTAGRAM DIARIES
         </h2>
-        <p className="text-md md:text-xl text-black">
+        <p className="text-md md:text-xl">
           Follow To Know More{" "}
-          <span className="text-primary">@omegbazaar</span>
+          <Link
+            href="https://www.instagram.com/omegbazaar?igsh=MWdhNjc4djJ3aDdxYg=="
+            className="text-primary underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @omegbazaar
+          </Link>
         </p>
       </div>
 
-      {/* Posts in one horizontal line */}
-      <div className="flex gap-2 overflow-x-auto no-scrollbar max-w-full mx-auto">
-        {/* Left videos */}
-        {videosLeft.map((v, i) => renderVideo(v, `left-${i}`))}
-
-        {/* Center image */}
-        <div className="relative w-[300px] aspect-square flex-shrink-0 overflow-hidden group">
-          <Image
-            src={centerImage.src}
-            alt="Instagram post"
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-            <FaInstagram className="text-white text-4xl drop-shadow-lg" />
-          </div>
-        </div>
-
-        {/* Right videos */}
-        {videosRight.map((v, i) => renderVideo(v, `right-${i}`))}
+      {/* Responsive grid: 2 columns on mobile, horizontal scroll on md+ */}
+      <div className="grid grid-cols-2 gap-4 md:flex md:flex-nowrap md:overflow-x-auto md:gap-2 max-w-full mx-auto lg:px-18">
+        {allVideos.map((v, i) => renderVideo(v, `video-${i}`))}
       </div>
 
       {/* Mobile call to action */}

@@ -9,7 +9,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 export default function MusicBanner() {
   const ref = useRef(null);
 
-  // Track scroll progress for this section
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],

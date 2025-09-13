@@ -1,17 +1,20 @@
+"use client";
 import PaymentSummary from "./PaymentSummary";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
 import SummaryDetails from "./SummaryDetails";
-
 import useOrderHandler from "@/hooks/cartorder/useOrderHandler";
 import OrderConfirmPopUp from "./OrderConfirmPopUp";
 import useCurrentUserStore from "@/lib/store/User/user.store";
 import { AddressFormData, CurrentUser } from "@/lib/types/auth";
 import { Product } from "@/lib/types/Product";
+import { useRouter } from "next/navigation";
 
 // In CartSummary.tsx
-export type PaymentType = "online_payment" | "cash_on_delivery" | "razorpay" | "Razorpay";
+export type PaymentType =
+  | "online_payment"
+  | "cash_on_delivery"
+  | "razorpay"
+  | "Razorpay";
 
 interface CartSummaryProps {
   products: Product[];
@@ -24,7 +27,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ products, quantities }) => {
     currentUserFromStore: CurrentUser;
   };
 
-  const navigate = useNavigate();
+  const navigate = useRouter();
   const [loginMsg, setLoginMsg] = useState(false);
   const [paymentMethod, setPaymentMethod] =
     useState<PaymentType>("online_payment");
@@ -33,7 +36,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ products, quantities }) => {
   const [loading, setLoading] = useState(false);
 
   const subtotal = products.reduce((acc, product) => {
-    const qty = quantities[product._id] || 1;
+    const qty = quantities?.[product._id] || 1;
     return acc + product.price * qty;
   }, 0);
 
@@ -50,15 +53,14 @@ const CartSummary: React.FC<CartSummaryProps> = ({ products, quantities }) => {
 
   const total = subtotal + roundedDeliveryCharges;
 
-  const totalQuantity = Object.values(quantities).reduce(
-    (acc, qty) => acc + qty,
-    0
-  );
+  const totalQuantity = quantities && typeof quantities === 'object' 
+    ? Object.values(quantities).reduce((acc, qty) => acc + qty, 0)
+    : products.length;
 
   const orderItems = products.map((product) => ({
     product: product._id,
     price: product.price,
-    quantity: quantities[product._id] || 1
+    quantity: quantities?.[product._id] || 1
   }));
 
   // Fix: Ensure address is either AddressFormData or undefined
@@ -71,7 +73,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ products, quantities }) => {
     quantity: totalQuantity,
     totalQuantity,
     totalPrice: total,
-     expectedDeliveryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    expectedDeliveryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
     address,
     orderItems,
     status: "pending",
@@ -103,14 +105,14 @@ const CartSummary: React.FC<CartSummaryProps> = ({ products, quantities }) => {
         })
       );
       setTimeout(() => {
-        navigate("/login");
+        navigate.push("/auth/login");
       }, 1000);
 
       return;
     }
 
     if (!address) {
-      navigate("/addressform");
+      navigate.push("/addressform");
       return;
     }
 
@@ -123,9 +125,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ products, quantities }) => {
 
   return (
     <div className="w-full mx-auto">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-4 font-serif text-primary">
-        Cart Summary
-      </h1>
+      <h1 className="text-2xl font-light mb-4  text-primary">Cart Summary</h1>
 
       {loginMsg && (
         <div className="mb-4 p-4 bg-yellow-100 text-yellow-700 rounded">

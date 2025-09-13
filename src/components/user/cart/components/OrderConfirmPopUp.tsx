@@ -1,9 +1,8 @@
-import { useNavigate } from "react-router-dom";
-
 import { useState } from "react";
-import { CurrentUser } from "@/types/auth";
-import { OrderData, Product } from "@/types/Product";
 import useOrderHandler from "@/hooks/cartorder/useOrderHandler";
+import { CurrentUser } from "@/lib/types/auth";
+import { OrderData, Product } from "@/lib/types/Product";
+import { useRouter } from "next/navigation";
 
 
 interface Props {
@@ -25,7 +24,7 @@ const OrderConfirmPopUp = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+  const navigate = useRouter();
 
   const { handlePlaceOrder } = useOrderHandler({
     orderData,
@@ -191,7 +190,7 @@ const OrderConfirmPopUp = ({
                 className="px-5 py-2.5 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors flex-1 flex items-center justify-center"
                 onClick={() => {
                   setShowConfirmPopUp(false);
-                  navigate("/addressform");
+                  navigate.push("/addressform");
                 }}
                 disabled={loading}
               >

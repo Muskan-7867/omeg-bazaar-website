@@ -31,7 +31,7 @@ export interface Product {
   [key: string]: unknown;
   quantity: number;
   totalProduct: number;
-  deliveryCharges: number;
+  deliveryCharges?: number;
 }
 
 export interface Category {
@@ -76,12 +76,12 @@ export interface EditProductData {
   slug: string;
   price: number | string;
   inStock: boolean;
-  category: string;
+  category: string | { _id: string; name: string }; 
   deliveryCharges: number;
 }
 
 export interface OrderItem {
-  product: string | Product;
+  product: Product;
   price: number;
   quantity: number;
 }

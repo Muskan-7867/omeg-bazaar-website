@@ -1,4 +1,9 @@
-const PaymentPopUp = ({ popup }: { popup: any }) => {
+interface popup {
+
+  type: string;
+  message: string;
+}
+const PaymentPopUp = ({ popup }: { popup: popup }) => {
   return (
     <div
       className={`fixed inset-0 flex items-center justify-center z-50 backdrop-blur-xl bg-opacity-50`}

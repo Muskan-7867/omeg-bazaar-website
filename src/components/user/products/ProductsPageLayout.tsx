@@ -19,12 +19,19 @@ type Props = {
     category: string;
     search: string | null;
   };
+   onFilterChange?: (filters: {
+    minPrice: number;
+    maxPrice: number;
+    category: string;
+    search: string | null;
+  }) => void;
 };
 
 export default function ProductsPageLayout({
   initialProducts,
   initialTotal,
-  initialFilters
+  initialFilters,
+  onFilterChange
 }: Props) {
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [totalProducts, setTotalProducts] = useState(initialTotal);
@@ -78,12 +85,15 @@ export default function ProductsPageLayout({
           setSearch(effectiveSearch);
 
           // Notify parent component of the filter change
-          onFilterChange({
-            minPrice: initialFilters.minPrice,
-            maxPrice: initialFilters.maxPrice,
-            category: effectiveCategory,
-            search: effectiveSearch
-          });
+         if (onFilterChange) {
+  onFilterChange({
+    minPrice: initialFilters.minPrice,
+    maxPrice: initialFilters.maxPrice,
+    category: effectiveCategory,
+    search: effectiveSearch
+  });
+}
+
         } catch (error) {
           console.error("URL-based fetch error:", error);
         } finally {
@@ -93,7 +103,18 @@ export default function ProductsPageLayout({
     };
 
     fetchProductsBasedOnUrl();
-  }, [categoryFromUrl, subcategoryFromUrl]);
+  }, [
+    onFilterChange,
+    initialFilters.category,
+    initialFilters.minPrice,
+    initialFilters.maxPrice,
+    initialFilters.search,
+    limit,
+    category,
+    categoryFromUrl,
+    search,
+    subcategoryFromUrl
+  ]);
 
   // Handle filter changes from FilterBar (excluding page changes)
   useEffect(() => {
@@ -197,7 +218,7 @@ export default function ProductsPageLayout({
           </div>
         ) : products.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-1 sm:gap-6">
               {products.map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}

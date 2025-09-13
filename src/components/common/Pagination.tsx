@@ -1,4 +1,6 @@
-import { useQueryState } from "nuqs";
+"use client";
+
+import { useSearchParams, useRouter } from "next/navigation";
 
 interface PaginationProps {
   totalProducts: number;
@@ -9,10 +11,17 @@ const Pagination: React.FC<PaginationProps> = ({
   totalProducts,
   productPerPage,
 }) => {
-  // nuqs stores everything as string → parse to number
-  const [page, setPage] = useQueryState("page", { defaultValue: "1" });
-  const currentPage = Number(page);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const currentPage = Number(searchParams.get("page")) || 1;
   const totalPages = Math.max(1, Math.ceil(totalProducts / productPerPage));
+
+  const updatePage = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    router.push(`?${params.toString()}`);
+  };
 
   const getVisiblePages = () => {
     const visiblePages: (number | "...")[] = [];
@@ -38,24 +47,12 @@ const Pagination: React.FC<PaginationProps> = ({
 
   const visiblePages = getVisiblePages();
 
-  const handleNext = () => {
-    if (currentPage < totalPages) {
-      setPage((currentPage + 1).toString());
-    }
-  };
-
-  const handlePrevious = () => {
-    if (currentPage > 1) {
-      setPage((currentPage - 1).toString());
-    }
-  };
-
   return (
     <div className="w-full flex justify-center mt-10 scrollbar-hide">
       <div className="flex gap-2 px-4 py-2 rounded-md items-center overflow-x-auto scrollbar-hide">
         {/* Prev Button */}
         <button
-          onClick={handlePrevious}
+          onClick={() => updatePage(currentPage - 1)}
           disabled={currentPage === 1}
           className={`px-3 py-1 rounded-md shrink-0 ${
             currentPage === 1
@@ -81,7 +78,7 @@ const Pagination: React.FC<PaginationProps> = ({
           return (
             <button
               key={pageItem}
-              onClick={() => setPage(pageItem.toString())}
+              onClick={() => updatePage(pageItem)}
               className={`px-4 py-2 rounded-md shrink-0 ${
                 isCurrent
                   ? "bg-white text-primary shadow-xl font-bold"
@@ -95,7 +92,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
         {/* Next Button */}
         <button
-          onClick={handleNext}
+          onClick={() => updatePage(currentPage + 1)}
           disabled={currentPage === totalPages}
           className={`px-3 py-1 rounded-md shrink-0 ${
             currentPage === totalPages

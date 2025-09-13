@@ -121,6 +121,8 @@ const AddCategoryForm = () => {
               src={URL.createObjectURL(img)}
               className="h-32 w-32 object-cover bg-gray-100 rounded"
               alt={`Preview ${index + 1}`}
+              width={200}
+              height={200}
             />
           ))}
         </div>
