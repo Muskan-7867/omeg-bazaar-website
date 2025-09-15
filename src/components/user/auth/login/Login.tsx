@@ -121,7 +121,7 @@ const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
   return (
     <ScreenHandler>
       <div className="min-h-screen flex justify-center items-center bg-white">
-        <div className="w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] border border-gray-300 flex flex-col md:flex-row relative rounded-lg overflow-hidden">
+        <div className="w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] lg:border border-gray-300 flex flex-col md:flex-row relative rounded-lg overflow-hidden">
           {successMessage && <SuccessMessage successMessage={successMessage} />}
 
           {/* Left panel with Lottie animation */}

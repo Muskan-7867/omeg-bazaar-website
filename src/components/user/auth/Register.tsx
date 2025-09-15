@@ -83,9 +83,9 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-white">
-      <div className="w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] border border-gray-300 flex flex-col md:flex-row rounded-lg overflow-hidden">
+      <div className="w-[90%] md:w-[70%] lg:w-[60%] xl:w-[50%] lg:border border-gray-300 flex flex-col md:flex-row rounded-lg overflow-hidden">
         {/* Left side - Animation */}
-        <div className="hidden md:block md:w-1/2  p-8 lg:flex items-center justify-center">
+        <div className="hidden md:block md:w-1/2 p-8 lg:flex items-center justify-center">
           <div className="text-black text-center">
             <h2 className="text-3xl font-light mb-4 tracking-wide  drop-shadow-xs">
               Welcome to <span >Omeg Bazaar!</span>

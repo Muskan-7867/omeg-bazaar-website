@@ -62,10 +62,11 @@ const Contact = () => {
         </div>
 
         {/* Main Content */}
-        <div className="w-full bg-white  border border-gray-200 overflow-hidden mb-12">
-          <div className="grid grid-cols-1 lg:grid-cols-3">
+        {/* Main Content */}
+        <div className="w-full bg-white border border-gray-200 overflow-hidden mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2">
             {/* Contact Form */}
-            <div className="lg:col-span-2 p-6 md:p-8 border-r border-gray-200">
+            <div className="p-6 md:p-8 border-r border-gray-200">
               <h2 className="text-2xl font-bold text-gray-800 mb-6">
                 Send us a message
               </h2>

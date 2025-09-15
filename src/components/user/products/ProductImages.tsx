@@ -48,12 +48,7 @@ export default function ProductImages({
     }
   };
 
-  // Mobile tap-to-zoom toggle
-  const toggleZoom = () => {
-    if (isMobileView && selectedType === "image") {
-      setIsZoomed(!isZoomed);
-    }
-  };
+ 
 
   return (
     <div className="lg:col-span-7 flex flex-col lg:flex-row gap-4 mt-0 bg-white">
@@ -102,7 +97,7 @@ export default function ProductImages({
         onMouseEnter={() => !isMobileView && selectedType === "image" && setIsHovering(true)}
         onMouseLeave={() => !isMobileView && setIsHovering(false)}
         onMouseMove={handleMouseMove}
-        onClick={toggleZoom}
+       
       >
         <div
           className={`w-full h-64 sm:h-80 md:h-96 lg:h-[40rem] relative overflow-hidden rounded-lg border border-gray-200 ${
@@ -161,7 +156,7 @@ export default function ProductImages({
                   setSelectedType(media.type || "image");
                   setIsZoomed(false);
                 }}
-                className={`flex-shrink-0 overflow-hidden rounded-md border-2 w-20 h-20 transition-all ${
+                className={`flex-shrink-0 overflow-hidden rounded-sm border-2 w-14 h-14 transition-all ${
                   selectedImg === media.url
                     ? "border-blue-500 shadow-md"
                     : "border-gray-200 hover:border-gray-400"

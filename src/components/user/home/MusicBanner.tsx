@@ -9,10 +9,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 export default function MusicBanner() {
   const ref = useRef(null);
 
-
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"],
+    offset: ["start end", "end start"]
   });
 
   // Horizontal parallax effect
@@ -38,7 +37,7 @@ export default function MusicBanner() {
         </motion.div>
 
         {/* Blur stays fixed */}
-        <div className="absolute inset-0 backdrop-blur-md" />
+        <div className="absolute inset-0 backdrop-blur-md pointer-events-none" />
       </div>
 
       {/* Content */}
@@ -55,8 +54,9 @@ export default function MusicBanner() {
           <Button className="mt-8" />
         </div>
 
+
         {/* Right - Model Image */}
-        <div className="flex items-end">
+        <div className="flex items-end pointer-events-none">
           <div className="w-full h-full overflow-hidden">
             <div className="absolute bottom-0 right-0 flex flex-col h-full overflow-hidden">
               <Image
@@ -64,7 +64,7 @@ export default function MusicBanner() {
                 alt="Corn on the cob"
                 width={800}
                 height={800}
-                className="w-auto h-full object-cover"
+                className="w-auto h-full object-cover pointer-events-none"
               />
             </div>
           </div>

@@ -14,24 +14,31 @@ const InstaSection = () => {
   ];
 
   const videosRight: VideoPost[] = [
-    { videoSrc: "https://res.cloudinary.com/debzdd4wk/video/upload/v1757587468/omeg2_wvma4c.mp4" },
+    { videoSrc: "https://res.cloudinary.com/debzdd4wk/video/upload/rgrgr_c7hotx.mp4" },
     { videoSrc: "https://res.cloudinary.com/debzdd4wk/video/upload/v1757579184/uploads/tfrpewpvyxlfrixn0zea.mp4" },
   ];
 
   const allVideos = [...videosLeft, ...videosRight];
 
-  const renderVideo = (post: VideoPost, id: string) => (
-    <div key={id} className="relative w-full aspect-square overflow-hidden rounded-lg">
-      <video
-        src={post.videoSrc}
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="w-full h-full object-cover"
-      />
-    </div>
-  );
+ const renderVideo = (post: VideoPost, id: string) => (
+  <Link
+    key={id}
+    href="https://www.instagram.com/omegbazaar?igsh=MWdhNjc4djJ3aDdxYg=="
+    target="_blank"
+    rel="noopener noreferrer"
+    className="relative w-full aspect-[3/4] overflow-hidden  block"
+  >
+    <video
+      src={post.videoSrc}
+      autoPlay
+      muted
+      loop
+      playsInline
+      className="w-full h-full object-cover cursor-pointer"
+    />
+  </Link>
+);
+
 
   return (
     <div className="py-14 px-4 md:px-8  md:min-h-0 md:h-auto">
