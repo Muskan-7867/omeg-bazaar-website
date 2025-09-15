@@ -1,9 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import ProductCard from "@/components/common/ProductCard";
 import { Product } from "@/lib/types/Product";
-import { BASE_URL } from "@/lib/services/api/fetchers";
+import { getRelatedProducts } from "@/lib/services/api/fetchers";
 
 interface RelatedProductsProps {
   categoryId: string;
@@ -15,41 +14,24 @@ export default function RelatedProducts({ categoryId, currentProductId }: Relate
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchRelatedProducts = async () => {
-      if (!categoryId) return;
+    const fetchProducts = async () => {
       setLoading(true);
-      try {
-        const res = await axios.get<{ success: boolean; products: Product[] }>(
-          `${BASE_URL}/api/v1/product/categoryid/${categoryId}`
-        );
-
-        if (res.data.success && res.data.products.length) {
-          // Remove current product
-          const filtered = res.data.products.filter(p => p._id !== currentProductId);
-          // Limit to 8
-          setRelatedProducts(filtered.slice(0, 8));
-        } else {
-          setRelatedProducts([]);
-        }
-      } catch (err) {
-        console.error("Failed to fetch related products:", err);
-        setRelatedProducts([]);
-      } finally {
-        setLoading(false);
-      }
+      const products = await getRelatedProducts(categoryId, currentProductId);
+      setRelatedProducts(products);
+      setLoading(false);
     };
 
-    fetchRelatedProducts();
+    fetchProducts();
   }, [categoryId, currentProductId]);
 
   if (loading) return <p className="py-4 text-center">Loading related products...</p>;
   if (!relatedProducts.length) return <p className="py-4 text-center">No related products found.</p>;
 
   return (
-   <div className="mt-12">
+    <div className="mt-12">
       <h2 className="text-2xl font-semibold mb-6">Related Products</h2>
 
-      {/* Mobile: horizontal scroll, Desktop: grid */}
+      {/* Mobile: horizontal scroll */}
       <div className="sm:hidden overflow-x-auto scrollbar-hide">
         <div className="flex gap-4 px-2">
           {relatedProducts.map((p) => (

@@ -44,7 +44,6 @@ const NewFooter = () => {
           width={500}
           height={500}
           alt=""
-          onClick={() => handleCategoryClick("electronics")}
           src={JuicerJag}
           className="w-[3rem] lg:w-[10rem] md:w-[8rem] aspect-auto cursor-pointer"
         />
@@ -53,7 +52,6 @@ const NewFooter = () => {
           width={500}
           height={500}
           alt=""
-          onClick={() => handleCategoryClick("fashion")}
           src={purse}
           className=" w-[3rem] md:w-[8rem] lg:w-[12rem] aspect-auto cursor-pointer"
         />
@@ -62,7 +60,6 @@ const NewFooter = () => {
           width={500}
           height={500}
           alt=""
-          onClick={() => handleCategoryClick("toys")}
           src={toy}
           className="w-[5rem] md:w-[8rem] lg:w-[12rem] aspect-auto translate-y-6 relative z-10 cursor-pointer"
         />

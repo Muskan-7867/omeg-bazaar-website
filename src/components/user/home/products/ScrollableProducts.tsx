@@ -33,7 +33,7 @@ export default function ScrollableProducts({ products }: ScrollableProductsProps
 
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-2"
+        className="flex gap-2 overflow-x-auto scrollbar-hide scroll-smooth "
       >
         {products.map((product) => (
           <Link key={product._id} href={`/products/${product.slug}`}>

@@ -420,6 +420,25 @@ export const cancelOrder = async (
   }
 };
 
+const getRelatedProducts = async (categoryId: string, currentProductId: string): Promise<Product[]> => {
+  if (!categoryId) return [];
+
+  try {
+    const res = await axios.get<{ success: boolean; products: Product[] }>(
+      `${BASE_URL}/api/v1/product/categoryid/${categoryId}`
+    );
+
+    if (res.data.success && res.data.products.length) {
+      // Remove current product and limit to 8
+      return res.data.products.filter(p => p._id !== currentProductId).slice(0, 8);
+    }
+    return [];
+  } catch (err) {
+    console.error("Failed to fetch related products:", err);
+    return [];
+  }
+};
+
 export {
   fetchUserCategories,
   getProductsByCategory,
@@ -443,5 +462,6 @@ export {
   adminLogin,
   getAdminInfo,
   getClientByOrderId,
-  updateOrder
+  updateOrder,
+  getRelatedProducts
 };

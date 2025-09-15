@@ -6,7 +6,8 @@ import FilterBar from "@/components/common/FilterBar";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+import { BASE_URL } from "@/lib/services/api/fetchers";
+import HeroTextSection from "./HeroTextSection";
 
 type Props = {
   initialProducts: Product[];
@@ -19,7 +20,7 @@ type Props = {
     category: string;
     search: string | null;
   };
-   onFilterChange?: (filters: {
+  onFilterChange?: (filters: {
     minPrice: number;
     maxPrice: number;
     category: string;
@@ -85,15 +86,14 @@ export default function ProductsPageLayout({
           setSearch(effectiveSearch);
 
           // Notify parent component of the filter change
-         if (onFilterChange) {
-  onFilterChange({
-    minPrice: initialFilters.minPrice,
-    maxPrice: initialFilters.maxPrice,
-    category: effectiveCategory,
-    search: effectiveSearch
-  });
-}
-
+          if (onFilterChange) {
+            onFilterChange({
+              minPrice: initialFilters.minPrice,
+              maxPrice: initialFilters.maxPrice,
+              category: effectiveCategory,
+              search: effectiveSearch
+            });
+          }
         } catch (error) {
           console.error("URL-based fetch error:", error);
         } finally {
@@ -104,16 +104,11 @@ export default function ProductsPageLayout({
 
     fetchProductsBasedOnUrl();
   }, [
-    onFilterChange,
-    initialFilters.category,
-    initialFilters.minPrice,
-    initialFilters.maxPrice,
-    initialFilters.search,
+    categoryFromUrl, // ✅ only depend on URL params
+    subcategoryFromUrl,
+    initialFilters,
     limit,
-    category,
-    categoryFromUrl,
-    search,
-    subcategoryFromUrl
+    onFilterChange
   ]);
 
   // Handle filter changes from FilterBar (excluding page changes)
@@ -177,21 +172,18 @@ export default function ProductsPageLayout({
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="w-full bg-gradient-to-r from-[#131921] to-[#232F3E] py-8 px-4 mb-8">
-        <div className="w-full text-center">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
-            {categoryFromUrl ? ` Collection` : "Summer Sale: Up to 50% Off!"}
-          </h1>
-          <p className="text-base sm:text-lg text-white opacity-90 mb-6 max-w-2xl mx-auto">
-            {subcategoryFromUrl
-              ? `Discover our ${subcategoryFromUrl} selection`
-              : "Discover amazing deals on thousands of products"}
-          </p>
-          <button className="bg-white text-gray-900 font-semibold py-2 px-6 sm:py-3 sm:px-8 rounded-lg shadow-lg hover:bg-gray-100">
-            Shop Now
-          </button>
-        </div>
-      </div>
+      <HeroTextSection
+        title={
+          categoryFromUrl
+            ? `${categoryFromUrl} Collection`
+            : "Summer Sale: Up to 50% Off!"
+        }
+        subtitle={
+          subcategoryFromUrl
+            ? `Discover our ${subcategoryFromUrl} selection`
+            : "Discover amazing deals on thousands of products"
+        }
+      />
 
       {/* Filters */}
       <div className="w-full px-4 mb-8">

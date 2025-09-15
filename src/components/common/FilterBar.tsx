@@ -84,41 +84,33 @@ export default function FilterBar({
     <div className="rounded-lg p-2 sm:p-6 mb-8 bg-white max-w-full mx-auto">
       {/* Top Row: Search + Price Range */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-3">
-        {/* Search Input - 50% */}
-        <div className="w-full ">
+        {/* Search input full-width on mobile */}
+        <div className="w-full sm:w-1/2">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 sm:w-5 h-4 sm:h-5" />
             <input
               type="text"
               placeholder="Search products..."
               value={searchQuery}
               onChange={handleSearchChange}
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-full focus:ring-2 focus:ring-gray-600 focus:border-gray-300 outline-none transition-colors text-sm sm:text-base"
+              className="w-full pl-10 pr-4 py-2 text-sm sm:text-base border border-gray-300 rounded-full focus:ring-2 focus:ring-gray-600"
             />
           </div>
         </div>
 
-        <div className="w-full sm:w-1/2 flex items-center gap-3">
-          {/* Price Range Button - Flexible */}
+        {/* Buttons stack nicely */}
+        <div className="w-full sm:w-1/2 flex gap-2 sm:justify-end">
           <button
             onClick={() => setShowPriceSlider(!showPriceSlider)}
-            className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border transition-all ${
-              showPriceSlider
-                ? "bg-indigo-100 text-gray-800 border-indigo-300"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-300"
-            }`}
+            className="flex-1 sm:flex-none px-4 py-2 text-sm sm:text-base rounded-lg border bg-gray-100 hover:bg-gray-200"
           >
-            <DollarSign className="w-4 h-4" />
-            <span className="text-sm font-medium">Price Range</span>
+            💲 Price Range
           </button>
-
-          {/* Reset Button - Fixed width */}
           <button
             onClick={resetFilters}
-            className="flex-none flex items-center justify-center gap-1 text-sm text-gray-500 hover:text-gray-800 transition-colors px-3 py-2 rounded-lg hover:bg-indigo-50"
+            className="flex-1 sm:flex-none px-3 py-2 text-sm text-gray-600 hover:text-gray-900 border rounded-lg hover:bg-gray-50"
           >
-            <RotateCcw className="w-4 h-4" />
-            Reset
+            ♻ Reset
           </button>
         </div>
       </div>

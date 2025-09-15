@@ -4,10 +4,9 @@ import { Product } from "@/lib/types/Product";
 import Cookies from "js-cookie";
 import useProductReviews from "@/hooks/useProductReviews";
 import ProductImages from "./ProductImages";
-
-import RelatedProducts from "./RelatedProducts";
 import ProductDetails from "./ProductDetailes";
 import ReviewsSection from "./ReviewSection";
+import RelatedProducts from "./RelatedProducts";
 
 interface Props {
   product: Product;
@@ -30,11 +29,8 @@ export default function SingleProductPage({ product }: Props) {
     <div className="w-full bg-white p-4 lg:mt-4 mt-14 lg:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 ">
-          <ProductImages 
-            images={product.images} 
-            productName={product.name} 
-          />
-          
+          <ProductImages images={product.images} productName={product.name} />
+
           <ProductDetails
             product={product}
             averageRating={averageRating}
@@ -52,10 +48,11 @@ export default function SingleProductPage({ product }: Props) {
         />
       </div>
 
-      <RelatedProducts
-        categoryId={product.category}
-        currentProductId={product._id}
-      />
+        <RelatedProducts
+          categoryId={product.category}
+          currentProductId={product._id}
+        />
+
     </div>
   );
 }

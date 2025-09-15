@@ -23,7 +23,8 @@ import bg from "../../public/images/bg2.png"
 import graphone from "../../public/images/graphone.png";
 import graph2 from "../../public/images/graph2.png";
 import graph3 from "../../public/images/graph3.png";
-
+import mobileban from '../../public/images/newban.jpg'
+import mobileban2 from '../../public/images/mobileban3.png'
 export {
   Bag,
   laptop,
@@ -49,5 +50,7 @@ export {
   graph3,
 
   bg,
-  model
+  model,
+  mobileban,
+  mobileban2
 };

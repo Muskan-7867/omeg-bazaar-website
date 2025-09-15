@@ -58,7 +58,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <article
-      className="w-80 bg-white shadow-sm hover:shadow-md transition p-3 flex flex-col"
+      className="lg:w-82 w-full bg-white transition p-1 flex flex-col"
       itemScope
       itemType="https://schema.org/Product"
     >

@@ -19,8 +19,9 @@ export default function HomePage() {
       <Electronics />
       <HeroSection />
       <BeautySection />
-      <InstaSection />
+    
       <OurApp />
+        <InstaSection />
     </div>
   );
 }
