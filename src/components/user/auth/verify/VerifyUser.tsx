@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { MdVerified } from "react-icons/md";
@@ -14,7 +15,7 @@ const VerifyEmailScreen = () => {
 
   useEffect(() => {
     if (!userId || !email) {
-      router.push("/register");
+      router.push("/auth/register");
     }
   }, [userId, email, router]);
 
@@ -49,10 +50,10 @@ const VerifyEmailScreen = () => {
         onVerificationSuccess={() => {
           setIsVerified(true);
           setTimeout(() => {
-            router.push("/login?message=Email%20verified%20successfully!%20Please%20login.");
+            router.push("/auth/login?message=Email%20verified%20successfully!%20Please%20login.");
           }, 2000);
         }}
-        onBackToRegister={() => router.push("/register")}
+        onBackToRegister={() => router.push("/auth/register")}
       />
     </div>
   );

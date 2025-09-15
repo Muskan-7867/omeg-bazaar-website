@@ -29,63 +29,56 @@ const Login = () => {
   const queryClient = useQueryClient();
   const { reFetch } = useCurrentUserStore();
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
+ const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setErrorMessage(null);
+  setShowPasswordHint(false);
 
-    const validatePassword = (password: string) => {
-      const passwordRegex =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^+=])[A-Za-z\d@$!%*?&#^+=]{8,}$/;
-      return passwordRegex.test(password);
+  try {
+    const formData = new FormData(e.currentTarget);
+    const userData = {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string
     };
 
-    try {
-      const formData = new FormData(e.currentTarget);
-      const userData = {
-        email: formData.get("email") as string,
-        password: formData.get("password") as string
-      };
-
-      if (!validatePassword(userData.password)) {
-        setErrorMessage("Invalid password format");
-        setShowPasswordHint(true);
-        return;
-      }
-
-      const data = await loginUser(userData);
-      if (data.token) {
-        Cookies.set("authToken", data.token, { expires: 7 });
-      }
-
-      reFetch();
-      await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-      await queryClient.refetchQueries({ queryKey: ["currentUser"] });
-
-      setSuccessMessage("Login successful! Redirecting...");
-      setErrorMessage(null);
-
-      let redirectPath = "/";
-      const loginFrom = sessionStorage.getItem("loginFrom");
-      const prevPath = sessionStorage.getItem("prevPath");
-
-      if (loginFrom === "dashboard") {
-        redirectPath = "/";
-      } else if (prevPath) {
-        redirectPath = prevPath;
-      }
-
-      sessionStorage.removeItem("loginFrom");
-      sessionStorage.removeItem("prevPath");
-
-      navigate.push(redirectPath);
-    } catch {
-      console.error("Login error:");
-      setErrorMessage("Login failed. Please try again.");
-      setShowPasswordHint(true);
-    } finally {
-      setIsLoading(false);
+    const data = await loginUser(userData);
+    
+    if (data.token) {
+      Cookies.set("authToken", data.token, { expires: 7 });
     }
-  };
+
+    reFetch();
+    await queryClient.invalidateQueries({ queryKey: ["currentUser"] });
+    await queryClient.refetchQueries({ queryKey: ["currentUser"] });
+
+    setSuccessMessage("Login successful! Redirecting...");
+
+    let redirectPath = "/";
+    const loginFrom = sessionStorage.getItem("loginFrom");
+    const prevPath = sessionStorage.getItem("prevPath");
+
+    if (loginFrom === "dashboard") {
+      redirectPath = "/";
+    } else if (prevPath) {
+      redirectPath = prevPath;
+    }
+
+    sessionStorage.removeItem("loginFrom");
+    sessionStorage.removeItem("prevPath");
+
+    navigate.push(redirectPath);
+  } catch  {
+    console.error("Login error:");
+    setErrorMessage(
+     "Login failed. Please try again."
+    );
+    
+  
+  } finally {
+    setIsLoading(false);
+  }
+};
 
 const handleForgotPassword = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();

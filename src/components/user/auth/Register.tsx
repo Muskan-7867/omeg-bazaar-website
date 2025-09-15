@@ -67,7 +67,7 @@ const Register = () => {
         setUserId(data.userId);
         setRegistrationSuccess(true);
         router.push(
-          `/verifyuser?userId=${data.userId}&email=${encodeURIComponent(email)}`
+          `/auth/verify?userId=${data.userId}&email=${encodeURIComponent(email)}`
         );
       }
     } catch {
@@ -124,6 +124,8 @@ const Register = () => {
                 placeholder="Username"
                 className="w-full pl-10 pr-4 py-2 text-xs border-b-2 border-gray-500 focus:outline-none focus:border-primary"
                 required
+                 pattern="^[A-Za-z_]+$" 
+                title="Username can only contain letters and underscores"
                 minLength={3}
               />
             </div>
