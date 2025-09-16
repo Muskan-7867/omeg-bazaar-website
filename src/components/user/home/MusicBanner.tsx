@@ -16,16 +16,16 @@ export default function MusicBanner() {
 
   // Horizontal parallax effect
   const x = useTransform(scrollYProgress, [0, 1], ["-100px", "100px"]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1.1, 1]);
+  const scale = useTransform(scrollYProgress, [0, 1], [3, 1]);
 
   return (
     <section
       ref={ref}
-      className="relative w-full h-[35rem] mt-8 overflow-hidden"
+      className="relative w-full h-[35rem] my-18 overflow-hidden"
     >
       {/* Background wrapper (fixed) */}
       <div className="absolute inset-0 w-full flex justify-end overflow-hidden">
-        {/* Only the background image moves */}
+   
         <motion.div style={{ x, scale }} className="h-full w-full">
           <Image
             src={bg}

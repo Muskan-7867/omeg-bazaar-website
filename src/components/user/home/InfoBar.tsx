@@ -1,34 +1,35 @@
 
-import { Truck, ShoppingBasket, Headphones, Smartphone } from "lucide-react";
 import Link from "next/link";
+import { CiDeliveryTruck, CiShoppingBasket } from "react-icons/ci";
+import { PiHeadphonesLight, PiPhoneCallLight } from "react-icons/pi";
 
 export default function InfoBar() {
   const items = [
     {
-      icon: <Truck className="lg:w-10 lg:h-10 w-6 h-6 text-primary" />,
+      icon: <CiDeliveryTruck className="lg:w-10 lg:h-10 w-6 h-6 font-thin text-primary" />,
       title: "Free Delivery",
-      subtitle: "To Your Door"
+      subtitle: "to your door"
     },
     {
-      icon: <ShoppingBasket className="lg:w-10 lg:h-10 w-6 h-6 text-primary" />,
+      icon: <CiShoppingBasket className="lg:w-10 lg:h-10 w-6 h-6 text-primary" />,
       title: "Local Pickup",
       subtitle: (
         <>
-          Check Out <Link href="#">Locations</Link>
+          check out <Link href="#">locations</Link>
         </>
       )
     },
     {
-      icon: <Headphones className="lg:w-10 lg:h-10 w-6 h-6 text-primary" />,
+      icon: <PiHeadphonesLight className="lg:w-10 lg:h-10 w-6 h-6 text-primary" />,
       title: "Available for You",
       subtitle: (
         <>
-          <Link href="#">Online Support</Link> 24/7
+          <Link href="#">online support</Link> 24/7
         </>
       )
     },
     {
-      icon: <Smartphone className="lg:w-10 lg:h-10 w-6 h-6 text-primary" />,
+      icon: <PiPhoneCallLight className="lg:w-10 lg:h-9 w-6 h-6 text-primary" />,
       title: "Order on the Go",
       subtitle: (
         <>
@@ -56,8 +57,8 @@ export default function InfoBar() {
           >
             <div className="flex-shrink-0">{item.icon}</div>
             <div>
-              <h3 className="font-semibold lg:text-lg text-xs text-black">{item.title}</h3>
-              <p className="lg:text-sm text-[9px] text-gray-600">{item.subtitle}</p>
+              <h3 className="font-thin lg:text-lg text-xs text-black">{item.title}</h3>
+              <p className="lg:text-xs text-[9px] text-gray-600">{item.subtitle}</p>
             </div>
           </div>
         ))}

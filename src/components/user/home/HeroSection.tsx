@@ -10,15 +10,15 @@ export default function HeroSection() {
   return (
     <section
       ref={ref}
-      className="relative w-full bg-white mt-8 hidden lg:block overflow-hidden"
+      className="relative w-full bg-white mt-22 hidden lg:block overflow-hidden group"
     >
       {/* Background */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden ">
         <motion.div
-          whileHover={{ x: -20, y: -10, scale: 1.1 }}
+          whileHover={{ x: -20, y: -10, scale: 1.1 }} 
           transition={{ duration: 0.3, ease: "easeOut" }}
           className="relative h-full w-full"
-        >
+        > 
           <Image
             src={hero}
             alt="Shopping Background"

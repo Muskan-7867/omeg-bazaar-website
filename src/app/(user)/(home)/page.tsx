@@ -21,7 +21,7 @@ export default function HomePage() {
       <BeautySection />
     
       <OurApp />
-        <InstaSection />
+      <InstaSection />
     </div>
   );
 }

@@ -58,7 +58,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <article
-      className="w-82 bg-white transition p-1 flex flex-col"
+      className={`w-full md:w-82 max-w-full bg-white transition p-1 flex flex-col`}
       itemScope
       itemType="https://schema.org/Product"
     >
@@ -114,8 +114,12 @@ export default function ProductCard({ product }: ProductCardProps) {
           <FaStar className="text-yellow-500" />
           <FaStar className="text-yellow-500" />
           <FaStar className="text-yellow-500" />
-          <FaStar className="text-gray-300" /> {/* empty star */}
-          <span>(product.ratingCount || 100)</span>
+          <FaStar className="text-gray-300" />
+
+          {product.rating  && (product.rating > 0 ) ?(
+           <span>{product?.rating}</span>
+          ): null
+        }
         </div>
 
         {/* Price */}
@@ -148,14 +152,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           )}
         </p>
 
-        {/* Stock */}
-        <p className="text-xs mt-1">
-          {product.inStock ? (
-            <span className="text-green-600">In Stock</span>
-          ) : (
-            <span className="text-red-600">Out of Stock</span>
-          )}
-        </p>
+  
 
         {/* Add to Cart */}
         <button

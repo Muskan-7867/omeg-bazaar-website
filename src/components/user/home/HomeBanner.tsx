@@ -1,13 +1,15 @@
 "use client";
 import React from "react";
 import Banner from "./Banner";
-import { banner1, banner2, mobileban, mobileban2 } from "@/constants/imagePath";
+import {  mobileban, mobileban2 } from "@/constants/imagePath";
+import { useRouter } from "next/navigation";
 
 
 export default function HomeBanner() {
+  const router = useRouter();
   const desktopImages = [
-    { src: banner1, alt: "Desktop Banner 1" },
-    { src: banner2, alt: "Desktop Banner 2" },
+    { src: "https://res.cloudinary.com/debzdd4wk/image/upload/v1758022712/banner1_zdvaqx.jpg", alt: "Desktop Banner 1" },
+    { src: "https://res.cloudinary.com/debzdd4wk/image/upload/v1758022715/banner2_tdkv8o.jpg", alt: "Desktop Banner 2" },
   ];
 
   const mobileImages = [
@@ -17,7 +19,7 @@ export default function HomeBanner() {
 
   return (
     <div>
-      <Banner desktopImages={desktopImages} mobileImages={mobileImages} />
+      <Banner desktopImages={desktopImages} mobileImages={mobileImages} onButtonClick={() => router.push("/products")} />
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import NewFooter from "@/components/user/footer/NewFooter";
+import Footer from "@/components/user/footer/Footer";
 import CategoryNavbar from "@/components/user/navbar/components/CategoryNavbar";
 import Navbar from "@/components/user/navbar/Navbar";
 import React from "react";
@@ -13,7 +13,7 @@ export default function UserLayout({
       <Navbar />
       <CategoryNavbar />
       {children}
-      <NewFooter />
+      <Footer />
     </div>
   );
 }
