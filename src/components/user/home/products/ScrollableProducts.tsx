@@ -1,7 +1,6 @@
 "use client";
 import { Product } from "@/lib/types/Product";
 import ProductCard from "@/components/common/ProductCard";
-import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
@@ -61,12 +60,12 @@ export default function ScrollableProducts({ products }: ScrollableProductsProps
       {/* Scrollable Row */}
       <div
         ref={scrollRef}
-        className="flex gap-2 overflow-x-auto scrollbar-hide scroll-smooth"
+        className="flex gap-3 w-full overflow-x-auto scrollbar-hide scroll-smooth px-1"
       >
         {products.map((product) => (
-          <Link key={product._id} href={`/products/${product.slug}`}>
+          <div key={product._id} className="flex-shrink-0 w-74">
             <ProductCard product={product} />
-          </Link>
+          </div>
         ))}
       </div>
 

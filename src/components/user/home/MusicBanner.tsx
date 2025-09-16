@@ -1,7 +1,6 @@
 "use client";
-
 import Button from "@/components/common/Button";
-import { bg, model } from "@/constants/imagePath";
+import {  model } from "@/constants/imagePath";
 import Image from "next/image";
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -28,7 +27,7 @@ export default function MusicBanner() {
    
         <motion.div style={{ x, scale }} className="h-full w-full">
           <Image
-            src={bg}
+            src="https://res.cloudinary.com/debzdd4wk/image/upload/v1758023420/bg2_ghwnxd.png"
             alt="Shopping Background"
             height={900}
             width={900}

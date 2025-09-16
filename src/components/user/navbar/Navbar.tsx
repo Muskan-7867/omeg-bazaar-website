@@ -30,7 +30,7 @@ export default async function Navbar() {
   }
 
   return (
-    <div className="w-full flex flex-col fixed top-0 left-0 right-0 z-[100] bg-white border-b text-gray-800">
+    <div className="w-full flex flex-col fixed top-0 left-0 right-0 z-[100] bg-white shadow-sm shadow-black/10 text-gray-800">
       <div className="h-14 flex items-center justify-between px-4 sm:px-6 md:px-8 lg:px-6">
         {/* Left - Logo & Mobile menu */}
         <div className="flex items-center">

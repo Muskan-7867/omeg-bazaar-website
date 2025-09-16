@@ -16,7 +16,7 @@ export default async function BeautySection() {
   const categoryId = products.length > 0 ? products[0].category : null;
 
   return (
-    <section className="p-6 bg-white">
+    <section className="p-6 bg-white my-12">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-800 hover:text-primary text-left">
