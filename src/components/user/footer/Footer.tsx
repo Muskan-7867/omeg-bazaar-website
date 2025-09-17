@@ -11,6 +11,14 @@ const Footer = () => {
     { name: "Products", link: "/products" }
   ];
 
+    const quickShop = [
+    { name: "Home", link: "/" },
+    { name: "About Us", link: "/about" },
+    { name: "Contact", link: "/contact" },
+    { name: "Products", link: "/products" }
+  ];
+
+
   return (
     <div className="bg-transparent w-full">
       <div className="bg-gray-800 h-auto min-h-[25rem] p-6 sm:p-[4rem]">
@@ -44,6 +52,24 @@ const Footer = () => {
               </h3>
               <ul className="space-y-2">
                 {quickLinks.map((item, index) => (
+                  <li key={index}>
+                    <Link
+                      href={item.link}
+                      className="text-white hover:text-black transition duration-300 text-sm"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+               <div className="space-y-6 w-full md:w-auto mx-auto  md:text-left">
+              <h3 className="text-lg text-white font-semibold uppercase tracking-wider">
+                Quick Links
+              </h3>
+              <ul className="space-y-2">
+                {quickShop.map((item, index) => (
                   <li key={index}>
                     <Link
                       href={item.link}
