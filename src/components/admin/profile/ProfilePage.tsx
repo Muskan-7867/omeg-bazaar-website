@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { Loader2, User, Mail, Shield, LogOut, Edit } from "lucide-react";
+import { Loader2, User, Mail, Shield, LogOut } from "lucide-react";
 import { toast } from "react-toastify";
 
 
@@ -87,7 +87,7 @@ export default function ProfilePage() {
         <div className="bg-white rounded-xl shadow-sm overflow-hidden">
           <div className="md:flex">
             {/* Profile Sidebar */}
-            <div className="md:w-1/3 bg-gradient-to-br from-blue-500 to-indigo-600 p-6 text-white">
+            <div className="md:w-1/3 bg-gray-800 p-6 text-white">
               <div className="text-center mb-6">
                 <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-400 mb-4">
                   <User className="w-10 h-10" />
@@ -101,18 +101,12 @@ export default function ProfilePage() {
               </div>
 
               <nav className="mt-8">
-                <button className="w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg bg-blue-700 bg-opacity-25">
+                <button className="w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg bg-white text-black bg-opacity-25">
                   <User className="w-5 h-5 mr-3" />
                   Profile Information
                 </button>
-                <button className="w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg mt-2 hover:bg-blue-700 hover:bg-opacity-25 transition-colors">
-                  <Edit className="w-5 h-5 mr-3" />
-                  Edit Profile
-                </button>
-                <button className="w-full flex items-center px-4 py-3 text-sm font-medium rounded-lg mt-2 hover:bg-blue-700 hover:bg-opacity-25 transition-colors">
-                  <Shield className="w-5 h-5 mr-3" />
-                  Security
-                </button>
+             
+              
               </nav>
             </div>
 
@@ -122,17 +116,14 @@ export default function ProfilePage() {
                 <h2 className="text-2xl font-bold text-gray-800">
                   Profile Details
                 </h2>
-                <button className="flex items-center text-sm text-blue-600 hover:text-blue-800 transition-colors">
-                  <Edit className="w-4 h-4 mr-1" />
-                  Edit
-                </button>
+            
               </div>
 
               {admin ? (
                 <div className="space-y-6">
                   <div className="flex items-start">
                     <div className="bg-blue-100 p-3 rounded-lg mr-4">
-                      <User className="w-5 h-5 text-blue-600" />
+                      <User className="w-5 h-5 text-gray-600" />
                     </div>
                     <div className="flex-1">
                       <h3 className="text-sm font-medium text-gray-500">
@@ -144,7 +135,7 @@ export default function ProfilePage() {
 
                   <div className="flex items-start">
                     <div className="bg-blue-100 p-3 rounded-lg mr-4">
-                      <Mail className="w-5 h-5 text-blue-600" />
+                      <Mail className="w-5 h-5 text-gray-600" />
                     </div>
                     <div className="flex-1">
                       <h3 className="text-sm font-medium text-gray-500">
@@ -156,7 +147,7 @@ export default function ProfilePage() {
 
                   <div className="flex items-start">
                     <div className="bg-blue-100 p-3 rounded-lg mr-4">
-                      <Shield className="w-5 h-5 text-blue-600" />
+                      <Shield className="w-5 h-5 text-gray-600" />
                     </div>
                     <div className="flex-1">
                       <h3 className="text-sm font-medium text-gray-500">
@@ -187,23 +178,6 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        {/* Quick Stats Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <h3 className="text-lg font-medium text-gray-700 mb-2">
-              Last Login
-            </h3>
-            <p className="text-gray-500 text-sm">Yesterday at 4:32 PM</p>
-          </div>
-          <div className="bg-white p-6 rounded-xl shadow-sm">
-            <h3 className="text-lg font-medium text-gray-700 mb-2">
-              Account Status
-            </h3>
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-              Active
-            </span>
-          </div>
-        </div>
       </div>
     </div>
   );

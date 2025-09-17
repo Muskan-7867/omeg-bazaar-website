@@ -58,7 +58,7 @@ const LoginAdmin: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center  min-h-screen  px-4 py-8">
+    <div className="flex justify-center items-center  min-h-screen  px-4 py-8">
       <div className="lg:w-[30rem] w-full max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl">
         {/* Heading */}
         <div className="text-center mb-6 sm:mb-8">

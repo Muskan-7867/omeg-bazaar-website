@@ -8,6 +8,7 @@ import { getAdminQuery } from "@/lib/services/api/queries";
 const Header: React.FC = () => {
   const token = Cookies.get("admintoken");
   const { data, isLoading } = useQuery(getAdminQuery(!!token));
+  console.log("from admin", data)
 
   const getFirstLetter = (email: string) =>
     email?.charAt(0).toUpperCase() || "";

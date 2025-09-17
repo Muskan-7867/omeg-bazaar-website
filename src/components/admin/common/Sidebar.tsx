@@ -32,7 +32,7 @@ const Sidebar: React.FC = () => {
       href: "/admin/customers",
       Icon: <LiaUserFriendsSolid size={22} />
     },
-    { title: "Profile", href: "/admin/adminprofile", Icon: <FaUser size={22} /> }
+    { title: "Profile", href: "/admin/profile", Icon: <FaUser size={22} /> }
   ];
 
   return (

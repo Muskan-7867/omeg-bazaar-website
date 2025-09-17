@@ -61,7 +61,7 @@ const RegisterAdmin = () => {
   };
 
   return (
-    <div className="min-h-screen flex  justify-center p-4 ">
+    <div className="min-h-screen flex  items-center justify-center p-4 ">
       <div className=" lg:w-[45rem] w-full max-w-[40rem] space-y-6">
         <div className="text-center">
           <h1 className="text-2xl sm:text-3xl font-light text-gray-800">
