@@ -67,7 +67,7 @@ const InstaSection = () => {
       {/* Mobile call to action */}
       <div className="mt-8 text-center md:hidden">
         <Link
-          href="https://www.instagram.com/banarsi_lehnga_house.in?igsh=M2RqODB6eG43bGl0"
+          href="https://www.instagram.com/omegbazaar?igsh=MWdhNjc4djJ3aDdxYg=="
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 bg-gray-800 text-white px-6 py-3 rounded-full hover:bg-pink-600 transition-colors"

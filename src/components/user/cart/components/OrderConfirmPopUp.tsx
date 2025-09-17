@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useOrderHandler from "@/hooks/cartorder/useOrderHandler";
 import { CurrentUser } from "@/lib/types/auth";
 import { OrderData, Product } from "@/lib/types/Product";
@@ -25,6 +25,13 @@ const OrderConfirmPopUp = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useRouter();
+
+    useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
 
   const { handlePlaceOrder } = useOrderHandler({
     orderData,
@@ -67,7 +74,7 @@ const OrderConfirmPopUp = ({
   return (
     <div
       onClick={handleCross}
-      className="fixed inset-0  backdrop-blur-xl bg-opacity-30 flex justify-center items-center z-50 p-4"
+      className="fixed inset-0  backdrop-blur-xl bg-opacity-30 flex justify-center items-center z-50 p-4 overflow-hidden "
     >
       {loading ? (
         <div className="bg-white rounded-xl shadow-xl p-8 max-w-md w-full text-center">
@@ -205,7 +212,7 @@ const OrderConfirmPopUp = ({
                 {isAddressValid ? "Change Address" : "Add Address"}
               </button>
               <button
-                className="px-5 py-2.5 bg-gradient-to-r from-primary to-primary-dark rounded-lg text-white font-medium hover:opacity-90 transition-opacity flex-1 flex items-center justify-center disabled:opacity-70"
+                className="px-5 py-2.5 bg-gray-800 rounded-lg text-white font-medium hover:opacity-90 transition-opacity flex-1 flex items-center justify-center disabled:opacity-70"
                 onClick={handleConfirmOrder}
                 disabled={loading || !isAddressValid}
               >

@@ -164,7 +164,7 @@ const CartSummary: React.FC<CartSummaryProps> = ({ products, quantities }) => {
 
       <button
         onClick={handleOrder}
-        className="bg-primary text-white py-2 px-4 rounded-full mt-6 w-full"
+        className="bg-primary text-white py-2 px-4 rounded-md mt-6 w-full"
         disabled={loading}
       >
         {loading

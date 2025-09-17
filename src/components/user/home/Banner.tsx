@@ -13,6 +13,7 @@ interface BannerProps {
   buttonText?: string;
   onButtonClick?: () => void;
   badgeText?: string;
+  contentText?: string;
 }
 
 export default function Banner({
@@ -21,11 +22,12 @@ export default function Banner({
   autoPlay = true,
   interval = 5000,
   priority = false,
-  title = "Discover the New Collection",
-  subtitle = "Fresh styles, fresh arrivals – shop the latest trends now.",
+  title = "Shop the Latest Trends",
+  subtitle = "Discover premium products at unbeatable prices",
   buttonText = "Shop Now",
   onButtonClick = () => {},
   badgeText = "New Arrival",
+  contentText = "From fashion to electronics, explore our exclusive collection crafted to fit your lifestyle. Don’t miss out on special offers and limited-time deals!"
 }: BannerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -34,16 +36,9 @@ export default function Banner({
   const goToNext = () => {
     if (isTransitioning) return;
     setIsTransitioning(true);
-    const images = isMobile && mobileImages?.length ? mobileImages : desktopImages;
+    const images =
+      isMobile && mobileImages?.length ? mobileImages : desktopImages;
     setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    setTimeout(() => setIsTransitioning(false), 500);
-  };
-
-  const goToPrev = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    const images = isMobile && mobileImages?.length ? mobileImages : desktopImages;
-    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
     setTimeout(() => setIsTransitioning(false), 500);
   };
 
@@ -60,7 +55,8 @@ export default function Banner({
     return () => clearInterval(timer);
   }, [autoPlay, interval, currentIndex, isTransitioning]);
 
-  const images = isMobile && mobileImages?.length ? mobileImages : desktopImages;
+  const images =
+    isMobile && mobileImages?.length ? mobileImages : desktopImages;
   if (images.length === 0) return null;
 
   return (
@@ -82,33 +78,43 @@ export default function Banner({
               className="object-cover object-center"
               sizes="(max-width: 768px) 100vw, 100vw"
             />
-            {/* Dark gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent md:from-black/60 md:via-black/30" />
+            {/* Animated black gradient overlay */}
+            <div className="absolute inset-0 bg-black/30 animate-gradientMove" />
           </div>
         ))}
       </div>
 
-      {/* Optional badge */}
-      {badgeText && (
-        <div className="absolute top-4 left-4 md:top-8 md:left-8 bg-amber-500 text-white px-3 py-1 md:px-5 md:py-2 font-semibold text-xs md:text-sm rounded-full shadow-lg z-10">
-          {badgeText}
-        </div>
-      )}
+      {/* Text Content with animation */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-full px-6 sm:px-10 lg:px-16 flex justify-center">
+          <div className="max-w-2xl text-white text-center space-y-4 animate-fadeUp">
+            {/* Badge */}
+            {badgeText && (
+              <span className="inline-block bg-amber-500 text-black text-xs sm:text-sm font-semibold px-3 py-1 rounded-full animate-fadeIn">
+                {badgeText}
+              </span>
+            )}
 
-      {/* Text + CTA */}
-      <div className="absolute inset-0 flex items-center">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="max-w-xl lg:max-w-3xl text-white text-center md:text-left">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-light mb-2 md:mb-4 leading-snug drop-shadow-lg">
+            {/* Title */}
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-medium leading-snug drop-shadow-lg animate-slideUp">
               {title}
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-200 mb-6 md:mb-8">
+
+            {/* Subtitle */}
+            <p className="text-lg sm:text-xl font-medium text-gray-200 animate-fadeIn delay-200">
               {subtitle}
             </p>
+
+            {/* Additional content text */}
+            <p className="text-sm sm:text-base text-gray-300 max-w-lg mx-auto leading-relaxed animate-fadeIn delay-300">
+              {contentText}
+            </p>
+
+            {/* Button */}
             {buttonText && (
               <button
                 onClick={onButtonClick}
-                className="bg-gray-800 text-white font-medium cursor-pointer py-2 px-8 sm:py-4 sm:px-10 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+                className="bg-amber-500 text-black font-medium cursor-pointer py-2 px-8 sm:py-3 sm:px-10 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 animate-fadeIn delay-500"
               >
                 {buttonText}
               </button>

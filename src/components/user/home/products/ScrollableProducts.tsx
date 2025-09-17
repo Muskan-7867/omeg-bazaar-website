@@ -3,21 +3,21 @@ import { Product } from "@/lib/types/Product";
 import ProductCard from "@/components/common/ProductCard";
 import { useRef, useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { ProductCardSkeleton } from "@/components/common/ProductCardSkelton";
 
 interface ScrollableProductsProps {
   products: Product[];
+  isLoading?: boolean; // 👈 add this
 }
 
-export default function ScrollableProducts({ products }: ScrollableProductsProps) {
+export default function ScrollableProducts({ products, isLoading }: ScrollableProductsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeft, setShowLeft] = useState(false);
   const [showRight, setShowRight] = useState(false);
 
   const checkScrollButtons = () => {
     if (!scrollRef.current) return;
-
     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-
     setShowLeft(scrollLeft > 0);
     setShowRight(scrollLeft + clientWidth < scrollWidth - 5);
   };
@@ -51,7 +51,7 @@ export default function ScrollableProducts({ products }: ScrollableProductsProps
       {showLeft && (
         <button
           onClick={() => scroll("left")}
-          className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 rounded-full z-10 hover:bg-gray-100"
+          className="absolute left-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 rounded-full z-10 hover:bg-gray-100 hidden lg:block"
         >
           <FaArrowLeft />
         </button>
@@ -62,18 +62,24 @@ export default function ScrollableProducts({ products }: ScrollableProductsProps
         ref={scrollRef}
         className="flex gap-3 w-full overflow-x-auto scrollbar-hide scroll-smooth px-1"
       >
-        {products.map((product) => (
-          <div key={product._id} className="flex-shrink-0 w-74">
-            <ProductCard product={product} />
-          </div>
-        ))}
+        {isLoading
+          ? [...Array(5)].map((_, i) => (
+              <div key={i} className="flex-shrink-0 w-74">
+                <ProductCardSkeleton />
+              </div>
+            ))
+          : products.map((product) => (
+              <div key={product._id} className="flex-shrink-0 w-74">
+                <ProductCard product={product} />
+              </div>
+            ))}
       </div>
 
       {/* Right Button */}
       {showRight && (
         <button
           onClick={() => scroll("right")}
-          className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 rounded-full z-10 hover:bg-gray-100"
+          className="absolute right-0 top-1/2 -translate-y-1/2 bg-white shadow-md p-2 rounded-full z-10 hover:bg-gray-100 hidden lg:block"
         >
           <FaArrowRight />
         </button>

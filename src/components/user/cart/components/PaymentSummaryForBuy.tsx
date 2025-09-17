@@ -146,7 +146,7 @@ useEffect(() => {
             currentUserFromStore
           )
         }
-        className="bg-primary text-white py-2 px-4 rounded-full mt-6 w-full hover:bg-primary-dark transition-colors disabled:opacity-50"
+        className="bg-primary text-white py-2 px-4 rounded-md mt-6 w-full hover:bg-primary-dark transition-colors disabled:opacity-50"
         disabled={loading || !isLoggined}
       >
         {loading ? (

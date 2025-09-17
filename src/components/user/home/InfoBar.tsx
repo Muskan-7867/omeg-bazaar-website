@@ -57,7 +57,7 @@ export default function InfoBar() {
           >
             <div className="flex-shrink-0">{item.icon}</div>
             <div>
-              <h3 className="font-thin lg:text-lg text-xs text-black">{item.title}</h3>
+              <h3 className="font-light lg:text-lg text-xs text-black">{item.title}</h3>
               <p className="lg:text-xs text-[9px] text-gray-600">{item.subtitle}</p>
             </div>
           </div>

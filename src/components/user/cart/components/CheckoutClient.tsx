@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { Product } from "@/lib/types/Product";
 import PaymentSummaryForBuy from "../../cart/components/PaymentSummaryForBuy";
@@ -15,15 +14,15 @@ export default function CheckOutClient({ product }: CheckOutClientProps) {
   });
 
   return (
-    <div className="min-h-screen px-4 sm:px-6 lg:px-8">
-      <div className="max-w-full mx-auto mt-18 lg:mt-2">
+    <div className="min-h-screen px-4 sm:px-6 lg:px-8 py-6 bg-gray-50">
+      <div className="max-w-[90rem] mx-auto">
         <h2 className="text-2xl sm:text-3xl font-light text-gray-800 mb-6">
           Checkout
         </h2>
 
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col lg:grid lg:grid-cols-12 gap-6">
           {/* Product Section */}
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className=" p-4 sm:p-6 lg:col-span-8 ">
             <SingleProductUi
               product={product}
               quantities={quantities}
@@ -32,7 +31,7 @@ export default function CheckOutClient({ product }: CheckOutClientProps) {
           </div>
 
           {/* Payment Summary Section */}
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-white   p-4 sm:p-6 lg:col-span-4">
             <PaymentSummaryForBuy products={[product]} quantities={quantities} />
           </div>
         </div>

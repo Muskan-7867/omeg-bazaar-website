@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { LiaRupeeSignSolid } from "react-icons/lia";
@@ -13,7 +13,7 @@ interface SingleProductPageProps {
 export const SingleProductUi: React.FC<SingleProductPageProps> = ({
   product,
   quantities,
-  setQuantities,
+  setQuantities
 }) => {
   const navigate = useRouter();
   const quantity = quantities[product?._id] || 1;
@@ -22,7 +22,7 @@ export const SingleProductUi: React.FC<SingleProductPageProps> = ({
     if (quantity < 1) return;
     setQuantities((prev) => ({
       ...prev,
-      [id]: quantity,
+      [id]: quantity
     }));
   };
 
@@ -42,20 +42,22 @@ export const SingleProductUi: React.FC<SingleProductPageProps> = ({
         </div>
 
         <div>
-          <h3 className="text-lg sm:text-xl font-light mb-2">{product?.name}</h3>
+          <h3 className="text-lg sm:text-xl font-light mb-2">
+            {product?.name}
+          </h3>
           <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-            <p className="text-sm font-medium">Qty</p>
-            <div className="flex gap-2">
+            <p className="text-sm font-medium text-center sm:text-left">Qty</p>
+            <div className="flex gap-2 justify-center sm:justify-start">
               <button
                 onClick={() => handleChangeQuantity(product?._id, quantity - 1)}
-                className="p-2 border border-gray-200 w-6 sm:w-12 rounded-sm"
+                className="p-2 border border-gray-200 w-10 h-10 rounded-sm"
               >
                 -
               </button>
               <p className="flex items-center justify-center w-6">{quantity}</p>
               <button
                 onClick={() => handleChangeQuantity(product?._id, quantity + 1)}
-                className="p-2 border border-gray-200 w-6 sm:w-12 rounded-sm"
+                className="p-2 border border-gray-200 w-10 h-10  rounded-sm"
               >
                 +
               </button>
