@@ -1,6 +1,6 @@
 import { LoginData, LoginResponse } from "@/lib/types/auth";
 import axios from "axios";
-import Cookies from "js-cookie";
+
 
 
 interface RegisterData {
@@ -30,23 +30,21 @@ interface ResendOtpData {
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-const token = Cookies.get("authToken")
 
 // Login
 const loginUser = async (userData: LoginData): Promise<LoginResponse> => {
   try {
+    // Remove the Authorization header if you're not using it for login
     const response = await axios.post<LoginResponse>(
       `${BASE_URL}/api/v1/user/login`,
-      userData,
-      {
-        headers: {
-          Authorization: token ? `Bearer ${token}` : ""
-        }
-      }
+      userData
     );
     return response.data;
-  } catch {
+  } catch (error) {
     const message = "Login failed";
+    if (axios.isAxiosError(error) && error.response?.data?.message) {
+      throw new Error(error.response.data.message);
+    }
     throw new Error(message);
   }
 };
@@ -67,7 +65,7 @@ const loginUser = async (userData: LoginData): Promise<LoginResponse> => {
     throw new Error(message);
   }
 };
-
+  
  const verifyOtp = async (
   data: VerifyOtpData
 ): Promise<VerifyOtpResponse> => {

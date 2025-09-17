@@ -16,9 +16,7 @@ const HeroTextSection: React.FC<HeroSectionProps> = ({
   title,
   subtitle,
   buttonText = "Shop Now",
-  className = "",
-  discountPercentage = 20,
-  discountCode = "SAVE20"
+  className = ""
 }) => {
   const [showDiscount, setShowDiscount] = useState(false);
 
@@ -45,15 +43,7 @@ const HeroTextSection: React.FC<HeroSectionProps> = ({
             exit={{ scale: 0, opacity: 0 }}
             transition={{ type: "spring", damping: 10, stiffness: 100 }}
             className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-red-500 text-white font-bold py-1.5 sm:py-2 px-3 sm:px-4 rounded-full shadow-lg z-10 text-xs sm:text-sm"
-          >
-            <div className="flex items-center">
-              <span className="mr-1 sm:mr-2">🔥</span>
-              <span>
-                {discountPercentage}% OFF - Use Code: {discountCode}
-              </span>
-              <span className="ml-1 sm:ml-2">🔥</span>
-            </div>
-          </motion.div>
+          ></motion.div>
         )}
       </AnimatePresence>
 
@@ -101,30 +91,6 @@ const HeroTextSection: React.FC<HeroSectionProps> = ({
         </p>
 
         {/* Animated Button */}
-        <motion.button
-          className="mt-4 sm:mt-6 bg-gradient-to-r from-yellow-400 to-orange-500 text-gray-900 font-bold text-sm sm:text-base md:text-lg py-2 sm:py-3 px-5 sm:px-8 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 relative overflow-hidden"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-        >
-          <span className="relative z-10">{buttonText}</span>
-          <motion.div
-            className="absolute inset-0 bg-white opacity-0 hover:opacity-20 transition-opacity duration-300"
-            whileHover={{ opacity: 0.2 }}
-          />
-        </motion.button>
-
-        {/* Countdown Timer */}
-        <motion.div
-          className="mt-4 sm:mt-6 bg-black bg-opacity-40 text-white text-xs sm:text-sm md:text-base px-3 sm:px-4 py-1.5 sm:py-2 rounded-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1, duration: 0.5 }}
-        >
-          Offer ends in: <span className="font-bold">23:59:59</span>
-        </motion.div>
       </div>
 
       {/* Decorative Elements */}

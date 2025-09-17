@@ -25,6 +25,9 @@ import graph2 from "../../public/images/graph2.png";
 import graph3 from "../../public/images/graph3.png";
 import mobileban from '../../public/images/newban.jpg'
 import mobileban2 from '../../public/images/mobileban3.png'
+import logo from "../../public/logos/blacklogo.png"
+import footerimg from "../../public/images/footerimg.png"
+import footerimg2 from "../../public/images/footerimg2.png"
 export {
   Bag,
   laptop,
@@ -52,5 +55,8 @@ export {
   bg,
   model,
   mobileban,
-  mobileban2
+  mobileban2,
+  logo,
+  footerimg,
+  footerimg2
 };

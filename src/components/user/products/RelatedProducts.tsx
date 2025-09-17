@@ -45,7 +45,10 @@ export default function RelatedProducts({ categoryId, currentProductId }: Relate
       {/* Desktop Grid */}
       <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 lg:gap-2 sm:gap-4">
         {relatedProducts.map((p) => (
+          <div key={p._id} className="flex-shrink-0 w-78">
+
           <ProductCard key={p._id} product={p} />
+          </div>
         ))}
       </div>
     </div>

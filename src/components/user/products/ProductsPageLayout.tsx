@@ -5,7 +5,6 @@ import { Product } from "@/lib/types/Product";
 import FilterBar from "@/components/common/FilterBar";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
-
 import { BASE_URL } from "@/lib/services/api/fetchers";
 import HeroTextSection from "./HeroTextSection";
 
@@ -170,13 +169,13 @@ export default function ProductsPageLayout({
   }, [page, limit, minPrice, maxPrice, category, search]);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white mb-28">
       {/* Hero Section */}
       <HeroTextSection
         title={
           categoryFromUrl
-            ? `${categoryFromUrl} Collection`
-            : "Summer Sale: Up to 50% Off!"
+            ? `Latest Collection`
+            : "Festival Special  Sale: Up to 50% Off!"
         }
         subtitle={
           subcategoryFromUrl
@@ -210,9 +209,12 @@ export default function ProductsPageLayout({
           </div>
         ) : products.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-1 sm:gap-6">
-              {products.map((product) => (
+            <div className="grid grid-cols-12 gap-x-1 gap-y-4  ">
+              {products.map((product, index) => (
+                <div className="lg:col-span-3 md:col-span-4 sm:col-span-6 col-span-12  items-center flex justify-center" key={index}>
                 <ProductCard key={product._id} product={product} />
+
+                </div>
               ))}
             </div>
 
