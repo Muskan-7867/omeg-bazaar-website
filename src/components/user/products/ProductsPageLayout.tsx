@@ -6,7 +6,8 @@ import FilterBar from "@/components/common/FilterBar";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
 import { BASE_URL } from "@/lib/services/api/fetchers";
-import HeroTextSection from "./HeroTextSection";
+
+import HeroImageWithOffers from "./HeroTextSection";
 
 type Props = {
   initialProducts: Product[];
@@ -171,19 +172,7 @@ export default function ProductsPageLayout({
   return (
     <div className="min-h-screen bg-white mb-28">
       {/* Hero Section */}
-      <HeroTextSection
-        title={
-          categoryFromUrl
-            ? `Latest Collection`
-            : "Festival Special  Sale: Up to 50% Off!"
-        }
-        subtitle={
-          subcategoryFromUrl
-            ? `Discover our ${subcategoryFromUrl} selection`
-            : "Discover amazing deals on thousands of products"
-        }
-      />
-
+  <HeroImageWithOffers />
       {/* Filters */}
       <div className="w-full px-4 mb-8">
         <FilterBar

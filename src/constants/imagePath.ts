@@ -28,6 +28,8 @@ import mobileban2 from '../../public/images/mobileban3.png'
 import logo from "../../public/logos/blacklogo.png"
 import footerimg from "../../public/images/footerimg.png"
 import footerimg2 from "../../public/images/footerimg2.png"
+import offer from "../../public/images/offer.png"
+import offergif from "../../public/images/whitegif1.gif"
 export {
   Bag,
   laptop,
@@ -58,5 +60,8 @@ export {
   mobileban2,
   logo,
   footerimg,
-  footerimg2
+  footerimg2,
+  offer,
+  offergif
+
 };
