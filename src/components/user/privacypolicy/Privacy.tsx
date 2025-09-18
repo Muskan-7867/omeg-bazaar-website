@@ -70,7 +70,7 @@ export default function PrivacyPolicyPage({
                 onClick={() => toggleSection(section.param)}
                 className="w-full flex justify-between items-center py-4 text-left focus:outline-none"
               >
-                <span className="text-lg font-light text-gray-700">
+                <span className="text-lg font-medium text-gray-700">
                   {section.title}
                 </span>
                 <span

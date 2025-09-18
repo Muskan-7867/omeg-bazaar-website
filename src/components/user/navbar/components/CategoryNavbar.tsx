@@ -12,7 +12,7 @@ export default async function CategoryNavbar() {
   const categories: Category[] = Array.isArray(res) ? res : res?.categories || [];
 
   return (
-    <nav className="bg-white text-black mt-14 hidden lg:block relative">
+    <nav className="bg-white text-gray-600 mt-14 hidden lg:block relative">
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex justify-center space-x-6">
           {categories.length === 0 ? (

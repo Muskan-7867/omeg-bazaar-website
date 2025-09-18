@@ -87,16 +87,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               <div className="px-4 py-2 border-b border-gray-200">
                 <h3 className="font-bold text-lg mb-1">Your Account</h3>
                 <ul className="space-y-1">
-                  <li>
-                    <Link
-                      href="/orders"
-                      onClick={handleClick}
-                      className="flex items-center py-2 hover:text-amazon_orange transition-colors"
-                    >
-                      <FaBox className="mr-3 text-gray-600" />
-                      Your Orders
-                    </Link>
-                  </li>
+           
                   <li>
                     <Link
                       href="/cart"
