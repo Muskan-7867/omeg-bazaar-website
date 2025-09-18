@@ -31,10 +31,10 @@ const FooterContent = () => {
     {
       label: "Products",
       links: [
-        { title: "Home & Office Storage", href: "#" },
-        { title: "Home Essentials", href: "#" },
-        { title: "Electronics", href: "#" },
-        { title: "Fashion", href: "#" }
+        { title: "Home & Office Storage", href: "/products" },
+        { title: "Home Essentials", href: "/products" },
+        { title: "Electronics", href: "/products" },
+        { title: "Fashion", href: "/products" }
       ]
     }
   ];
