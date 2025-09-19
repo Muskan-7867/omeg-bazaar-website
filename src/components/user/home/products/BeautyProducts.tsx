@@ -1,20 +1,19 @@
-import { getProductsByCategory } from "@/lib/services/api/fetchers";
 import ScrollableProducts from "./ScrollableProducts"; // client component
 import { Product } from "@/lib/types/Product";
 import { FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
+import { getProductsByCategorySlug } from "@/lib/services/api/fetchers";
 
 export default async function BeautySection() {
   let products: Product[] = [];
 
   try {
-    products = await getProductsByCategory("fashion");
+    products = await getProductsByCategorySlug("fashion");
   } catch (err) {
     console.error("Error fetching featured products", err);
   }
 
-  // ✅ Grab only the _id safely
-  const categoryId = products.length > 0 ? products[0].category : null;
+  const categorySlug = products.length > 0 ? products[0].category?.slug : null;
 
   return (
     <section className="p-6 bg-white">
@@ -25,9 +24,9 @@ export default async function BeautySection() {
         </h2>
 
         {/* ✅ Render Link only if we have a categoryId */}
-        {categoryId && (
+        {categorySlug && (
           <Link
-            href={`/products?category=${encodeURIComponent(categoryId)}`}
+            href={`/products?category=${encodeURIComponent(categorySlug)}`}
             className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition-colors"
           >
             <span className="text-sm font-medium">View All</span>

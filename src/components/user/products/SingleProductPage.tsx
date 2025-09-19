@@ -49,7 +49,7 @@ export default function SingleProductPage({ product }: Props) {
       </div>
 
         <RelatedProducts
-          categoryId={product.category}
+          categorySlug={product.category.slug}
           currentProductId={product._id}
         />
 

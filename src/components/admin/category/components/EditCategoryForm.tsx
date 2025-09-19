@@ -1,23 +1,47 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useQueryClient } from "@tanstack/react-query";
-import { CategoryFormData } from "@/lib/types/Product";
-import { createCategory } from "@/lib/services/api/fetchers";
 import Image from "next/image";
+import { CategoryFormData } from "@/lib/types/Product";
+import { getCategoryById, updateCategory } from "@/lib/services/api/fetchers";
 
-const AddCategoryForm = () => {
+interface EditCategoryFormProps {
+  categoryId: string;
+  onSuccess?: () => void;
+}
+
+const EditCategoryForm: React.FC<EditCategoryFormProps> = ({ categoryId, onSuccess }) => {
   const [formData, setFormData] = useState<CategoryFormData>({
     name: "",
     description: "",
-    slug: "", // ✅ Added slug
+    slug: "",
     products: [],
   });
-
   const [productImages, setProductImages] = useState<File[]>([]);
-  const [disabled, setDisabled] = useState(false);
+  const [existingImages, setExistingImages] = useState<{ url: string }[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
   const queryClient = useQueryClient();
+
+  // Fetch category details
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        const token = Cookies.get("authToken");
+        const category = await getCategoryById(categoryId, token || "");
+        setFormData({
+          name: category.name,
+          description: category.description,
+          slug: category.slug,
+          products: category.products || [],
+        });
+        setExistingImages(category.images || []);
+      } catch (err) {
+        console.error("Error fetching category:", err);
+      }
+    };
+    fetchCategory();
+  }, [categoryId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,19 +55,8 @@ const AddCategoryForm = () => {
     if (!e.target.files) return;
     const files = Array.from(e.target.files);
     const imageFiles = files.filter((file) => file.type.startsWith("image/"));
-
-    if (imageFiles.length !== files.length) {
-      alert("Only image files are allowed.");
-      return;
-    }
-
-    const limitedFiles = imageFiles.slice(0, 4 - productImages.length);
-    setProductImages((prev) => [...prev, ...limitedFiles]);
+    setProductImages((prev) => [...prev, ...imageFiles]);
   };
-
-  useEffect(() => {
-    setDisabled(productImages.length >= 4);
-  }, [productImages]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,21 +67,20 @@ const AddCategoryForm = () => {
 
     data.append("name", formData.name);
     data.append("description", formData.description);
-    data.append("slug", formData.slug); // ✅ Include slug
+    data.append("slug", formData.slug);
 
     productImages.forEach((image) => {
       data.append("images", image);
     });
 
     try {
-      const response = await createCategory(data, token || "");
-      console.log("Category added:", response);
+      const response = await updateCategory(categoryId, data, token || "");
+      console.log("Category updated:", response);
+
       await queryClient.invalidateQueries({ queryKey: ["admincategories"] });
-      setSubmitSuccess(true);
-      setFormData({ name: "", description: "", slug: "", products: [] });
-      setProductImages([]);
+      if (onSuccess) onSuccess();
     } catch (err) {
-      console.error("Error submitting category:", err);
+      console.error("Error updating category:", err);
     } finally {
       setIsSubmitting(false);
     }
@@ -77,12 +89,6 @@ const AddCategoryForm = () => {
   return (
     <div className="mt-8">
       <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
-        {submitSuccess && (
-          <div className="bg-green-100 text-green-700 p-2 rounded">
-            Category added successfully!
-          </div>
-        )}
-
         {/* Category Name */}
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium text-black">Category Name</label>
@@ -122,14 +128,32 @@ const AddCategoryForm = () => {
           />
         </div>
 
-        {/* Product Images */}
+        {/* Existing Images */}
+        {existingImages.length > 0 && (
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-gray-800">Existing Images</label>
+            <div className="flex gap-2 flex-wrap">
+              {existingImages.map((img, index) => (
+                <Image
+                  key={index}
+                  src={img.url}
+                  className="h-32 w-32 object-cover bg-gray-100 rounded"
+                  alt={`Category image ${index + 1}`}
+                  width={200}
+                  height={200}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Upload New Images */}
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-gray-800">Category Images</label>
+          <label className="text-sm font-medium text-gray-800">Upload New Images</label>
           <input
             type="file"
             accept="image/*"
             multiple
-            disabled={disabled}
             onChange={handleImage}
             className="py-2 text-gray-700 border border-gray-200 p-2 rounded-md"
           />
@@ -154,11 +178,11 @@ const AddCategoryForm = () => {
             isSubmitting ? "opacity-50 cursor-not-allowed" : "hover:bg-primary-dark"
           }`}
         >
-          {isSubmitting ? "Adding..." : "Add Category"}
+          {isSubmitting ? "Updating..." : "Update Category"}
         </button>
       </form>
     </div>
   );
 };
 
-export default AddCategoryForm;
+export default EditCategoryForm;

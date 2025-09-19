@@ -3,23 +3,24 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import {  offergif } from "@/constants/imagePath";
+import { offergif } from "@/constants/imagePath";
 
 const HeroImageWithOffers = () => {
- 
-
   return (
-    <div className="relative w-full flex items-center justify-center bg-[fcfcff] min-h-[400px] overflow-hidden">
+    <div className="relative w-full flex items-center justify-center bg-[#fcfcff] h-[8rem] sm:h-[10rem] md:h-[11rem] lg:h-[10rem] overflow-hidden">
+      
       <motion.div
-       
-        className="absolute bottom-0 w-52 sm:w-72 md:w-96 lg:w-[24rem]"
+        className="w-[30%] sm:w-[20%] md:w-[16%] lg:w-[8%]"
+        style={{ zIndex: 10 }}
       >
         <Image
           src={offergif}
           alt="Shopping Girl GIF"
-          className="object-contain  w-full h-auto"
+          className="object-contain w-full h-auto"
+          priority
         />
       </motion.div>
+
     </div>
   );
 };

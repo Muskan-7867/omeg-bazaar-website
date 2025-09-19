@@ -4,9 +4,8 @@ import ProductCard from "@/components/common/ProductCard";
 import { Product } from "@/lib/types/Product";
 import FilterBar from "@/components/common/FilterBar";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { BASE_URL } from "@/lib/services/api/fetchers";
-
 import HeroImageWithOffers from "./HeroTextSection";
 
 type Props = {
@@ -44,27 +43,26 @@ export default function ProductsPageLayout({
   const [isFilterLoading, setIsFilterLoading] = useState(false);
 
   const searchParams = useSearchParams();
-  const categoryFromUrl = searchParams.get("category") || "";
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const categoryFromUrl = searchParams.get("category") || "all";
   const subcategoryFromUrl = searchParams.get("subcategory") || "";
 
-  // Use URL params as priority, fall back to initialFilters
-  const [category, setCategory] = useState(
-    categoryFromUrl || initialFilters.category
-  );
+  const [category, setCategory] = useState(categoryFromUrl);
   const [search, setSearch] = useState<string | null>(
-    subcategoryFromUrl || initialFilters.search
+    subcategoryFromUrl || null
   );
 
-  const isInitialMount = useRef(true);
+   const isInitialMount = useRef(true);
 
-  // Fetch products when URL params change (including initial load)
+  // ✅ Use useEffect to handle URL changes and update state
   useEffect(() => {
     const fetchProductsBasedOnUrl = async () => {
-      // If we have URL params, use them instead of initial filters
-      const effectiveCategory = categoryFromUrl || initialFilters.category;
-      const effectiveSearch = subcategoryFromUrl || initialFilters.search;
+      const effectiveCategory = categoryFromUrl;
+      const effectiveSearch = subcategoryFromUrl || null;
 
-      // Only fetch if URL params differ from current state
+      // Only fetch if the URL parameters have changed
       if (effectiveCategory !== category || effectiveSearch !== search) {
         setIsFilterLoading(true);
         try {
@@ -72,8 +70,8 @@ export default function ProductsPageLayout({
             params: {
               page: 1,
               limit,
-              minPrice: initialFilters.minPrice,
-              maxPrice: initialFilters.maxPrice,
+              minPrice,
+              maxPrice,
               category: effectiveCategory,
               search: effectiveSearch || ""
             }
@@ -85,11 +83,10 @@ export default function ProductsPageLayout({
           setCategory(effectiveCategory);
           setSearch(effectiveSearch);
 
-          // Notify parent component of the filter change
           if (onFilterChange) {
             onFilterChange({
-              minPrice: initialFilters.minPrice,
-              maxPrice: initialFilters.maxPrice,
+              minPrice,
+              maxPrice,
               category: effectiveCategory,
               search: effectiveSearch
             });
@@ -104,14 +101,17 @@ export default function ProductsPageLayout({
 
     fetchProductsBasedOnUrl();
   }, [
-    categoryFromUrl, // ✅ only depend on URL params
+    categoryFromUrl,
     subcategoryFromUrl,
-    initialFilters,
     limit,
-    onFilterChange
+    minPrice,
+    maxPrice,
+    onFilterChange,
+    router,
+    pathname
   ]);
 
-  // Handle filter changes from FilterBar (excluding page changes)
+  // ✅ FilterBar changes (slug + search)
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
@@ -144,7 +144,6 @@ export default function ProductsPageLayout({
     fetchFilteredProducts();
   }, [minPrice, maxPrice, category, search, limit]);
 
-  // Load more products
   const handleLoadMore = useCallback(async () => {
     setIsLoadingMore(true);
     try {
@@ -171,23 +170,20 @@ export default function ProductsPageLayout({
 
   return (
     <div className="min-h-screen bg-white mb-28">
-      {/* Hero Section */}
-  <HeroImageWithOffers />
-      {/* Filters */}
+      <HeroImageWithOffers />
       <div className="w-full px-4 mb-8">
         <FilterBar
           onFilterChange={(filters) => {
             setMinPrice(filters.minPrice);
             setMaxPrice(filters.maxPrice);
-            setCategory(filters.category);
+            setCategory(filters.category); // ✅ slug
             setSearch(filters.search);
           }}
-          initialCategory={categoryFromUrl || initialFilters.category}
-          initialSearch={subcategoryFromUrl || initialFilters.search || ""}
+          initialCategory={categoryFromUrl}
+          initialSearch={subcategoryFromUrl || ""}
         />
       </div>
 
-      {/* Products */}
       <div className="w-full px-4">
         {isFilterLoading ? (
           <div className="text-center py-12">
@@ -198,11 +194,13 @@ export default function ProductsPageLayout({
           </div>
         ) : products.length > 0 ? (
           <>
-            <div className="grid grid-cols-12 gap-x-1 gap-y-4  ">
-              {products.map((product, index) => (
-                <div className="lg:col-span-3 md:col-span-4 sm:col-span-6 col-span-12  items-center flex justify-center" key={index}>
-                <ProductCard key={product._id} product={product} />
-
+            <div className="grid grid-cols-12 gap-x-1 gap-y-4">
+              {products.map((product) => (
+                <div
+                  className="lg:col-span-3 md:col-span-4 sm:col-span-6 col-span-12 flex justify-center"
+                  key={product._id}
+                >
+                  <ProductCard product={product} />
                 </div>
               ))}
             </div>

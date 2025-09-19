@@ -110,6 +110,18 @@ const Categories = () => {
                   >
                     <FaTrash size={14} />
                   </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(
+                        `/admin/category/edit/${categoryItem._id}`
+                      );
+                    }}
+                    className="absolute bottom-1 left-1 bg-white text-blue-600 rounded-full p-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity"
+                    title="Edit"
+                  >
+                    ✏️
+                  </button>
                 </div>
                 <span className="text-sm sm:text-base font-medium text-gray-700 text-center">
                   {categoryItem.name.charAt(0).toUpperCase() +

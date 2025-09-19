@@ -1,18 +1,19 @@
-import { getProductsByCategory } from "@/lib/services/api/fetchers";
-import ScrollableProducts from "./ScrollableProducts"; // client component
+import ScrollableProducts from "./ScrollableProducts";
 import { Product } from "@/lib/types/Product";
 import { FaArrowRight } from "react-icons/fa";
 import Link from "next/link";
+import { getProductsByCategorySlug } from "@/lib/services/api/fetchers";
 
 export default async function BeautySection() {
   let products: Product[] = [];
 
   try {
-    products = await getProductsByCategory("Kitchen");
+    products = await getProductsByCategorySlug("kitchen-products");
   } catch (err) {
     console.error("Error fetching featured products", err);
   }
-  const categoryId = products.length > 0 ? products[0].category : null;
+
+  const categorySlug = products.length > 0 ? products[0].category?.slug : null;
 
   return (
     <section className="p-6 my-6 bg-white">
@@ -21,15 +22,14 @@ export default async function BeautySection() {
         <h2 className="text-xl sm:text-2xl font-bold text-gray-800 hover:text-primary text-left">
           Kitchen Products
         </h2>
-        {categoryId && (
-
-        <Link
-          href={`/products?category=${encodeURIComponent(categoryId)}`}
-          className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition-colors"
-        >
-          <span className="text-sm font-medium">View All</span>
-          <FaArrowRight className="text-xs" />
-        </Link>
+        {categorySlug && (
+          <Link
+            href={`/products?category=${encodeURIComponent(categorySlug)}`}
+            className="flex items-center gap-1 text-gray-600 hover:text-blue-600 transition-colors"
+          >
+            <span className="text-sm font-medium">View All</span>
+            <FaArrowRight className="text-xs" />
+          </Link>
         )}
       </div>
 

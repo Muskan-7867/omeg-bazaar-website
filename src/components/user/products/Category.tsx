@@ -1,8 +1,9 @@
 "use client";
+
 import { BsFilter } from "react-icons/bs";
 import { useQuery } from "@tanstack/react-query";
-import { getCategoriesQuery } from "@/lib/services/api/queries";
 import type { Category as CategoryType } from "@/lib/types/Product";
+import { getCategories } from "@/lib/services/api/categoryService";
 
 interface Props {
   category: string;
@@ -10,7 +11,14 @@ interface Props {
 }
 
 const Category = ({ category, setCategory }: Props) => {
-  const { data: categories, isPending, isError } = useQuery(getCategoriesQuery());
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  });
+
+  // Safely extract categories as an array
+  const categories: CategoryType[] =
+    Array.isArray(data) ? data : Array.isArray(data?.data) ? data.data : [];
 
   return (
     <div className="flex items-center gap-2 w-full md:w-auto">
@@ -20,11 +28,12 @@ const Category = ({ category, setCategory }: Props) => {
           className="w-full p-2 rounded-md focus:outline-none bg-transparent"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
+          disabled={isLoading || isError} // optional: disable during loading/error
         >
-          {isPending && <option>Loading Categories...</option>}
+          {isLoading && <option>Loading Categories...</option>}
           {isError && <option>Error loading categories</option>}
           <option value="all">All</option>
-          {categories?.map((cat: CategoryType) => (
+          {categories.map((cat: CategoryType) => (
             <option key={cat._id} value={cat._id}>
               {cat.name}
             </option>
