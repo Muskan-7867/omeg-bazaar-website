@@ -38,9 +38,9 @@ export default function UserDropdown({
         onClick={() => setOpen(!open)}
         className="flex items-center hover:text-gray-600"
       >
-        <span className="hidden sm:inline mr-1 text-sm">
+        {/* <span className="hidden sm:inline mr-1 text-sm">
           Hello, {user.username?.split(" ")[0] || "User"}
-        </span>
+        </span> */}
         <div className="w-7 h-7 flex items-center justify-center rounded-full bg-gray-200 font-semibold text-sm">
           {user.email.charAt(0).toUpperCase()}
         </div>

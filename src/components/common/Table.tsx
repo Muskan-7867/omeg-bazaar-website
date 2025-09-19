@@ -7,7 +7,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import TableImageRender from "../admin/common/TableImageRednder";
 import DialogBoxWrapper from "../admin/common/DialogBoxWrapper";
 import { useSingleProductStore } from "@/lib/store/product/Table.store";
-import { ProductImage } from "@/lib/types/Product";
+import { Category, ProductImage } from "@/lib/types/Product";
 
 interface Column<T> {
   label: string | React.ReactNode;
@@ -23,7 +23,7 @@ export interface BaseRowData {
   name: string;
   images: ProductImage[];
   price: number;
-  category: string;
+  category: Category;
   description: string;
   quantity: number;
   createdAt: string;

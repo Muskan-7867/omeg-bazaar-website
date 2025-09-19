@@ -51,7 +51,7 @@ export default async function Navbar() {
         </div>
 
         {/* Center - Nav Links */}
-        <div className="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-700">
+        <div className="hidden lg:flex items-center justify-center gap-8 text-sm font-medium text-gray-700">
           <Link href="/" className="hover:text-primary">
             Home
           </Link>

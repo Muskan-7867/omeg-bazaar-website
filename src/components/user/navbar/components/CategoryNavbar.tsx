@@ -9,7 +9,15 @@ interface Category {
 
 export default async function CategoryNavbar() {
   const res = await getCategories();
-  const categories: Category[] = Array.isArray(res) ? res : res?.categories || [];
+
+
+ 
+  const categories: Category[] = Array.isArray(res)
+    ? res
+    : res?.categories || [];
+
+
+ 
 
   return (
     <nav className="bg-white text-gray-600 mt-14 hidden lg:block relative">
@@ -21,7 +29,9 @@ export default async function CategoryNavbar() {
             categories.map((category) => (
               <div key={category._id} className="py-3">
                 <Link
-                  href={`/products?category=${encodeURIComponent(category._id)}`}
+                  href={`/products?category=${encodeURIComponent(
+                    category.slug || ""
+                  )}`}
                   className="font-medium hover:text-primary transition-colors"
                 >
                   {category.name}

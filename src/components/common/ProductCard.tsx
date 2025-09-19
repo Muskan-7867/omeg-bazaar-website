@@ -18,7 +18,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [isPresentInCart, setIsPresentInCart] = useState<boolean>(false);
 
   const [imgIndex, setImgIndex] = useState(0);
-  console.log(imgIndex);
+
 
   const isOnSale =
     product.originalPrice && product.originalPrice > product.price;

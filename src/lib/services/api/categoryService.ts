@@ -1,21 +1,21 @@
+// lib/categoryService.js
 import { BASE_URL } from "./fetchers";
 
-// lib/categoryService.js
 export async function getCategories() {
   try {
-   
-    // This could be a direct database query, API call, etc.
     const res = await fetch(`${BASE_URL}/api/v1/product/usercategories`, {
-      next: { revalidate: 3600 } // Revalidate every hour
+      next: { revalidate: 3600 }, // Revalidate every hour
     });
-    
+
     if (!res.ok) {
-      throw new Error('Failed to fetch categories');
+      console.error('Failed to fetch categories, status:', res.status);
+      return []; // Return empty array on error
     }
-    
-    return await res.json();
+
+    const data = await res.json();
+    return data || []; // Make sure something is always returned
   } catch (error) {
     console.error('Error fetching categories:', error);
-    return [];
+    return []; // Return empty array on exception
   }
 }

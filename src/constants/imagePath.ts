@@ -1,17 +1,5 @@
-import Bag from "../../public/assets/bag.png"
-import laptop from "../../public/assets/laptop.png";
-import cover from "../../public/assets/cover.png";
-import perfume from "../../public/assets/perfume.png";
-import phone from "../../public/assets/phone.png";
-import Bottle from "../../public/assets/bottle.png";
-import cosmetic from "../../public/assets/cosmetic.jpg";
-import JuicerJag from "/public/images/juicerjag.png";
-import toy from "/public/images/toy.png";
-import purse from "/public/images/purse.png";
-import foundation from "/public/images/foundation.png";
-import shoe from "/public/images/shoe.png";
-import All from "../../public/assets/all.jpeg";
 
+import toy from "/public/images/toy.png";
 import banner1 from "../../public/images/banner1.jpg";
 import banner2 from "../../public/images/banner2.jpg";
 import hero from "../../public/images/hero.avif";
@@ -31,19 +19,9 @@ import footerimg2 from "../../public/images/footerimg2.png"
 import offer from "../../public/images/offer.png"
 import offergif from "../../public/images/whitegif1.gif"
 export {
-  Bag,
-  laptop,
-  phone,
-  Bottle,
-  cover,
-  perfume,
-  cosmetic,
-  JuicerJag,
-  shoe,
+
   toy,
-  purse,
-  foundation,
-  All,
+  
 
   banner1,
   banner2,
