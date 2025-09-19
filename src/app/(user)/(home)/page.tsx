@@ -14,9 +14,9 @@ export default function HomePage() {
     <div className="bg-white">
       <HomeBanner />
       <InfoBar />
-      <KitchenProducts />
-      <MusicBanner />
       <Electronics />
+      <MusicBanner />
+      <KitchenProducts/>
       <HeroSection />
       <BeautySection />
     
