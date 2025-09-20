@@ -42,7 +42,7 @@ export default function MobileMenuButton() {
       <MobileMenu 
         isCardVisible={open} 
         setIsCardVisible={setOpen} 
-        categories={categories}
+       
       />
     </>
   );

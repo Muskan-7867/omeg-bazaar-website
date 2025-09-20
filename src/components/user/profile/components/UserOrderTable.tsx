@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { cancelOrder } from "@/lib/services/api/fetchers";
 import { getProductByIdQuery } from "@/lib/services/api/queries";
 import Image from "next/image";
+import Lottie from "lottie-react";
+import noResult from "../../../../../public/animations/no-result.json"
 
 const UserOrderTable = () => {
   const { currentUserFromStore, refetchCurrentUser, allocateCurrentUser } =
@@ -98,11 +100,12 @@ const UserOrderTable = () => {
     return <p className="text-gray-600">Loading order data...</p>;
   }
 
-  if (allOrderItems?.length === 0) {
+   if (allOrderItems?.length === 0) {
     return (
-      <p className="text-gray-500 p-4 text-center text-lg mt-28">
-        You have no orders yet.
-      </p>
+      <div className="flex flex-col items-center justify-center  h-[50rem]">
+        <Lottie animationData={noResult} loop={true} className="w-82 h-82" />
+        <p className="text-gray-500 text-lg mt-6">You have no orders yet.</p>
+      </div>
     );
   }
 

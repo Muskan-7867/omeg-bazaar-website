@@ -1,11 +1,10 @@
 import React from "react";
-import { motion, useReducedMotion, MotionProps } from "framer-motion";
 import { cn } from "@/lib/utills/cn";
 import Image from "next/image";
 import { footerimg, footerimg2 } from "@/constants/imagePath";
-
 import FooterContent from "./FooterContent";
 import Link from "next/link";
+import AnimatedContainer from "./AnimatedContainer";
 
 type StickyFooterProps = React.ComponentProps<"footer">;
 
@@ -73,7 +72,7 @@ const StickyFooter = ({ className, ...props }: StickyFooterProps) => {
             <div className="relative pt-8 md:pt-2 text-muted-foreground flex flex-col md:flex-row items-center justify-center gap-2 text-sm">
               <p>© 2025 Omeg Bazaar, Inc. All rights reserved.</p>
               <Link
-                href="/privacy"
+                href="/privacy-policy"
                 className="hover:text-black md:ml-2 mt-1 md:mt-0"
               >
                 Privacy Policy
@@ -88,31 +87,4 @@ const StickyFooter = ({ className, ...props }: StickyFooterProps) => {
 
 export default StickyFooter;
 
-type AnimatedContainerProps = Omit<React.ComponentProps<"div">, "ref"> & {
-  children?: React.ReactNode;
-  delay?: number;
-} & MotionProps;
 
-export function AnimatedContainer({
-  delay = 0.1,
-  children,
-  ...props
-}: AnimatedContainerProps) {
-  const shouldReduceMotion = useReducedMotion();
-
-  if (shouldReduceMotion) {
-    return <div {...props}>{children}</div>;
-  }
-
-  return (
-    <motion.div
-      initial={{ filter: "blur(4px)", translateY: -8, opacity: 0 }}
-      whileInView={{ filter: "blur(0px)", translateY: 0, opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ delay, duration: 0.8 }}
-      {...props}
-    >
-      {children}
-    </motion.div>
-  );
-}

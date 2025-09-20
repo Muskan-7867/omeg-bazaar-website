@@ -13,7 +13,7 @@ export default async function BeautySection() {
     console.error("Error fetching featured products", err);
   }
 
-  const categorySlug = products.length > 0 ? products[0].category?.slug : null;
+  const categorySlug = products.length > 0 ? products[0].category?.slug  || 'fashion': null;
 
   return (
     <section className="p-6 bg-white">

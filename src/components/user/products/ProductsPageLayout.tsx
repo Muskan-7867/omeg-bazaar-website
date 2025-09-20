@@ -7,6 +7,8 @@ import axios from "axios";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { BASE_URL } from "@/lib/services/api/fetchers";
 import HeroImageWithOffers from "./HeroTextSection";
+import Lottie from "lottie-react";
+import loadingAnimation from "../../../../public/animations/shopping cart.json"
 
 type Props = {
   initialProducts: Product[];
@@ -169,7 +171,7 @@ export default function ProductsPageLayout({
   }, [page, limit, minPrice, maxPrice, category, search]);
 
   return (
-    <div className="min-h-screen bg-white mb-28">
+    <div className="min-h-screen max-h-auto bg-white mb-28">
       <HeroImageWithOffers />
       <div className="w-full px-4 mb-8">
         <FilterBar
@@ -183,15 +185,18 @@ export default function ProductsPageLayout({
           initialSearch={subcategoryFromUrl || ""}
         />
       </div>
-
-      <div className="w-full px-4">
-        {isFilterLoading ? (
-          <div className="text-center py-12">
-            <div className="text-4xl mb-4">⏳</div>
-            <h3 className="text-xl font-medium text-gray-800 mb-2">
-              Loading products...
-            </h3>
-          </div>
+<div className="w-full px-4">
+  {isFilterLoading ? (
+    <div className="flex flex-col items-center justify-center py-12">
+      <Lottie
+        animationData={loadingAnimation}
+        loop
+        className="w-60 h-60" 
+      />
+      <h3 className="text-xl font-medium text-gray-800 mt-6">
+        Loading products...
+      </h3>
+    </div>
         ) : products.length > 0 ? (
           <>
             <div className="grid grid-cols-12 gap-x-1 gap-y-4">

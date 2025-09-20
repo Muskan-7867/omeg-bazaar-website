@@ -2,10 +2,10 @@ import Link from "next/link";
 import { Button } from "./FooterBtn";
 import { MdLocalPhone, MdLocationOn } from "react-icons/md";
 import { IoIosMail } from "react-icons/io";
-import { AnimatedContainer } from "./StickyFooter";
 import Image from "next/image";
 import { logo } from "@/constants/imagePath";
 import { FacebookIcon, InstagramIcon } from "lucide-react";
+import AnimatedContainer from "./AnimatedContainer";
 
 interface FooterLink {
   title: string;
@@ -29,14 +29,15 @@ const FooterContent = () => {
       ]
     },
     {
-      label: "Products",
-      links: [
-        { title: "Home & Office Storage", href: "/products" },
-        { title: "Home Essentials", href: "/products" },
-        { title: "Electronics", href: "/products" },
-        { title: "Fashion", href: "/products" }
-      ]
-    }
+  label: "Products",
+  links: [
+    { title: "Home & Office Storage", href: "/products?category=office-storage" },
+    { title: "Health", href: "/products?category=health" },
+    { title: "Electronics", href: "/products?category=electronics" },
+    { title: "Fashion", href: "/products?category=fashion" }
+  ]
+}
+
   ];
 
   const socialLinks = [

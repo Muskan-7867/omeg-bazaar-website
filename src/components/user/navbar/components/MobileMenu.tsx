@@ -4,7 +4,6 @@ import {
   FaFacebook,
   FaInstagram,
   FaShoppingCart,
-  FaBox,
   FaStore
 } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
@@ -15,28 +14,23 @@ interface MobileMenuProps {
   setIsCardVisible: (value: boolean) => void;
   isLoggedIn?: boolean;
   userName?: string;
-  categories?: Array<{ _id: string; name: string }>;
+  categories?: Array<{ _id: string; name: string; slug: string }>;
 }
 
 const MobileMenu: React.FC<MobileMenuProps> = ({
   isCardVisible,
-  setIsCardVisible,
-
-  categories = []
+  setIsCardVisible
 }) => {
   const handleClick = () => {
     setIsCardVisible(false);
   };
 
   const defaultCategories = [
-    { _id: "electronics", name: "Electronics" },
-    { _id: "fashion", name: "Fashion" },
-    { _id: "kitchen", name: "Kitchen" },
-    { _id: "beauty", name: "Health & Care" }
+    { _id: "electronics", name: "Electronics", slug: "electronics" },
+    { _id: "fashion", name: "Fashion", slug: "Fashion" },
+    { _id: "kitchen", name: "Kitchen", slug: "kitchen-products" },
+    { _id: "beauty", name: "Health & Care", slug: "health" }
   ];
-
-  const displayCategories =
-    categories.length > 0 ? categories : defaultCategories;
 
   return (
     <AnimatePresence>
@@ -66,11 +60,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               <div className="px-4 py-2 border border-gray-200">
                 <h3 className="font-bold text-lg mb-1">Shop by Category</h3>
                 <ul className="space-y-1">
-                  {displayCategories.map((category) => (
+                  {defaultCategories.map((category) => (
                     <li key={category._id}>
                       <Link
                         href={`/products?category=${encodeURIComponent(
-                          category._id
+                          category.slug
                         )}`}
                         onClick={handleClick}
                         className="flex items-center py-2 hover:text-amazon_orange transition-colors"
@@ -87,7 +81,6 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               <div className="px-4 py-2 border-b border-gray-200">
                 <h3 className="font-bold text-lg mb-1">Your Account</h3>
                 <ul className="space-y-1">
-           
                   <li>
                     <Link
                       href="/cart"

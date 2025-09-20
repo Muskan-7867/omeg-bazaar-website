@@ -37,7 +37,7 @@ async function getFilteredProducts(
 export default async function MainProductPage() {
   // ✅ Default filters for SSR
   const page = 1;
-  const limit = 10;
+  const limit = 12;
   const minPrice = 0;
   const maxPrice = 1000000;
   const category = "all";

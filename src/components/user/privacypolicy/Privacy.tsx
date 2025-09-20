@@ -57,7 +57,7 @@ export default function PrivacyPolicyPage({
   };
 
   return (
-    <div className="max-w-full mx-auto p-6 mt-20 lg:mt-4 bg-white">
+    <div className="max-w-full mx-auto p-6 mt-20 lg:mt-4 bg-white h-[60rem]">
       <h1 className="text-3xl font-light mb-6 text-center text-primary">
         Policy & Information
       </h1>
