@@ -33,7 +33,7 @@ export default function FilterBar({
   const [searchQuery, setSearchQuery] = useState(initialSearch || "");
   const [showPriceSlider, setShowPriceSlider] = useState(false);
   const { categories, isPending, isError } = useCategories();
-  
+
   const priceMenuRef = useRef<HTMLDivElement>(null);
 
   const router = useRouter();
@@ -63,7 +63,10 @@ export default function FilterBar({
   // Close price menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (priceMenuRef.current && !priceMenuRef.current.contains(event.target as Node)) {
+      if (
+        priceMenuRef.current &&
+        !priceMenuRef.current.contains(event.target as Node)
+      ) {
         setShowPriceSlider(false);
       }
     };
@@ -135,17 +138,20 @@ export default function FilterBar({
     setPriceRange(newPriceRange);
   };
 
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleSliderChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const newPriceRange = [...priceRange];
     newPriceRange[index] = parseInt(e.target.value);
-    
+
     // Ensure min doesn't exceed max and vice versa
     if (index === 0 && newPriceRange[0] > newPriceRange[1]) {
       newPriceRange[1] = newPriceRange[0];
     } else if (index === 1 && newPriceRange[1] < newPriceRange[0]) {
       newPriceRange[0] = newPriceRange[1];
     }
-    
+
     setPriceRange(newPriceRange);
   };
 
@@ -214,23 +220,33 @@ export default function FilterBar({
               <span>Price Range</span>
             </button>
 
-            {/* Price Range Context Menu */}
+            {/* Price Range Context Menu - Fixed responsive positioning */}
             {showPriceSlider && (
-              <div className="absolute top-full right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-10 w-72">
+              <div
+                className="
+                  fixed sm:absolute 
+                  top-1/2 sm:top-full left-1/2 -translate-x-1/2 sm:-translate-x-0 sm:left-auto sm:right-0 
+                  -translate-y-1/2 sm:translate-y-0
+                  mt-0 sm:mt-2 
+                  z-50
+                  w-[90vw] max-w-sm sm:w-96
+                  bg-white border border-gray-200 rounded-lg shadow-xl p-4
+                "
+              >
                 <div className="flex justify-between items-center mb-4">
-                  <h3 className="font-medium">Price Range</h3>
-                  <button 
+                  <h3 className="font-medium text-base">Price Range</h3>
+                  <button
                     onClick={() => setShowPriceSlider(false)}
                     className="text-gray-400 hover:text-gray-600"
                   >
                     <X className="w-4 h-4" />
                   </button>
                 </div>
-                
-                {/* Dual Range Slider */}
+
+                {/* Slider */}
                 <div className="mb-6">
                   <div className="relative h-1 bg-gray-200 rounded">
-                    <div 
+                    <div
                       className="absolute h-1 bg-gray-800 rounded"
                       style={{
                         left: `${(priceRange[0] / 2000) * 100}%`,
@@ -238,7 +254,7 @@ export default function FilterBar({
                       }}
                     ></div>
                   </div>
-                  
+
                   <div className="relative">
                     <input
                       type="range"
@@ -256,25 +272,32 @@ export default function FilterBar({
                       onChange={(e) => handleSliderChange(e, 1)}
                       className="absolute w-full h-1 opacity-0 cursor-pointer z-20"
                     />
-                    
-                    {/* Custom slider handles */}
+
                     <div className="relative h-6">
                       <div
                         className="absolute w-4 h-4 bg-gray-800 rounded-full -translate-x-1/2 -translate-y-1/2 z-10 cursor-pointer"
-                        style={{ left: `${(priceRange[0] / 2000) * 100}%`, top: "50%" }}
+                        style={{
+                          left: `${(priceRange[0] / 2000) * 100}%`,
+                          top: "50%"
+                        }}
                       ></div>
                       <div
                         className="absolute w-4 h-4 bg-gray-800 rounded-full -translate-x-1/2 -translate-y-1/2 z-10 cursor-pointer"
-                        style={{ left: `${(priceRange[1] / 2000) * 100}%`, top: "50%" }}
+                        style={{
+                          left: `${(priceRange[1] / 2000) * 100}%`,
+                          top: "50%"
+                        }}
                       ></div>
                     </div>
                   </div>
                 </div>
-                
-                {/* Price Inputs */}
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex-1">
-                    <label className="text-sm text-gray-500 mb-1 block">Min</label>
+
+                {/* Inputs */}
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                  <div className="flex-1 w-full">
+                    <label className="text-sm text-gray-500 mb-1 block">
+                      Min
+                    </label>
                     <div className="relative">
                       <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
                       <input
@@ -287,11 +310,15 @@ export default function FilterBar({
                       />
                     </div>
                   </div>
-                  
-                  <div className="mt-5 pt-1 text-gray-400">-</div>
-                  
-                  <div className="flex-1">
-                    <label className="text-sm text-gray-500 mb-1 block">Max</label>
+
+                  <div className="hidden sm:block mt-5 pt-1 text-gray-400">
+                    -
+                  </div>
+
+                  <div className="flex-1 w-full">
+                    <label className="text-sm text-gray-500 mb-1 block">
+                      Max
+                    </label>
                     <div className="relative">
                       <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
                       <input

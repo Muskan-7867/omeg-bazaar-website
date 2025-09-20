@@ -17,7 +17,7 @@ const ProdTable = () => {
 
   const [search, setSearch] = useState<string>("");
   const [category, setCategory] = useState<string>("all");
-  const [limit] = useState<number>(9);
+  const [limit] = useState<number>(12);
   const [minPrice, setMinPrice] = useState<number>(0);
   const [maxPrice, setMaxPrice] = useState<number>(100000);
 

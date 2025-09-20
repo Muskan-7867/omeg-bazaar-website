@@ -39,10 +39,13 @@ export const AboutValue = () => {
               key={index}
               className={`${item.color} p-8 rounded shadow-sm hover:shadow-md transition-all h-full`}
             >
-              <div className="text-4xl mb-4">{item.icon}</div>
-              <h3 className="text-xl font-bold text-[#131921] mb-3">
-                {item.title}
-              </h3>
+              <div className="flex flex-col justify-center items-center">
+                <div className="text-4xl mb-4">{item.icon}</div>
+                <h3 className="text-xl font-bold text-[#131921] mb-3">
+                  {item.title}
+                </h3>
+              </div>
+
               <p className="text-[#555]">{item.description}</p>
             </div>
           ))}
