@@ -43,7 +43,7 @@ const Profile = () => {
   };
   if (!currentUserFromStore) return null;
   return (
-    <div className="w-full max-w-6xl mx-auto mt-26 p-4 relative">
+    <div className="w-full  max-w-6xl mx-auto mt-26 p-4 relative">
       {/* Delete Account Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 backdrop-blur-lg bg-opacity-50 flex items-center justify-center z-50 p-4">

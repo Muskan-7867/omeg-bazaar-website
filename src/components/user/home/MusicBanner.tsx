@@ -27,7 +27,7 @@ export default function MusicBanner() {
    
         <motion.div style={{ x, scale }} className="h-full w-full">
           <Image
-            src="https://res.cloudinary.com/debzdd4wk/image/upload/v1758023420/bg2_ghwnxd.png"
+            src="https://res.cloudinary.com/dwgxfctju/image/upload/v1758620204/bg2_ke2ysq.png"
             alt="Shopping Background"
             height={900}
             width={900}
