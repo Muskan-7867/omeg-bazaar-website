@@ -1,5 +1,4 @@
 "use client";
-
 import Header from "@/components/admin/common/Header";
 import Sidebar from "@/components/admin/common/Sidebar";
 import { useRouter, usePathname } from "next/navigation";
@@ -18,7 +17,6 @@ export default function AdminLayout({
 
   useEffect(() => {
     const token = Cookies.get("admintoken");
-    
     if (!token) {
       // If no token and not already on login page, redirect to login
       if (!pathname.startsWith("/admin/auth")) {

@@ -21,7 +21,7 @@ export const metadata = {
     siteName: "Omeg-Bazaar",
     images: [
       {
-        url: "https://res.cloudinary.com/debzdd4wk/image/upload/v1758350612/home_olgorz.png",
+        url: "https://res.cloudinary.com/dwgxfctju/image/upload/v1758619862/home_cbxubj.png",
         width: 1200,
         height: 630,
       },
@@ -39,9 +39,9 @@ export default function HomePage() {
       <InfoBar />
       <Electronics />
       <MusicBanner />
-      <KitchenProducts/>
+      <BeautySection/>
       <HeroSection />
-      <BeautySection />
+      <KitchenProducts />
       <OurApp />
       <InstaSection />
     </div>
