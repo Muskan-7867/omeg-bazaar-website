@@ -24,10 +24,11 @@ export interface Product {
   rating?: number;
   originalPrice?: number;
   reviews: number;
+  
   inStock: boolean;
   images: ProductImage[];
   videos?: ProductVideo[];
-  category: string;
+  category: Category;
   [key: string]: unknown;
   quantity: number;
   totalProduct: number;
@@ -39,6 +40,7 @@ export interface Category {
   name: string;
   description: string;
   products: Product[];
+  slug: string;
 }
 
 export type CategoryType = {
@@ -67,6 +69,7 @@ export interface CategoryFormData {
   description: string;
   image?: FileList;
   products: string[];
+  slug: string;
 }
 
 export interface EditProductData {

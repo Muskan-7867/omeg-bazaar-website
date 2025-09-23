@@ -1,8 +1,6 @@
 import { LoginData, LoginResponse } from "@/lib/types/auth";
 import axios from "axios";
 
-
-
 interface RegisterData {
   username: string;
   email: string;
@@ -122,7 +120,7 @@ export const forgotPassword = async (email: string) => {
   }
 };
 
-export const resetPassword = async (token: string | undefined, newPassword: string) => {
+export const resetPassword = async (token: string | null, newPassword: string) => {
   try {
     const response = await axios.post(
       `${BASE_URL}/api/v1/user/resetpassword/${token}`,

@@ -7,23 +7,23 @@ import {
   fetchProductById,
   fetchProductIds,
   fetchUserAddress,
-  fetchUserCategories,
+
   getAdminInfo,
   getAllProducts,
   getClientByOrderId,
   getOrders,
+
   getProductsByCategory,
+
   getSingleProductById,
   getUsers
 } from "./fetchers";
 import { updateOrderStatus, UpdateOrderStatusParams, updatePaymentPaidStatus, UpdatePaymentPaidStatusParams, updatePaymentStatus, UpdatePaymentStatusParams } from "./orderApi";
+import { getCategories } from "./categoryService";
 
-
-const getCategoriesQuery = () => {
-  return queryOptions({
-    queryKey: ["categories"],
-    queryFn: fetchUserCategories
-  });
+ const getCategoriesQuery = {
+  queryKey: ["categories"],
+  queryFn: getCategories,
 };
 
 const getAdminCategoriesQuery = () => {

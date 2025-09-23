@@ -70,6 +70,20 @@ const fetchProductIds = async (productIds: string[]): Promise<Product[]> => {
   }
 };
 
+const getProductsByCategorySlug = async (slug: string): Promise<Product[]> => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/api/v1/product/category/slug/${slug}`,
+      { headers: { "Content-Type": "application/json" } }
+    );
+    console.log("from fetch products", response.data.products);
+    return response.data.products;
+  } catch (error) {
+    console.error("Failed to fetch products by slug:", error);
+    throw new Error("Failed to fetch products by slug");
+  }
+};
+
 const fetchCurrentUser = async (
   token?: string
 ): Promise<CurrentUser | null> => {
@@ -123,7 +137,7 @@ const fetchCurrentUser = async (
 //for admin
 const getAllProducts = async () => {
   try {
-    const response = await axios.post(`${BASE_URL}/api/v1/product/all`);
+    const response = await axios.get(`${BASE_URL}/api/v1/product/all`);
     return response.data.products;
   } catch (error) {
     console.error("Failed to fetch all products:", error);
@@ -439,9 +453,63 @@ const getRelatedProducts = async (categoryId: string, currentProductId: string):
   }
 };
 
+ const updateCategory = async (id: string, data: FormData, token: string) => {
+  try {
+    const res = await axios.put(`${BASE_URL}/api/v1/product/category/${id}`, data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return res.data; // returns { success, message, category }
+  } catch  {
+    console.error("Error updating category:");
+ 
+  }
+};
+
+ const getCategoryById = async (categoryId: string, token: string) => {
+  try {
+    const res = await axios.get(`${BASE_URL}/api/v1/product/category/${categoryId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data.category; // assuming backend returns { success, category }
+  } catch {
+    console.error("Error fetching category by id:");
+   
+  }
+};
+
+// fetchers.ts
+export const getRelatedProductsBySlug = async (
+  slug: string,
+  currentProductId: string
+): Promise<Product[]> => {
+  if (!slug) return [];
+
+  try {
+    const res = await axios.get<{ success: boolean; products: Product[] }>(
+      `${BASE_URL}/api/v1/product/categoryslug/${slug}` // Make sure your backend has this route
+    );
+
+    if (res.data.success && res.data.products.length) {
+      return res.data.products
+        .filter((p) => p._id !== currentProductId)
+        .slice(0, 8);
+    }
+
+    return [];
+  } catch (err) {
+    console.error("Failed to fetch related products by slug:", err);
+    return [];
+  }
+};
+
 export {
   fetchUserCategories,
-  getProductsByCategory,
+  getProductsByCategorySlug,
   fetchProductIds,
   fetchCurrentUser,
   deleteProduct,
@@ -463,5 +531,8 @@ export {
   getAdminInfo,
   getClientByOrderId,
   updateOrder,
-  getRelatedProducts
+  getRelatedProducts,
+  updateCategory,
+  getProductsByCategory,
+  getCategoryById
 };

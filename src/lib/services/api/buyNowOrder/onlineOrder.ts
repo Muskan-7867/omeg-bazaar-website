@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { RazorpayResponse } from "razorpay";
 
 import { createRazorpayOrder } from "./paymentforbuy";
@@ -7,6 +6,7 @@ import { verifyPayment } from "./paymentforbuy";
 import { Product } from "@/lib/types/Product";
 import { PaymentType } from "@/components/user/cart/components/CartSummary";
 import { CurrentUser } from "@/lib/types/auth";
+import { useRouter } from "next/navigation";
 
 
 export const useOnlinePaymentHandler = () => {
@@ -16,7 +16,7 @@ export const useOnlinePaymentHandler = () => {
     message: "",
     type: "success" as "success" | "error"
   });
-  const navigate = useNavigate();
+  const navigate = useRouter();
 
   const showPopup = (
     message: string,
@@ -26,7 +26,7 @@ export const useOnlinePaymentHandler = () => {
     setTimeout(() => {
       setPopup({ show: false, message: "", type: "success" });
       if (type === "success") {
-        navigate("/products");
+        navigate.push("/products");
       }
     }, 3000);
   };
