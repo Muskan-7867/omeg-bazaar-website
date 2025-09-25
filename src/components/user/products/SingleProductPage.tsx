@@ -14,7 +14,7 @@ interface Props {
 
 export default function SingleProductPage({ product }: Props) {
   const token = Cookies.get("authToken");
-  const { reviews, loading, error } = useProductReviews(product._id);
+  const { reviews, loading, error , refetch} = useProductReviews(product._id);
 
   // Calculate average rating
   const averageRating =
@@ -34,17 +34,19 @@ export default function SingleProductPage({ product }: Props) {
           <ProductDetails
             product={product}
             averageRating={averageRating}
-            reviewCount={reviews.length}
+            reviewCount={reviews?.length || 0}
+
           />
         </div>
 
         <ReviewsSection
           productId={product._id}
-          reviews={reviews}
+          review={reviews}
           loading={loading}
           error={error}
           token={token}
           averageRating={averageRating}
+          refetch={refetch}
         />
       </div>
 

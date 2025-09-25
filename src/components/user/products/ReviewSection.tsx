@@ -21,19 +21,22 @@ interface Review {
 
 interface ReviewsSectionProps {
   productId: string;
-  reviews: Review[];
+  review: Review[];
   loading: boolean;
   error: string | null;
   token: string | undefined;
   averageRating: string;
+  refetch: () => void;
 }
 
 export default function ReviewsSection({
   productId,
-  reviews,
+  review = [],
   loading,
   error,
-  token
+  token,
+  refetch
+
 }: ReviewsSectionProps) {
   const [expandedReview, setExpandedReview] = useState<string | null>(null);
   const [showAllReviews, setShowAllReviews] = useState(false);
@@ -52,7 +55,7 @@ export default function ReviewsSection({
     setShowReviews(!showReviews);
   };
 
-  const displayedReviews = showAllReviews ? reviews : reviews.slice(0, 3);
+  const displayedReviews = showAllReviews ? review : review.slice(0, 3);
 
   return (
     <div className="mt-8 border-t border-gray-200 pt-6">
@@ -67,7 +70,8 @@ export default function ReviewsSection({
             className="text-sm sm:text-md bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg flex items-center gap-2 transition-colors w-full sm:w-auto justify-center"
           >
             <FaComment size={16} className="hidden sm:block" />
-            {showReviews ? "Hide Reviews" : `Show Reviews (${reviews.length})`}
+        {showReviews ? "Hide Reviews" : `Show Reviews (${review?.length || 0})`}
+
           </button>
 
           {/* Write Review Button */}
@@ -109,7 +113,7 @@ export default function ReviewsSection({
             </div>
           )}
 
-          {reviews.length > 0 ? (
+          {review.length > 0 ? (
             <>
               <div className="space-y-4 sm:space-y-6">
                 {displayedReviews.map((review) => (
@@ -178,7 +182,7 @@ export default function ReviewsSection({
                 ))}
               </div>
 
-              {reviews.length > 3 && (
+              {review.length > 3 && (
                 <div className="mt-4 sm:mt-6 text-center">
                   <button
                     onClick={toggleShowAllReviews}
@@ -192,7 +196,7 @@ export default function ReviewsSection({
                     ) : (
                       <>
                         <FaChevronDown size={12} />
-                        Show All Reviews ({reviews.length})
+                        Show All Reviews ({review.length})
                       </>
                     )}
                   </button>
@@ -225,7 +229,7 @@ export default function ReviewsSection({
 
       {/* Review Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <ProductReviewForm productId={productId} token={token} />
+        <ProductReviewForm productId={productId} token={token} refetch={refetch}   onSuccess={() => setIsModalOpen(false)}/>
       </Modal>
     </div>
   );

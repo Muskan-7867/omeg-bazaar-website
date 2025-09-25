@@ -14,26 +14,25 @@ export default function useProductReviews(productId: string) {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  const fetchReviews = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(`${BASE_URL}/api/v1/product/${productId}/reviews`);
+      if (res.data.success) {
+        setReviews(res.data.reviews || []);
+      }
+    } catch {
+      setError("Failed to fetch reviews");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (!productId) return;
-
-    const fetchReviews = async () => {
-      setLoading(true);
-      try {
-        const res = await axios.get(`${BASE_URL}/api/v1/product/${productId}/reviews`);
-        if (res.data.success) {
-          setReviews(res.data.reviews);
-        }
-      } catch (err) {
-        console.error("Failed to fetch reviews", err);
-        setError("Failed to fetch reviews");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchReviews();
   }, [productId]);
 
-  return { reviews, loading, error, setReviews };
+  return { reviews, loading, error, setReviews, refetch: fetchReviews };
 }
+

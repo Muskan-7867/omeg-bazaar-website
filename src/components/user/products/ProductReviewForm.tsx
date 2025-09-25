@@ -8,15 +8,20 @@ import { FaStar } from "react-icons/fa";
 const ProductReviewForm = ({
   productId,
   token,
+  refetch,
+    onSuccess, 
 }: {
   token: string | undefined;
   productId: string;
+  refetch: () => void;
+   onSuccess: () => void;
 }) => {
   const [rating, setRating] = useState(5);
   const [hover, setHover] = useState<number | null>(null);
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
 
+ 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -39,10 +44,12 @@ const ProductReviewForm = ({
         { rating, comment },
         config
       );
-
+     
       toast.success("Review added successfully!");
       setComment("");
-      setRating(5);
+      setRating(0);
+      refetch();
+       onSuccess();
       console.log(data);
     } catch {
       toast.error("Something went wrong!");

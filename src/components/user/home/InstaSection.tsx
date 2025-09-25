@@ -14,7 +14,7 @@ const InstaSection = () => {
   ];
 
   const videosRight: VideoPost[] = [
-    { videoSrc: "https://res.cloudinary.com/dwgxfctju/video/upload/v1758619671/omeg2_kq9x4v.mp4" },
+    { videoSrc: "https://res.cloudinary.com/dwgxfctju/video/upload/v1758627557/rgrgr_duinbe.mp4" },
     { videoSrc: "https://res.cloudinary.com/dwgxfctju/video/upload/v1758619675/omeg1_qcflx7.mp4" },
   ];
 
