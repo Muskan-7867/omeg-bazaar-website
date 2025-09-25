@@ -1,6 +1,4 @@
-
 import UserOrderTable from "@/components/user/profile/components/UserOrderTable";
-
 
 export default function OrdersPage() {
   return (
