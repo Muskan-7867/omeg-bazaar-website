@@ -4,7 +4,6 @@ import "./globals.css";
 import QueryProvider from "@/lib/providers/QueryProvider";
 import Script from "next/script";
 
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"]
@@ -27,16 +26,17 @@ export const metadata: Metadata = {
     "fashion",
     "home essentials",
     "best deals",
-    "kitchen",
-    
-    
+    "kitchen"
   ],
+  verification: {
+    google: "wBHJRwBttvVnQDTZoPZzVD9LjXi5rc3sQMoRyIDKu4Y"
+  },
   authors: [{ name: "Omeg-Bazaar", url: "https://omegbazaar.com" }],
   creator: "Omeg-Bazaar",
   publisher: "Omeg-Bazaar",
 
   alternates: {
-    canonical: "https://omegbazaar.com",
+    canonical: "https://omegbazaar.com"
   },
   openGraph: {
     title: "Omeg-Bazaar | Online Shopping for Electronics, Fashion & More",
@@ -46,14 +46,14 @@ export const metadata: Metadata = {
     siteName: "Omeg-Bazaar",
     images: [
       {
-        url: "https://res.cloudinary.com/dwgxfctju/image/upload/v1758619862/home_cbxubj.png", 
+        url: "https://res.cloudinary.com/dwgxfctju/image/upload/v1758619862/home_cbxubj.png",
         width: 1200,
         height: 630,
-        alt: "Omeg-Bazaar Logo",
-      },
+        alt: "Omeg-Bazaar Logo"
+      }
     ],
     locale: "en_IN",
-    type: "website",
+    type: "website"
   },
   twitter: {
     card: "summary_large_image",
@@ -61,12 +61,12 @@ export const metadata: Metadata = {
     description:
       "Shop for electronics, fashion, and more at Omeg-Bazaar. Get the best deals today!",
     images: [""],
-    creator: "@omegbazaar",
+    creator: "@omegbazaar"
   },
   category: "ecommerce",
   icons: {
-    icon: "/logos/newlogo.png",
-},
+    icon: "/logos/newlogo.png"
+  }
 };
 export default function RootLayout({
   children
@@ -75,18 +75,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <QueryProvider>
-          {children}
-        </QueryProvider>
-                  <Script
+        <QueryProvider>{children}</QueryProvider>
+        <Script
           src="https://checkout.razorpay.com/v1/checkout.js"
-          strategy="afterInteractive" ></Script>
+          strategy="afterInteractive"
+        ></Script>
       </body>
-
     </html>
   );
 }
