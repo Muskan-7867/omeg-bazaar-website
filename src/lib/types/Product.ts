@@ -14,6 +14,14 @@ export type ProductVideo = {
   _id?: string | number;
 };
 
+export interface Review {
+  user?: { name?: string };
+  comment: string;
+  rating: number;
+  createdAt?: string;
+}
+
+
 export interface Product {
   _id: string;
   name: string;
@@ -23,8 +31,7 @@ export interface Product {
   features?: string;
   rating?: number;
   originalPrice?: number;
-  reviews: number;
-  
+  reviews: Review[];
   inStock: boolean;
   images: ProductImage[];
   videos?: ProductVideo[];
@@ -33,6 +40,8 @@ export interface Product {
   quantity: number;
   totalProduct: number;
   deliveryCharges?: number;
+  numReviews: number;
+  averageRating: number;
 }
 
 export interface Category {
@@ -81,6 +90,9 @@ export interface EditProductData {
   inStock: boolean;
   category: string | { _id: string; name: string }; 
   deliveryCharges: number;
+
+  
+
 }
 
 export interface OrderItem {

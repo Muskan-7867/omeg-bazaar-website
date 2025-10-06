@@ -60,7 +60,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     <article
       className={`w-full md:w-82 max-w-full bg-white transition p-1 flex flex-col`}
       itemScope
-      itemType="https://schema.org/Product"
+      itemType="https://schema.org/products"
     >
       {/* Product Media */}
       <Link

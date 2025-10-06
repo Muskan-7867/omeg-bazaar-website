@@ -11,26 +11,33 @@ import React from "react";
 
 export const metadata = {
   title: "Home",
-  description: "Discover amazing products across electronics, beauty, kitchen essentials, and more at Omeg-Bazaar. Shop now and enjoy exclusive offers!",
-  keywords: ["Omeg-Bazaar", "electronics", "beauty products", "kitchen products", "online shopping"],
+  description:
+    "Discover amazing products across electronics, beauty, kitchen essentials, and more at Omeg-Bazaar. Shop now and enjoy exclusive offers!",
+  keywords: [
+    "Omeg-Bazaar",
+    "electronics",
+    "beauty products",
+    "kitchen products",
+    "online shopping"
+  ],
   authors: [{ name: "Omeg-Bazaar Team", url: "https://omegbazaar.com" }],
   openGraph: {
     title: "Omeg-Bazaar | Home",
-    description: "Discover amazing products across electronics, beauty, kitchen essentials, and more at Omeg-Bazaar.",
+    description:
+      "Discover amazing products across electronics, beauty, kitchen essentials, and more at Omeg-Bazaar.",
     url: "https://omegbazaar.com",
     siteName: "Omeg-Bazaar",
     images: [
       {
         url: "https://res.cloudinary.com/dwgxfctju/image/upload/v1758619862/home_cbxubj.png",
         width: 1200,
-        height: 630,
-      },
+        height: 630
+      }
     ],
     locale: "en_IN",
-    type: "website",
-  },
+    type: "website"
+  }
 };
-
 
 export default function HomePage() {
   return (
@@ -39,7 +46,7 @@ export default function HomePage() {
       <InfoBar />
       <Electronics />
       <MusicBanner />
-      <BeautySection/>
+      <BeautySection />
       <HeroSection />
       <KitchenProducts />
       <OurApp />

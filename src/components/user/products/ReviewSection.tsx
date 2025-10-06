@@ -12,7 +12,7 @@ import {
 import ProductReviewForm from "./ProductReviewForm";
 import Modal from "@/components/common/Modal";
 
-interface Review {
+ export interface Review {
   _id: string;
   rating: number;
   comment: string;

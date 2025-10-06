@@ -1,5 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import TermsContent from "./TermsContent";
 import { PrivacyContent } from "./PrivacyContent";
 import { ContactUs } from "./ContactUs";
@@ -38,6 +39,7 @@ export default function PrivacyPolicyPage({
   searchParams
 }: PrivacyPolicyPageProps) {
   const [activeSections, setActiveSections] = useState<string[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     // Initialize active sections from URL params on component mount
@@ -45,7 +47,19 @@ export default function PrivacyPolicyPage({
     setActiveSections(initialSections);
   }, [searchParams]);
 
-  // Toggle section visibility
+  // Update URL when active sections change
+  useEffect(() => {
+    if (activeSections.length > 0) {
+      const sectionsParam = activeSections.join(",");
+      const newUrl = `?sections=${sectionsParam}`;
+      router.replace(newUrl, { scroll: false });
+    } else {
+      // If no sections are active, remove the parameter
+      router.replace("?", { scroll: false });
+    }
+  }, [activeSections, router]);
+
+  // Toggle section visibility and update URL
   const toggleSection = (param: string) => {
     setActiveSections(prev => {
       if (prev.includes(param)) {

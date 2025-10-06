@@ -7,7 +7,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import TableImageRender from "../admin/common/TableImageRednder";
 import DialogBoxWrapper from "../admin/common/DialogBoxWrapper";
 import { useSingleProductStore } from "@/lib/store/product/Table.store";
-import { Category, ProductImage } from "@/lib/types/Product";
+import { Category, ProductImage, Review } from "@/lib/types/Product";
 
 interface Column<T> {
   label: string | React.ReactNode;
@@ -29,10 +29,12 @@ export interface BaseRowData {
   createdAt: string;
   updatedAt: string;
   slug: string;
-  reviews: number;
+  reviews: Review[];
   inStock: boolean;
   totalProduct: number;
   deliveryCharges: number;
+  numReviews: number;
+  averageRating: number;
 }
 
 interface TableProps<T extends BaseRowData> {

@@ -48,14 +48,11 @@ export const metadata: Metadata = {
     title: "Omeg-Bazaar | Online Shopping in India",
     description:
       "Discover the latest deals on electronics, fashion, and kitchen essentials at Omeg-Bazaar.",
-    images: ["/logos/newlogo.png"],
+    images: "",
     creator: "@omegbazaar",
   },
   category: "ecommerce",
-  icons: {
-    icon: "/logos/newlogo.png",
- 
-  },
+
 };
 
 export default function UserLayout({

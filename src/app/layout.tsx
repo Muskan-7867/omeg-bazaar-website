@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://omegbazaar.com"),
   title: "Omeg-Bazaar | Online Shopping for Electronics, Fashion & More",
+  icons: {
+    icon: "blacklogo.jpg"
+  },
   description:
     "Shop at Omeg-Bazaar for electronics, fashion, home essentials, and more. Discover great deals, secure payments, and fast delivery.",
   keywords: [
@@ -63,10 +66,7 @@ export const metadata: Metadata = {
     images: [""],
     creator: "@omegbazaar"
   },
-  category: "ecommerce",
-  icons: {
-    icon: "/logos/newlogo.png"
-  }
+  category: "ecommerce"
 };
 export default function RootLayout({
   children
@@ -75,6 +75,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
