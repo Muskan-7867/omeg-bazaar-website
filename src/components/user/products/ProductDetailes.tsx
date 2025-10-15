@@ -36,14 +36,19 @@ export default function ProductDetails({
   };
 
   // Check if there's a discount (original price vs current price)
-const hasDiscount =
-  product.originalPrice !== undefined && product.originalPrice > product.price;
+  const hasDiscount =
+    product.originalPrice !== undefined &&
+    product.originalPrice > product.price;
 
-const discountPercentage = hasDiscount && product.originalPrice
-  ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-  : 0;
-
-
+  const discountPercentage =
+    hasDiscount && product.originalPrice
+      ? Math.round(
+          ((product.originalPrice - product.price) / product.originalPrice) *
+            100
+        )
+      : 0;
+   const deliverydate = product.expectedDeliveryDate;
+   console.log("from prod", deliverydate)
   return (
     <div className="lg:col-span-5 space-y-4  p-2">
       <h1 className="lg:text-3xl text-lg font-medium text-gray-900">
@@ -101,10 +106,18 @@ const discountPercentage = hasDiscount && product.originalPrice
       </div>
 
       <div className="bg-blue-50 p-3 rounded-lg text-sm text-blue-700 flex items-center">
-        <span className="font-semibold">Free delivery</span>
-        <span className="mx-2">•</span>
-        <span>Est. delivery by Saturday, 06 Sep 2025</span>
+        {product.deliveryCharges && product.deliveryCharges > 0 ? (
+          <>
+            <span className="font-semibold">Delivery Charges:</span>
+            <span className="ml-1">
+              ₹{product.deliveryCharges.toLocaleString()}
+            </span>
+          </>
+        ) : (
+          <span className="font-semibold">Free Delivery</span>
+        )}
       </div>
+
       <div className="flex flex-col sm:flex-row gap-3 w-full">
         <button
           onClick={handleCart}
