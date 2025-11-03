@@ -24,6 +24,7 @@ export const metadata = {
 };
 
 
+
 export default function ContactPage() {
   return (
     <div className="mt-8 lg:mt-0">

@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     "kitchen essentials",
    
   ],
+  
   authors: [{ name: "Omeg-Bazaar Team", url: "https://omegbazaar.com" }],
   creator: "Omeg-Bazaar",
   publisher: "Omeg-Bazaar",

@@ -26,6 +26,7 @@ export const metadata = {
     follow : true
 
   }
+  
 };
 
 export default function Privacy() {

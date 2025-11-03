@@ -24,6 +24,8 @@ export const metadata = {
   },
 };
 
+
+
 // JSON-LD structured data for Products Collection Page
 const productsPageSchema = {
   "@context": "https://schema.org",

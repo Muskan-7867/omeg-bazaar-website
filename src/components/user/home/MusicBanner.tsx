@@ -34,6 +34,7 @@ export default function MusicBanner() {
             className="object-cover h-full w-full"
           />
         </motion.div>
+        
 
         {/* Blur stays fixed */}
         <div className="absolute inset-0 backdrop-blur-md pointer-events-none" />
