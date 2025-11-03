@@ -9,13 +9,13 @@ type VideoPost = {
 
 const InstaSection = () => {
   const videosLeft: VideoPost[] = [
-    { videoSrc: "https://res.cloudinary.com/dwgxfctju/video/upload/v1758619667/omeg_pqcnmu.mp4" },
-    { videoSrc: "https://res.cloudinary.com/dwgxfctju/video/upload/v1758619674/lipstick_rlyrfk.mp4" },
+    { videoSrc: "https://res.cloudinary.com/dnjziya9k/video/upload/v1762149947/omeg_oy6hnl.mp4" },
+    { videoSrc: "https://res.cloudinary.com/dnjziya9k/video/upload/v1762150024/lipstick_aan3if.mp4" },
   ];
 
   const videosRight: VideoPost[] = [
-    { videoSrc: "https://res.cloudinary.com/dwgxfctju/video/upload/v1758627557/rgrgr_duinbe.mp4" },
-    { videoSrc: "https://res.cloudinary.com/dwgxfctju/video/upload/v1758619675/omeg1_qcflx7.mp4" },
+    { videoSrc: "https://res.cloudinary.com/dnjziya9k/video/upload/v1762150117/rgrgr_q8idwb.mp4" },
+    { videoSrc: "https://res.cloudinary.com/dnjziya9k/video/upload/v1762150025/omeg1_q67jfu.mp4" },
   ];
 
   const allVideos = [...videosLeft, ...videosRight];

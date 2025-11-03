@@ -13,7 +13,7 @@ export const metadata = {
     siteName: "Omeg-Bazaar",
     images: [
       {
-        url: "https://res.cloudinary.com/dwgxfctju/image/upload/v1758619299/conatct_khglg5.jpg",
+        url: "https://res.cloudinary.com/dnjziya9k/image/upload/v1762149664/conatct_bpvepq.jpg",
         width: 1200,
         height: 630,
       },

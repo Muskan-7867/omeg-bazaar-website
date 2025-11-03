@@ -1,4 +1,4 @@
-import { AboutUs } from '@/components/user/aboutus/AboutUs'
+import { AboutUs } from '@/components/user/about/AboutUs'
 import React from 'react'
 
 export const metadata = {
@@ -13,7 +13,7 @@ export const metadata = {
     siteName: "Omeg-Bazaar",
     images: [
       {
-        url: "https://res.cloudinary.com/dwgxfctju/image/upload/v1758619299/about_bs4dr5.jpg",
+        url: "https://res.cloudinary.com/dnjziya9k/image/upload/v1762149617/about_lpcook.jpg",
         width: 1200,
         height: 630,
       },

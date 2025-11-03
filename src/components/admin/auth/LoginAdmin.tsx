@@ -135,15 +135,7 @@ const LoginAdmin: React.FC = () => {
             {loading ? "Login..." : "Login Now"}
           </button>
 
-          <div className="text-center text-xs sm:text-sm text-gray-600">
-            Don&apos;t have an account?{" "}
-            <Link
-              href="/admin/auth/register"
-              className="text-blue-300 hover:underline font-medium"
-            >
-              Register here
-            </Link>
-          </div>
+       
         </form>
       </div>
     </div>

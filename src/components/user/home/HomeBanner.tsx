@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation";
 export default function HomeBanner() {
   const router = useRouter();
   const desktopImages = [
-    { src: "https://res.cloudinary.com/dwgxfctju/image/upload/v1758620124/banner1_t6qs3e.jpg", alt: "Desktop Banner 1" },
-    { src: "https://res.cloudinary.com/dwgxfctju/image/upload/v1758620124/banner2_jgadis.jpg", alt: "Desktop Banner 2" },
+    { src: "https://res.cloudinary.com/dnjziya9k/image/upload/v1762149834/banner1_g3w3x3.jpg", alt: "Desktop Banner 1" },
+    { src: "https://res.cloudinary.com/dnjziya9k/image/upload/v1762149834/banner2_emhyee.jpg", alt: "Desktop Banner 2" },
   ];
 
   const mobileImages = [

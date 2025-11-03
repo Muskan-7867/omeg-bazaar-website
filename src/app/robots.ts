@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
             {
                 userAgent: "*",
                 allow: "/",
-                disallow: ["/admin", "/privacy-policy"]
+                disallow: ["/admin" ]
             }
         ],
         sitemap: 'https://omegbazaar.com/sitemap.xml'

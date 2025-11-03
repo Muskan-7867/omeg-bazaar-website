@@ -14,7 +14,7 @@ export const metadata = {
     siteName: "Omeg-Bazaar",
     images: [
       {
-        url: "https://res.cloudinary.com/dwgxfctju/image/upload/v1758619298/product_hjwq9n.jpg",
+        url: "https://res.cloudinary.com/dnjziya9k/image/upload/v1762149746/product_vjiazp.jpg",
         width: 1200,
         height: 630,
       },
@@ -43,7 +43,7 @@ const productsPageSchema = {
     "url": "https://omegbazaar.com",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://res.cloudinary.com/dwgxfctju/image/upload/v1759305208/blacklogo_was7zr.jpg" // Add your logo URL
+      "url": "https://res.cloudinary.com/dnjziya9k/image/upload/v1762150218/blacklogo_jcgsh9.png" // Add your logo URL
     },
     "description": "Your trusted online shopping destination for quality products"
   },
@@ -91,7 +91,7 @@ const websiteSchema = {
     "name": "Omeg-Bazaar",
     "logo": {
       "@type": "ImageObject",
-      "url": "https://res.cloudinary.com/dwgxfctju/image/upload/v1759305208/blacklogo_was7zr.jpg"
+      "url": "https://res.cloudinary.com/dnjziya9k/image/upload/v1762150218/blacklogo_jcgsh9.png"
     }
   }
 };
