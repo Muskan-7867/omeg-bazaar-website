@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     siteName: "Omeg-Bazaar",
     images: [
       {
-        url: "https://res.cloudinary.com/dwgxfctju/image/upload/v1758619862/home_cbxubj.png",
+        url: "https://res.cloudinary.com/dnjziya9k/image/upload/v1762149481/home_qqcnea.png",
         width: 1200,
         height: 630,
         alt: "Omeg-Bazaar Logo"
