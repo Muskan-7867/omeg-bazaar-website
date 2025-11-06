@@ -18,6 +18,7 @@ const Categories = () => {
 
   const category = searchParams.get("category"); // current category from URL
   const { data, isPending, isError } = useQuery(getAdminCategoriesQuery());
+  console.log("from admin ", data)
   const [Categories, setCategories] = useState<CategoryType[]>([]);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
@@ -86,10 +87,10 @@ const Categories = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.05 }}
                 className={`cursor-pointer flex flex-col items-center gap-3 flex-shrink-0 w-28 sm:w-36 ${
-                  category === categoryItem._id ? "ring-2 ring-primary" : ""
+                  category === categoryItem._id ? "" : ""
                 }`}
               >
-                <div className="w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-md shadow-md border-2 border-white hover:border-primary transition-all duration-500 group overflow-hidden relative">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-md shadow-md border-2 border-white  transition-all duration-500 group overflow-hidden relative">
                   <motion.img
                     src={
                       categoryItem.images?.[0]?.url ||
